@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/entities/User';
+import { RoleEntity, UserEntity } from 'src/entities/User';
 import { CreateUserDto, FindUserDto, UpdateUserDTO } from './users.dto';
 import { Repository } from 'typeorm';
+import { Role } from 'src/types/role';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(RoleEntity)
+    private readonly roleRepository: Repository<RoleEntity>,
   ) {}
 
   findAll() {
@@ -18,9 +22,16 @@ export class UsersService {
     return this.userRepository.findOne({ where });
   }
 
-  create(params: CreateUserDto) {
+  async create(params: CreateUserDto) {
     const user = this.userRepository.create(params);
-    return this.userRepository.save(user);
+    await this.userRepository.save(user);
+
+    const role = this.roleRepository.create({
+      userId: user.id,
+    });
+    await this.roleRepository.save(role);
+
+    return user;
   }
 
   update(id: number, params: UpdateUserDTO) {
@@ -29,5 +40,18 @@ export class UsersService {
 
   remove(id: number) {
     return this.userRepository.delete({ id });
+  }
+
+  findRoles(userId: number) {
+    return this.roleRepository.find({ where: { userId } });
+  }
+
+  addRole(userId: number, role: Role) {
+    return this.roleRepository.save(
+      this.roleRepository.create({
+        userId,
+        role,
+      }),
+    );
   }
 }

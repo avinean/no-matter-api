@@ -1,8 +1,8 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Profile } from './Profile';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { Role } from 'src/types/role';
 
 @Entity({ name: 'users' })
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,7 +17,21 @@ export class User {
 
   @Column({ default: () => 'NOW()', onUpdate: 'NOW()' })
   updatedAt: Date;
+}
 
-  @OneToOne(() => Profile)
-  profile: Profile;
+@Entity({ name: 'roles' })
+@Index(['role', 'userId'], { unique: true })
+export class RoleEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({
+    type: 'enum',
+    default: Role.Guest,
+    enum: Role,
+  })
+  role: Role;
+
+  @Column()
+  userId: number;
 }
