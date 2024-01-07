@@ -18,11 +18,10 @@ export class RoleGuard implements CanActivate {
 
     if (!allowedRoles) return true;
 
-    const { user } = context.switchToHttp().getRequest();
-    const roles = (await this.userService.findRoles(user.sub)).map(
-      ({ role }) => role,
-    );
+    const {
+      user: { sud },
+    } = context.switchToHttp().getRequest();
 
-    return roles.some((role) => allowedRoles.includes(role));
+    return sud.some((role) => allowedRoles.includes(role));
   }
 }

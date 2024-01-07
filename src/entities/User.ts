@@ -9,6 +9,9 @@ export class UserEntity {
   @Column({ unique: true })
   username: string;
 
+  @Column({ unique: true })
+  email: string;
+
   @Column()
   password: string;
 

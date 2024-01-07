@@ -2,12 +2,13 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RoleEntity, UserEntity } from './entities/User';
+import {  RoleEntity, UserEntity } from './entities/User';
 import { UsersModule } from './routes/users/users.module';
 import { AdminModule } from './routes/admin/admin.module';
 import { AuthModule } from './routes/auth/auth.module';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
+import { AuthUrlsEntity } from './entities/AuthUrls';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { RoleGuard } from './guards/role.guard';
       username: 'root',
       password: '11111111',
       database: 'api_db',
-      entities: [UserEntity, RoleEntity],
+      entities: [UserEntity, RoleEntity, AuthUrlsEntity],
       synchronize: true,
     }),
     AdminModule,
