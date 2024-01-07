@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { UsersService } from 'src/routes/users/users.service';
+import { UsersService } from 'src/controllers/users/users.service';
 import { CreateUserDto } from './users.dto';
 import { Role } from 'src/types/role';
 import { Roles } from 'src/decorators/role.decorator';
