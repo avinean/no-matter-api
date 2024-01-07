@@ -1,12 +1,30 @@
-export interface CreateUserDto {
+import { IsEmail, IsInt, IsOptional, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+
+export class CreateUserDto {
+  @ApiProperty({ example: 'user1' })
+  @IsString()
   username: string;
+
+  @ApiProperty({ example: 'password' })
+  @IsString()
   password: string;
+
+  @ApiProperty({ example: 'example@email.com' })
+  @IsEmail()
   email: string;
 }
 
-export interface UpdateUserDTO extends CreateUserDto {}
+export class UpdateUserDTO extends CreateUserDto {}
 
-export interface FindUserDto {
+export class FindUserDto {
+  @ApiProperty({ example: '123' })
+  @IsOptional()
+  @IsInt()
   id?: number;
+
+  @ApiProperty({ example: 'user1' })
+  @IsOptional()
+  @IsString()
   username?: string;
 }
