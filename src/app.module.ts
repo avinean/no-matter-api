@@ -8,21 +8,30 @@ import { AuthModule } from './controllers/auth/auth.module';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 import { AuthUrlsEntity } from './entities/AuthUrls';
+import { MaterialsModule } from './controllers/materials/materials.module';
+import { MaterialEntity, MaterialTransactionEntity } from './entities/Material';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      port: 3306,
-      host: 'localhost',
-      username: 'root',
-      password: '11111111',
-      database: 'api_db',
-      entities: [UserEntity, RoleEntity, AuthUrlsEntity],
+      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
+      host: process.env.DB_HOST || 'localhost',
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      entities: [
+        UserEntity,
+        RoleEntity,
+        AuthUrlsEntity,
+        MaterialEntity,
+        MaterialTransactionEntity,
+      ],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
+    MaterialsModule,
   ],
   controllers: [AppController],
   providers: [
