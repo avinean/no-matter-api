@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RoleEntity, UserEntity } from './entities/User';
 import { UsersModule } from './controllers/users/users.module';
-import { AdminModule } from './controllers/admin/admin.module';
 import { AuthModule } from './controllers/auth/auth.module';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
@@ -22,7 +21,6 @@ import { AuthUrlsEntity } from './entities/AuthUrls';
       entities: [UserEntity, RoleEntity, AuthUrlsEntity],
       synchronize: true,
     }),
-    AdminModule,
     UsersModule,
     AuthModule,
   ],

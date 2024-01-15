@@ -18,6 +18,9 @@ export class AuthService {
 
   async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
     const user = await this.usersService.findOne(signInDto);
+
+    if (!user) throw new UnauthorizedException();
+
     const roles = (await this.usersService.findRoles(user.id)).map(
       ({ role }) => role,
     );
