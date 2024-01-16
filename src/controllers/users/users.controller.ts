@@ -6,12 +6,14 @@ import {
   Param,
   Post,
   Put,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from 'src/controllers/users/users.service';
 import { CreateUserDto } from './users.dto';
 import { Role } from 'src/types/role';
 import { Roles } from 'src/decorators/role.decorator';
 import { ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 
 @ApiTags('Users')
 @Controller('users')
@@ -21,6 +23,12 @@ export class UsersController {
   @Get()
   findAll() {
     return this.userService.findAll();
+  }
+
+  @Roles([Role.Admin, Role.Owner])
+  @Get('me')
+  findMe(@Req() req) {
+    return this.userService.findOne({ id: req.user.sub });
   }
 
   @Roles([Role.Admin, Role.Owner])

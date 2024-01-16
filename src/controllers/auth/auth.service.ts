@@ -24,10 +24,8 @@ export class AuthService {
     const roles = (await this.usersService.findRoles(user.id)).map(
       ({ role }) => role,
     );
-    if (user?.password !== signInDto.password) {
-      throw new UnauthorizedException();
-    }
-    const payload = { sub: user.id, sud: roles, username: user.username };
+
+    const payload = { sub: user.id, sud: roles, email: user.email };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
@@ -42,13 +40,12 @@ export class AuthService {
     );
   }
 
-  async setNewPassword({ id, password, username }: SetNewPasswordDto) {
+  async setNewPassword({ id, password }: SetNewPasswordDto) {
     const { email } = await this.authUrlsRepository.findOne({ where: { id } });
     this.authUrlsRepository.delete({ id });
     const user = await this.usersService.create({
       email,
       password,
-      username,
     });
     return user;
   }

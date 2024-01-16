@@ -54,6 +54,9 @@ export class MaterialTransactionEntity {
   @Column()
   quantity: number;
 
+  @Column()
+  description: string;
+
   @Column({
     type: 'enum',
     enum: MaterialTransactionType,
