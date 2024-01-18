@@ -1,4 +1,4 @@
-import { MaterialTransactionType } from 'src/types/material-transaction';
+import { MaterialTransactionType } from 'src/types/enums';
 import {
   Column,
   Entity,

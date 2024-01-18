@@ -10,10 +10,9 @@ import {
 } from '@nestjs/common';
 import { UsersService } from 'src/controllers/users/users.service';
 import { CreateUserDto } from './users.dto';
-import { Role } from 'src/types/role';
+import { Role } from 'src/types/enums';
 import { Roles } from 'src/decorators/role.decorator';
 import { ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
 
 @ApiTags('Users')
 @Controller('users')

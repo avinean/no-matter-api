@@ -10,6 +10,8 @@ import { RoleGuard } from './guards/role.guard';
 import { AuthUrlsEntity } from './entities/AuthUrls';
 import { MaterialsModule } from './controllers/materials/materials.module';
 import { MaterialEntity, MaterialTransactionEntity } from './entities/Material';
+import { ContactEntity, ProfileEntity } from './entities/Profile';
+import { ProfilesModule } from './controllers/profiles/profiles.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { MaterialEntity, MaterialTransactionEntity } from './entities/Material';
       database: process.env.DB_NAME,
       entities: [
         UserEntity,
+        ProfileEntity,
+        ContactEntity,
         RoleEntity,
         AuthUrlsEntity,
         MaterialEntity,
@@ -32,6 +36,7 @@ import { MaterialEntity, MaterialTransactionEntity } from './entities/Material';
     UsersModule,
     AuthModule,
     MaterialsModule,
+    ProfilesModule,
   ],
   controllers: [AppController],
   providers: [

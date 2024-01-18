@@ -6,7 +6,7 @@ import {
 } from 'src/entities/Material';
 import { Repository } from 'typeorm';
 import { CreateMaterialDto, CreateTransactionDto } from './materials.dto';
-import { MaterialTransactionType } from 'src/types/material-transaction';
+import { MaterialTransactionType } from 'src/types/enums';
 
 @Injectable()
 export class MaterialsService {

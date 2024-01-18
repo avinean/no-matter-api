@@ -10,7 +10,7 @@ import {
 import { MaterialsService } from './materials.service';
 import { CreateMaterialDto, CreateTransactionDto } from './materials.dto';
 import { Roles } from 'src/decorators/role.decorator';
-import { Role } from 'src/types/role';
+import { Role } from 'src/types/enums';
 import { Public } from 'src/decorators/public.decorator';
 
 @Controller('materials')
