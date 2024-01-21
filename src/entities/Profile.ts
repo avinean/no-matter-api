@@ -29,6 +29,9 @@ export class ProfileEntity {
   @Column()
   source: string;
 
+  @Column()
+  image: string;
+
   @Column({ default: () => 'NOW()' })
   createdAt: Date;
 

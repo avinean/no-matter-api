@@ -19,7 +19,7 @@ export class CreateProfileDto {
   @IsDate()
   birthday: Date;
 
-  @ApiProperty({ example: 'https://example.com/image.png' })
+  @ApiProperty({ example: 'https://example.com/' })
   @IsString()
   source: string;
 
@@ -30,6 +30,10 @@ export class CreateProfileDto {
   @ApiProperty({ example: '09123456789' })
   @IsNumber()
   cardId: number;
+
+  @ApiProperty({ example: 'image.png' })
+  @IsString()
+  image: string;
 
   @ApiProperty({ example: ['example@email.com', 'example2@mail.com'] })
   @IsArray()

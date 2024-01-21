@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {  Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,6 +12,8 @@ import { MaterialsModule } from './controllers/materials/materials.module';
 import { MaterialEntity, MaterialTransactionEntity } from './entities/Material';
 import { ContactEntity, ProfileEntity } from './entities/Profile';
 import { ProfilesModule } from './controllers/profiles/profiles.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -32,6 +34,10 @@ import { ProfilesModule } from './controllers/profiles/profiles.module';
         MaterialTransactionEntity,
       ],
       synchronize: true,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      exclude: ['/api/(.*)'],
     }),
     UsersModule,
     AuthModule,
