@@ -14,6 +14,7 @@ import { ContactEntity, ProfileEntity } from './entities/Profile';
 import { ProfilesModule } from './controllers/profiles/profiles.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { SuggestionsModule } from './controllers/suggestions/suggestions.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { join } from 'path';
     AuthModule,
     MaterialsModule,
     ProfilesModule,
+    SuggestionsModule,
   ],
   controllers: [AppController],
   providers: [

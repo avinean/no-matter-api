@@ -20,3 +20,10 @@ export enum Sex {
   Male,
   Female,
 }
+
+export enum ProfileConnectionType {
+  Friend,
+  Family,
+  Colleague,
+  Other,
+}
