@@ -29,7 +29,7 @@ export class ProfileEntity {
   @Column()
   source: string;
 
-  @Column()
+  @Column({ nullable: true })
   image: string;
 
   @Column({ default: () => 'NOW()' })
