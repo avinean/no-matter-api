@@ -22,6 +22,9 @@ export class RoleGuard implements CanActivate {
       user: { sud },
     } = context.switchToHttp().getRequest();
 
-    return sud.some((role) => allowedRoles.includes(role));
+    return sud.some(
+      (role) =>
+        [Role.Admin, Role.Owner].includes(role) || allowedRoles.includes(role),
+    );
   }
 }

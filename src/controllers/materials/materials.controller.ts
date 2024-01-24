@@ -9,8 +9,6 @@ import {
 } from '@nestjs/common';
 import { MaterialsService } from './materials.service';
 import { CreateMaterialDto, CreateTransactionDto } from './materials.dto';
-import { Roles } from 'src/decorators/role.decorator';
-import { Role } from 'src/types/enums';
 import { Public } from 'src/decorators/public.decorator';
 
 @Controller('materials')
@@ -38,25 +36,21 @@ export class MaterialsController {
     return this.materialsService.findAll();
   }
 
-  @Roles([Role.Admin, Role.Owner])
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.materialsService.findOne(id);
   }
 
-  @Roles([Role.Admin, Role.Owner])
   @Post('')
   create(@Body() dto: CreateMaterialDto) {
     return this.materialsService.create(dto);
   }
 
-  @Roles([Role.Admin, Role.Owner])
   @Put(':id')
   update(@Param('id') id: number, @Body() dto: CreateMaterialDto) {
     return this.materialsService.update(id, dto);
   }
 
-  @Roles([Role.Admin, Role.Owner])
   @Delete(':id')
   remove(@Param() id: number) {
     return this.materialsService.remove(id);

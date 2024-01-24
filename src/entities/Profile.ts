@@ -2,10 +2,12 @@ import { ContactType } from 'src/types/enums';
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import { UserEntity } from './User';
 
@@ -47,6 +49,7 @@ export class ProfileEntity {
 }
 
 @Entity({ name: 'contacts' })
+@Index(['value'], { unique: true })
 export class ContactEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -61,7 +64,7 @@ export class ContactEntity {
   @Column()
   value: string;
 
-  @ManyToOne(() => ProfileEntity, (profile) => profile.id)
+  @ManyToOne(() => ProfileEntity, (profile) => profile.id, { eager: true })
   @JoinColumn()
   profile: ProfileEntity;
 }
