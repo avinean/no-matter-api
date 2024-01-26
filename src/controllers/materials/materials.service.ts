@@ -43,8 +43,8 @@ export class MaterialsService {
     );
 
     const action = {
-      [MaterialTransactionType.Add]: 'increment',
-      [MaterialTransactionType.Substruct]: 'decrement',
+      [MaterialTransactionType.add]: 'increment',
+      [MaterialTransactionType.substruct]: 'decrement',
     }[Number(dto.type)];
 
     await this.materialRepository[action](

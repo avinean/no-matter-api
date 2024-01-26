@@ -1,29 +1,34 @@
 export enum ContactType {
-  Phone,
-  Email,
+  phone,
+  email,
 }
 
 export enum MaterialTransactionType {
-  Add,
-  Substruct,
+  add,
+  substruct,
 }
 
 export enum Role {
-  Admin,
-  Owner,
-  Accountant,
-  Employee,
-  Guest,
+  admin,
+  owner,
+  accountant,
+  employee,
+  guest,
 }
 
 export enum Sex {
-  Male,
-  Female,
+  male,
+  female,
 }
 
-export enum ProfileConnectionType {
-  Friend,
-  Family,
-  Colleague,
-  Other,
+export enum ProfileRelationshipType {
+  friend,
+  family,
+  colleague,
+  other,
+}
+
+export enum ServiceType {
+  service = 'service',
+  product = 'product',
 }

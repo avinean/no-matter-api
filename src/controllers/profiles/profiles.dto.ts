@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsDate, IsEnum, IsNumber, IsString } from 'class-validator';
+import { IsDate, IsEnum, IsNumber, IsString } from 'class-validator';
 import { ContactType, Sex } from 'src/types/enums';
 
 export class CreateProfileDto {
@@ -35,13 +35,9 @@ export class CreateProfileDto {
   @IsString()
   image: string;
 
-  @ApiProperty({ example: ['example@email.com', 'example2@mail.com'] })
-  @IsArray()
-  emails: string[];
-
-  @ApiProperty({ example: ['+380999999999', '+380888888888'] })
-  @IsArray()
-  phones: string[];
+  @ApiProperty({ example: '09123456789' })
+  @IsString()
+  phone: string;
 }
 
 export class CreateContactDto {

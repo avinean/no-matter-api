@@ -4,7 +4,7 @@ import {
   MaterialTransactionType,
   Role,
   Sex,
-  ProfileConnectionType,
+  ProfileRelationshipType,
 } from 'src/types/enums';
 
 @Controller('suggestions')
@@ -30,8 +30,8 @@ export class SuggestionsController {
   }
 
   @Get('profile-connection-types')
-  getProfileConnectionTypesSuggestions() {
-    return this.getSuggestionsFromEnum(ProfileConnectionType);
+  getProfileRelationshipType() {
+    return this.getSuggestionsFromEnum(ProfileRelationshipType);
   }
 
   private getSuggestionsFromEnum(enumObject: any): any[] {

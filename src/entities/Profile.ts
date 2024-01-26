@@ -7,7 +7,6 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  Unique,
 } from 'typeorm';
 import { UserEntity } from './User';
 
@@ -34,6 +33,21 @@ export class ProfileEntity {
   @Column({ nullable: true })
   image: string;
 
+  @Column({ unique: true, nullable: true })
+  email: string;
+
+  @Column({ unique: true })
+  phone: string;
+
+  @Column({ default: false })
+  status: boolean;
+
+  @Column({ default: 0 })
+  balance: number;
+
+  @Column({ default: 0 })
+  discount: number;
+
   @Column({ default: () => 'NOW()' })
   createdAt: Date;
 
@@ -57,12 +71,15 @@ export class ContactEntity {
   @Column({
     type: 'enum',
     enum: ContactType,
-    default: ContactType.Phone,
+    default: ContactType.phone,
   })
   type: ContactType;
 
-  @Column()
+  @Column({ unique: true })
   value: string;
+
+  @Column({ default: false })
+  verified: boolean;
 
   @ManyToOne(() => ProfileEntity, (profile) => profile.id, { eager: true })
   @JoinColumn()

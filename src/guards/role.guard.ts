@@ -24,7 +24,7 @@ export class RoleGuard implements CanActivate {
 
     return sud.some(
       (role) =>
-        [Role.Admin, Role.Owner].includes(role) || allowedRoles.includes(role),
+        [Role.admin, Role.owner].includes(role) || allowedRoles.includes(role),
     );
   }
 }

@@ -1,4 +1,4 @@
-import {  Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -15,6 +15,8 @@ import { ProfilesModule } from './controllers/profiles/profiles.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { SuggestionsModule } from './controllers/suggestions/suggestions.module';
+import { ServiceEntity } from './entities/Services';
+import { ServicesModule } from './controllers/services/services.module';
 
 @Module({
   imports: [
@@ -33,6 +35,7 @@ import { SuggestionsModule } from './controllers/suggestions/suggestions.module'
         AuthUrlsEntity,
         MaterialEntity,
         MaterialTransactionEntity,
+        ServiceEntity,
       ],
       synchronize: true,
     }),
@@ -45,6 +48,7 @@ import { SuggestionsModule } from './controllers/suggestions/suggestions.module'
     MaterialsModule,
     ProfilesModule,
     SuggestionsModule,
+    ServicesModule,
   ],
   controllers: [AppController],
   providers: [

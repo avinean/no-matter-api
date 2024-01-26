@@ -62,4 +62,9 @@ export class ProfilesController {
   async addAvatar(@UploadedFile() file: Express.Multer.File) {
     return file.filename;
   }
+
+  @Put(':id/status')
+  setStatus(@Param('id') id: number, @Body('status') status: boolean) {
+    return this.profilesService.setStatus(id, status);
+  }
 }
