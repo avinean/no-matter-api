@@ -13,7 +13,7 @@ export class CreateProfileDto {
 
   @ApiProperty({ enum: Sex })
   @IsEnum(Sex)
-  sex: string;
+  sex: Sex;
 
   @ApiProperty({ example: '1990-01-01' })
   @IsDate()

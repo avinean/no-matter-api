@@ -2,12 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RoleEntity, UserEntity } from './entities/User';
+import { RoleEntity, UserEntity, UserProfileEntity } from './entities/User';
 import { UsersModule } from './controllers/users/users.module';
 import { AuthModule } from './controllers/auth/auth.module';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
-import { AuthUrlsEntity } from './entities/AuthUrls';
 import { MaterialsModule } from './controllers/materials/materials.module';
 import { MaterialEntity, MaterialTransactionEntity } from './entities/Material';
 import { ContactEntity, ProfileEntity } from './entities/Profile';
@@ -29,10 +28,10 @@ import { ServicesModule } from './controllers/services/services.module';
       database: process.env.DB_NAME,
       entities: [
         UserEntity,
+        UserProfileEntity,
         ProfileEntity,
         ContactEntity,
         RoleEntity,
-        AuthUrlsEntity,
         MaterialEntity,
         MaterialTransactionEntity,
         ServiceEntity,

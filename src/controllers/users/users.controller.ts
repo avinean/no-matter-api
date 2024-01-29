@@ -25,7 +25,7 @@ export class UsersController {
 
   @Get('me')
   findMe(@Req() req) {
-    return this.userService.findOne({ id: req.user.sub });
+    return this.userService.findOne({ userId: req.user.sub });
   }
 
   @Get(':id')
@@ -52,13 +52,13 @@ export class UsersController {
     return this.userService.remove(id);
   }
 
-  @Get(':id/roles')
-  findRoles(@Param('id') id: number) {
+  @Get(':profileId/roles')
+  findRoles(@Param('profileId') id: number) {
     return this.userService.findRoles(id);
   }
 
-  @Post(':id/roles')
-  addRole(@Param('id') id: number, @Body('role') role: Role) {
+  @Post(':profileId/roles')
+  addRole(@Param('profileId') id: number, @Body('role') role: Role) {
     return this.userService.addRole(id, role);
   }
 }

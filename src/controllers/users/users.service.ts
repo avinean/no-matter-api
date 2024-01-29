@@ -1,9 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RoleEntity, UserEntity } from 'src/entities/User';
-import { CreateUserDto, FindUserDto, UpdateUserDTO } from './users.dto';
+import { RoleEntity, UserEntity, UserProfileEntity } from 'src/entities/User';
+import {
+  CreateUserDto,
+  CreateUserProfileDto,
+  FindUserProfileDto,
+  UpdateUserDTO,
+} from './users.dto';
 import { Repository } from 'typeorm';
 import { Role } from 'src/types/enums';
+import { DBErrors } from 'src/types/db-errors';
 
 @Injectable()
 export class UsersService {
@@ -12,26 +18,57 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(RoleEntity)
     private readonly roleRepository: Repository<RoleEntity>,
+    @InjectRepository(UserProfileEntity)
+    private readonly profileRepository: Repository<UserProfileEntity>,
   ) {}
 
   findAll() {
     return this.userRepository.find();
   }
 
-  findOne(where: FindUserDto) {
-    return this.userRepository.findOne({ where });
+  findOne(where: FindUserProfileDto) {
+    return this.profileRepository.findOne({ where });
   }
 
-  async create(params: CreateUserDto) {
-    const user = this.userRepository.create(params);
-    await this.userRepository.save(user);
+  create(params: CreateUserDto) {
+    return this.userRepository.save(this.userRepository.create(params));
+  }
 
-    const role = this.roleRepository.create({
-      userId: user.id,
-    });
-    await this.roleRepository.save(role);
+  async createProfile({ roles, ...params }: CreateUserProfileDto) {
+    try {
+      const profile = await this.profileRepository.save(
+        this.profileRepository.create(params),
+      );
 
-    return user;
+      const user = await this.create({
+        email: params.email,
+        password: Array(6)
+          .fill(null)
+          .map(() => Math.round(Math.random() * 16).toString(16))
+          .join(''),
+      });
+
+      await this.profileRepository.update(
+        { id: profile.id },
+        { userId: user.id },
+      );
+
+      roles.forEach((role) => this.addRole(profile.id, role));
+
+      return {
+        user,
+        profile,
+      };
+    } catch (e) {
+      if (e.errno === DBErrors.ER_DUP_ENTRY) {
+        throw new ConflictException({
+          message: `Duplicate found`,
+          items: e.parameters,
+        });
+      } else {
+        throw e;
+      }
+    }
   }
 
   update(id: number, params: UpdateUserDTO) {
@@ -42,14 +79,14 @@ export class UsersService {
     return this.userRepository.delete({ id });
   }
 
-  findRoles(userId: number) {
-    return this.roleRepository.find({ where: { userId } });
+  findRoles(profileId: number) {
+    return this.roleRepository.find({ where: { profileId } });
   }
 
-  addRole(userId: number, role: Role) {
+  addRole(profileId: number, role: Role) {
     return this.roleRepository.save(
       this.roleRepository.create({
-        userId,
+        profileId,
         role,
       }),
     );

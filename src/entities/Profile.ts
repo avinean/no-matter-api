@@ -1,4 +1,4 @@
-import { ContactType } from 'src/types/enums';
+import { ContactType, Sex } from 'src/types/enums';
 import {
   Column,
   Entity,
@@ -8,7 +8,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { UserEntity } from './User';
 
 @Entity({ name: 'profiles' })
 export class ProfileEntity {
@@ -21,8 +20,11 @@ export class ProfileEntity {
   @Column()
   lastName: string;
 
-  @Column()
-  sex: string;
+  @Column({
+    type: 'enum',
+    enum: Sex,
+  })
+  sex: Sex;
 
   @Column()
   birthday: Date;
@@ -54,16 +56,11 @@ export class ProfileEntity {
   @Column({ default: () => 'NOW()', onUpdate: 'NOW()' })
   updatedAt: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.id)
-  @JoinColumn()
-  user: UserEntity;
-
   @OneToMany(() => ContactEntity, (contact) => contact.profile)
   contacts: ContactEntity[];
 }
 
 @Entity({ name: 'contacts' })
-@Index(['value'], { unique: true })
 export class ContactEntity {
   @PrimaryGeneratedColumn()
   id: number;
