@@ -16,13 +16,3 @@ export class SignUpDto {
   @IsEmail()
   email: string;
 }
-
-export class SetNewPasswordDto {
-  @ApiProperty({ example: 'a65sd65avasvd65a7sd5as' })
-  @IsString()
-  id: string;
-
-  @ApiProperty({ example: 'password' })
-  @IsString()
-  password: string;
-}

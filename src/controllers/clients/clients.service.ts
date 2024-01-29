@@ -1,15 +1,15 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ContactEntity, ProfileEntity } from 'src/entities/Profile';
+import { ContactEntity, ClientEntity } from 'src/entities/Client';
 import { Repository } from 'typeorm';
-import { CreateProfileDto } from './profiles.dto';
+import { CreateClientDto } from './clients.dto';
 import { DBErrors } from 'src/types/db-errors';
 
 @Injectable()
-export class ProfilesService {
+export class ClientsService {
   constructor(
-    @InjectRepository(ProfileEntity)
-    private profileRepository: Repository<ProfileEntity>,
+    @InjectRepository(ClientEntity)
+    private profileRepository: Repository<ClientEntity>,
     @InjectRepository(ContactEntity)
     private contactRepository: Repository<ContactEntity>,
   ) {}
@@ -22,7 +22,7 @@ export class ProfilesService {
     return this.profileRepository.findOne({ where: { id } });
   }
 
-  async create(dto: Partial<CreateProfileDto>) {
+  async create(dto: Partial<CreateClientDto>) {
     try {
       const profile = this.profileRepository.create(dto);
       await this.profileRepository.save(profile);
@@ -39,7 +39,7 @@ export class ProfilesService {
     }
   }
 
-  update(id: number, dto: Partial<CreateProfileDto>) {
+  update(id: number, dto: Partial<CreateClientDto>) {
     return this.profileRepository.update({ id }, dto);
   }
 

@@ -2,15 +2,14 @@ import { ContactType, Sex } from 'src/types/enums';
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'profiles' })
-export class ProfileEntity {
+@Entity({ name: 'Clients' })
+export class ClientEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -56,7 +55,7 @@ export class ProfileEntity {
   @Column({ default: () => 'NOW()', onUpdate: 'NOW()' })
   updatedAt: Date;
 
-  @OneToMany(() => ContactEntity, (contact) => contact.profile)
+  @OneToMany(() => ContactEntity, (contact) => contact.client)
   contacts: ContactEntity[];
 }
 
@@ -78,7 +77,7 @@ export class ContactEntity {
   @Column({ default: false })
   verified: boolean;
 
-  @ManyToOne(() => ProfileEntity, (profile) => profile.id, { eager: true })
+  @ManyToOne(() => ClientEntity, (client) => client.id, { eager: true })
   @JoinColumn()
-  profile: ProfileEntity;
+  client: ClientEntity;
 }

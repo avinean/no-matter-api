@@ -9,39 +9,39 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { ProfilesService } from './profiles.service';
-import { CreateProfileDto } from './profiles.dto';
+import { ClientsService } from './clients.service';
+import { CreateClientDto } from './clients.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 
-@Controller('profiles')
-export class ProfilesController {
-  constructor(private readonly profilesService: ProfilesService) {}
+@Controller('clients')
+export class ClientsController {
+  constructor(private readonly clientService: ClientsService) {}
 
   @Get('')
   async findAll() {
-    return await this.profilesService.findAll();
+    return await this.clientService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.profilesService.findOne(id);
+    return this.clientService.findOne(id);
   }
 
   @Post('')
-  async create(@Body() dto: CreateProfileDto) {
-    return this.profilesService.create(dto);
+  async create(@Body() dto: CreateClientDto) {
+    return this.clientService.create(dto);
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() dto: CreateProfileDto) {
-    return this.profilesService.update(id, dto);
+  update(@Param('id') id: number, @Body() dto: CreateClientDto) {
+    return this.clientService.update(id, dto);
   }
 
   @Delete(':id')
   remove(@Param() id: number) {
-    return this.profilesService.remove(id);
+    return this.clientService.remove(id);
   }
 
   @Post('photo')
@@ -65,6 +65,6 @@ export class ProfilesController {
 
   @Put(':id/status')
   setStatus(@Param('id') id: number, @Body('status') status: boolean) {
-    return this.profilesService.setStatus(id, status);
+    return this.clientService.setStatus(id, status);
   }
 }

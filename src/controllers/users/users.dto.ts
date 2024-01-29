@@ -23,6 +23,18 @@ export class CreateUserDto {
 
 export class UpdateUserDTO extends CreateUserDto {}
 
+export class FindUserDto {
+  @ApiProperty({ example: '123' })
+  @IsOptional()
+  @IsInt()
+  id?: number;
+
+  @ApiProperty({ example: 'user1' })
+  @IsOptional()
+  @IsString()
+  email?: string;
+}
+
 export class FindUserProfileDto {
   @ApiProperty({ example: '123' })
   @IsOptional()

@@ -9,7 +9,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { UsersService } from 'src/controllers/users/users.service';
-import { CreateUserDto } from './users.dto';
+import { CreateUserDto, CreateUserProfileDto } from './users.dto';
 import { Role } from 'src/types/enums';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -20,22 +20,22 @@ export class UsersController {
 
   @Get()
   findAll() {
-    return this.userService.findAll();
+    return this.userService.findAllProfiles();
   }
 
   @Get('me')
   findMe(@Req() req) {
-    return this.userService.findOne({ userId: req.user.sub });
+    return this.userService.findOneProfile({ userId: req.user.sub });
   }
 
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.userService.findOne({ id });
+    return this.userService.findOneProfile({ id });
   }
 
   @Post()
-  create(@Body() userDTO: CreateUserDto) {
-    return this.userService.create(userDTO);
+  create(@Body() dto: CreateUserProfileDto) {
+    return this.userService.create(dto);
   }
 
   @Put(':id')

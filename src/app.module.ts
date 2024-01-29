@@ -9,8 +9,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 import { MaterialsModule } from './controllers/materials/materials.module';
 import { MaterialEntity, MaterialTransactionEntity } from './entities/Material';
-import { ContactEntity, ProfileEntity } from './entities/Profile';
-import { ProfilesModule } from './controllers/profiles/profiles.module';
+import { ContactEntity, ClientEntity } from './entities/Client';
+import { ClientsModule } from './controllers/clients/clients.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { SuggestionsModule } from './controllers/suggestions/suggestions.module';
@@ -29,7 +29,7 @@ import { ServicesModule } from './controllers/services/services.module';
       entities: [
         UserEntity,
         UserProfileEntity,
-        ProfileEntity,
+        ClientEntity,
         ContactEntity,
         RoleEntity,
         MaterialEntity,
@@ -45,7 +45,7 @@ import { ServicesModule } from './controllers/services/services.module';
     UsersModule,
     AuthModule,
     MaterialsModule,
-    ProfilesModule,
+    ClientsModule,
     SuggestionsModule,
     ServicesModule,
   ],

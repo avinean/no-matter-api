@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsEnum, IsNumber, IsString } from 'class-validator';
 import { ContactType, Sex } from 'src/types/enums';
 
-export class CreateProfileDto {
+export class CreateClientDto {
   @ApiProperty({ example: 'John' })
   @IsString()
   firstName: string;

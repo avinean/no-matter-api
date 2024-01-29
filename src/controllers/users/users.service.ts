@@ -4,6 +4,7 @@ import { RoleEntity, UserEntity, UserProfileEntity } from 'src/entities/User';
 import {
   CreateUserDto,
   CreateUserProfileDto,
+  FindUserDto,
   FindUserProfileDto,
   UpdateUserDTO,
 } from './users.dto';
@@ -26,27 +27,33 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  findOne(where: FindUserProfileDto) {
+  findAllProfiles() {
+    return this.profileRepository.find();
+  }
+
+  findOne(where: FindUserDto) {
+    return this.userRepository.findOne({ where });
+  }
+
+  findOneProfile(where: FindUserProfileDto) {
     return this.profileRepository.findOne({ where });
   }
 
-  create(params: CreateUserDto) {
-    return this.userRepository.save(this.userRepository.create(params));
-  }
-
-  async createProfile({ roles, ...params }: CreateUserProfileDto) {
+  async create({ roles, ...params }: CreateUserProfileDto) {
     try {
       const profile = await this.profileRepository.save(
         this.profileRepository.create(params),
       );
 
-      const user = await this.create({
-        email: params.email,
-        password: Array(6)
-          .fill(null)
-          .map(() => Math.round(Math.random() * 16).toString(16))
-          .join(''),
-      });
+      const user = await this.userRepository.save(
+        this.userRepository.create({
+          email: params.email,
+          password: Array(6)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join(''),
+        }),
+      );
 
       await this.profileRepository.update(
         { id: profile.id },
