@@ -41,11 +41,6 @@ export class FindUserProfileDto {
   @IsInt()
   id?: number;
 
-  @ApiProperty({ example: '123' })
-  @IsOptional()
-  @IsInt()
-  userId?: number;
-
   @ApiProperty({ example: 'user1' })
   @IsOptional()
   @IsString()

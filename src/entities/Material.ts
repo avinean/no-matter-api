@@ -30,10 +30,10 @@ export class MaterialEntity {
   @Column()
   criticalQuantity: number;
 
-  @Column({ default: () => 'NOW()' })
+  @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({ default: () => 'NOW()', onUpdate: 'NOW()' })
+  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
   @OneToMany(
@@ -63,7 +63,7 @@ export class MaterialTransactionEntity {
   })
   type: MaterialTransactionType;
 
-  @Column({ default: () => 'NOW()' })
+  @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
   @ManyToOne(() => MaterialEntity, (material) => material.transactions, {

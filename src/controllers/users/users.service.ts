@@ -2,7 +2,6 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RoleEntity, UserEntity, UserProfileEntity } from 'src/entities/User';
 import {
-  CreateUserDto,
   CreateUserProfileDto,
   FindUserDto,
   FindUserProfileDto,
@@ -28,7 +27,9 @@ export class UsersService {
   }
 
   findAllProfiles() {
-    return this.profileRepository.find();
+    return this.profileRepository.find({
+      relations: ['roles'],
+    });
   }
 
   findOne(where: FindUserDto) {
@@ -36,7 +37,14 @@ export class UsersService {
   }
 
   findOneProfile(where: FindUserProfileDto) {
-    return this.profileRepository.findOne({ where });
+    return this.profileRepository.findOne({ where, relations: ['roles'] });
+  }
+
+  findMe(id: number) {
+    return this.profileRepository.findOne({
+      where: { user: { id } },
+      relations: ['roles'],
+    });
   }
 
   async create({ roles, ...params }: CreateUserProfileDto) {
@@ -55,12 +63,15 @@ export class UsersService {
         }),
       );
 
-      await this.profileRepository.update(
-        { id: profile.id },
-        { userId: user.id },
-      );
+      await this.profileRepository.update({ id: profile.id }, { user });
 
-      roles.forEach((role) => this.addRole(profile.id, role));
+      console.log(profile, profile.id);
+
+      this.roleRepository.save(
+        this.roleRepository.create(
+          roles.map((role) => ({ role, profiles: [profile] })),
+        ),
+      );
 
       return {
         user,
@@ -87,14 +98,16 @@ export class UsersService {
   }
 
   findRoles(profileId: number) {
-    return this.roleRepository.find({ where: { profileId } });
+    return this.roleRepository.find({
+      where: { profiles: [{ id: profileId }] },
+    });
   }
 
   addRole(profileId: number, role: Role) {
     return this.roleRepository.save(
       this.roleRepository.create({
-        profileId,
         role,
+        profiles: [{ id: profileId }],
       }),
     );
   }

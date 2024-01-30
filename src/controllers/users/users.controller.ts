@@ -25,7 +25,7 @@ export class UsersController {
 
   @Get('me')
   findMe(@Req() req) {
-    return this.userService.findOneProfile({ userId: req.user.sub });
+    return this.userService.findMe(req.user.sub);
   }
 
   @Get(':id')

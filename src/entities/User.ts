@@ -3,6 +3,7 @@ import {
   Entity,
   Index,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
@@ -21,13 +22,14 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @Column({ default: () => 'NOW()' })
+  @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({ default: () => 'NOW()', onUpdate: 'NOW()' })
+  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
-  @OneToMany(() => UserProfileEntity, (profile) => profile.userId)
+  @OneToMany(() => UserProfileEntity, (profile) => profile.user)
+  @JoinColumn()
   profiles: UserProfileEntity[];
 }
 
@@ -63,25 +65,22 @@ export class UserProfileEntity {
   @Column({ default: false })
   status: boolean;
 
-  @Column({ default: () => 'NOW()' })
+  @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({ default: () => 'NOW()', onUpdate: 'NOW()' })
+  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
-
-  @Column({ nullable: true })
-  userId: number;
 
   @ManyToOne(() => UserEntity, (user) => user.id)
   @JoinColumn()
   user: UserEntity;
 
-  // @ManyToMany(() => RoleEntity, (role) => role.id)
-  // roles: RoleEntity[];
+  @ManyToMany(() => RoleEntity, (role) => role.profiles)
+  @JoinTable()
+  roles: RoleEntity[];
 }
 
 @Entity({ name: 'roles' })
-// @Index(['role', 'profileId'], { unique: true })
 export class RoleEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -93,10 +92,7 @@ export class RoleEntity {
   })
   role: Role;
 
-  @Column()
-  profileId: number;
-
-  // @ManyToMany(() => UserProfileEntity, (profile) => profile.id)
-  // @JoinColumn()
-  // profiles: UserProfileEntity;
+  @ManyToMany(() => UserProfileEntity, (profile) => profile.roles)
+  @JoinTable()
+  profiles: UserProfileEntity[];
 }

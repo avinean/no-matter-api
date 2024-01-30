@@ -1,9 +1,5 @@
 import { ServiceType } from 'src/types/enums';
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'services' })
 export class ServiceEntity {
@@ -36,9 +32,9 @@ export class ServiceEntity {
   @Column({ default: false })
   status: boolean;
 
-  @Column({ default: () => 'NOW()' })
+  @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({ default: () => 'NOW()', onUpdate: 'NOW()' })
+  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 }

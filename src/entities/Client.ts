@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'Clients' })
+@Entity({ name: 'clients' })
 export class ClientEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -49,10 +49,10 @@ export class ClientEntity {
   @Column({ default: 0 })
   discount: number;
 
-  @Column({ default: () => 'NOW()' })
+  @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({ default: () => 'NOW()', onUpdate: 'NOW()' })
+  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
   @OneToMany(() => ContactEntity, (contact) => contact.client)
@@ -77,7 +77,7 @@ export class ContactEntity {
   @Column({ default: false })
   verified: boolean;
 
-  @ManyToOne(() => ClientEntity, (client) => client.id, { eager: true })
+  @ManyToOne(() => ClientEntity, (client) => client.contacts, { eager: true })
   @JoinColumn()
   client: ClientEntity;
 }
