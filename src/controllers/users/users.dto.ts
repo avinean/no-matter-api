@@ -6,10 +6,10 @@ import {
   IsInt,
   IsOptional,
   IsString,
-  isEnum,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Role, Sex } from 'src/types/enums';
+import {  Sex } from 'src/types/enums';
+import { ServiceEntity } from 'src/entities/Services';
 
 export class CreateUserDto {
   @ApiProperty({ example: 'password' })
@@ -80,8 +80,13 @@ export class CreateUserProfileDto {
   @IsBoolean()
   status: boolean;
 
-  @ApiProperty({ example: ['admin', 'user'] })
+  @ApiProperty({ example: [] })
   @IsArray()
-  @IsString({ each: true })
-  roles: Role[];
+  services: ServiceEntity[];
+
+  @ApiProperty({ example: 'admin,guest' })
+  @IsString()
+  roles: string;
 }
+
+export class UpdateUserProfileDto extends CreateUserProfileDto {}

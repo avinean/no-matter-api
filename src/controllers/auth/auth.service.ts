@@ -12,14 +12,11 @@ export class AuthService {
 
   async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
     const user = await this.usersService.findOne(signInDto);
+    const profile = await this.usersService.findMe(user.id);
 
     if (!user) throw new UnauthorizedException();
 
-    const roles = (await this.usersService.findRoles(user.id)).map(
-      ({ role }) => role,
-    );
-
-    const payload = { sub: user.id, sud: roles, email: user.email };
+    const payload = { sub: user.id, sud: profile.roles.split(','), email: user.email };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

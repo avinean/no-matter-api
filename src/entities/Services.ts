@@ -1,5 +1,12 @@
 import { ServiceType } from 'src/types/enums';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { UserProfileEntity } from './User';
 
 @Entity({ name: 'services' })
 export class ServiceEntity {
@@ -37,4 +44,8 @@ export class ServiceEntity {
 
   @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
+
+  @ManyToMany(() => UserProfileEntity)
+  @JoinTable()
+  profiles: UserProfileEntity[];
 }

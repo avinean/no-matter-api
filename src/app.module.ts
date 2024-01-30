@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RoleEntity, UserEntity, UserProfileEntity } from './entities/User';
+import { UserEntity, UserProfileEntity } from './entities/User';
 import { UsersModule } from './controllers/users/users.module';
 import { AuthModule } from './controllers/auth/auth.module';
 import { AuthGuard } from './guards/auth.guard';
@@ -16,6 +16,7 @@ import { join } from 'path';
 import { SuggestionsModule } from './controllers/suggestions/suggestions.module';
 import { ServiceEntity } from './entities/Services';
 import { ServicesModule } from './controllers/services/services.module';
+import { BookingModule } from './controllers/booking/booking.module';
 
 @Module({
   imports: [
@@ -31,7 +32,6 @@ import { ServicesModule } from './controllers/services/services.module';
         UserProfileEntity,
         ClientEntity,
         ContactEntity,
-        RoleEntity,
         MaterialEntity,
         MaterialTransactionEntity,
         ServiceEntity,
@@ -48,6 +48,7 @@ import { ServicesModule } from './controllers/services/services.module';
     ClientsModule,
     SuggestionsModule,
     ServicesModule,
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   JoinTable,
   ManyToMany,
@@ -9,7 +8,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Role, Sex } from 'src/types/enums';
+import { Sex } from 'src/types/enums';
+import { ServiceEntity } from './Services';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -71,28 +71,14 @@ export class UserProfileEntity {
   @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
+  @Column({ default: 'guest' })
+  roles: string;
+
   @ManyToOne(() => UserEntity, (user) => user.id)
   @JoinColumn()
   user: UserEntity;
 
-  @ManyToMany(() => RoleEntity, (role) => role.profiles)
+  @ManyToMany(() => ServiceEntity)
   @JoinTable()
-  roles: RoleEntity[];
-}
-
-@Entity({ name: 'roles' })
-export class RoleEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({
-    type: 'enum',
-    default: Role.guest,
-    enum: Role,
-  })
-  role: Role;
-
-  @ManyToMany(() => UserProfileEntity, (profile) => profile.roles)
-  @JoinTable()
-  profiles: UserProfileEntity[];
+  services: ServiceEntity[];
 }

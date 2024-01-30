@@ -1,14 +1,13 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RoleEntity, UserEntity, UserProfileEntity } from 'src/entities/User';
+import { UserEntity, UserProfileEntity } from 'src/entities/User';
 import {
   CreateUserProfileDto,
   FindUserDto,
   FindUserProfileDto,
-  UpdateUserDTO,
+  UpdateUserProfileDto,
 } from './users.dto';
 import { Repository } from 'typeorm';
-import { Role } from 'src/types/enums';
 import { DBErrors } from 'src/types/db-errors';
 
 @Injectable()
@@ -16,8 +15,6 @@ export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    @InjectRepository(RoleEntity)
-    private readonly roleRepository: Repository<RoleEntity>,
     @InjectRepository(UserProfileEntity)
     private readonly profileRepository: Repository<UserProfileEntity>,
   ) {}
@@ -27,9 +24,7 @@ export class UsersService {
   }
 
   findAllProfiles() {
-    return this.profileRepository.find({
-      relations: ['roles'],
-    });
+    return this.profileRepository.find({ relations: ['services'] });
   }
 
   findOne(where: FindUserDto) {
@@ -37,17 +32,16 @@ export class UsersService {
   }
 
   findOneProfile(where: FindUserProfileDto) {
-    return this.profileRepository.findOne({ where, relations: ['roles'] });
+    return this.profileRepository.findOne({ where });
   }
 
   findMe(id: number) {
     return this.profileRepository.findOne({
       where: { user: { id } },
-      relations: ['roles'],
     });
   }
 
-  async create({ roles, ...params }: CreateUserProfileDto) {
+  async create({ roles, services, ...params }: CreateUserProfileDto) {
     try {
       const profile = await this.profileRepository.save(
         this.profileRepository.create(params),
@@ -63,20 +57,13 @@ export class UsersService {
         }),
       );
 
-      await this.profileRepository.update({ id: profile.id }, { user });
+      profile.user = user;
+      profile.services = services;
+      profile.roles = roles;
 
-      console.log(profile, profile.id);
+      await this.profileRepository.save(profile);
 
-      this.roleRepository.save(
-        this.roleRepository.create(
-          roles.map((role) => ({ role, profiles: [profile] })),
-        ),
-      );
-
-      return {
-        user,
-        profile,
-      };
+      return profile;
     } catch (e) {
       if (e.errno === DBErrors.ER_DUP_ENTRY) {
         throw new ConflictException({
@@ -89,26 +76,25 @@ export class UsersService {
     }
   }
 
-  update(id: number, params: UpdateUserDTO) {
-    return this.userRepository.update({ id }, params);
+  async update(id: number, params: UpdateUserProfileDto) {
+    try {
+      const profile = await this.profileRepository.findOne({ where: { id } });
+      Object.assign(profile, params);
+      console.log(profile);
+      await this.profileRepository.save(profile);
+    } catch (e) {
+      if (e.errno === DBErrors.ER_DUP_ENTRY) {
+        throw new ConflictException({
+          message: `Duplicate found`,
+          items: e.parameters,
+        });
+      } else {
+        throw e;
+      }
+    }
   }
 
   remove(id: number) {
     return this.userRepository.delete({ id });
-  }
-
-  findRoles(profileId: number) {
-    return this.roleRepository.find({
-      where: { profiles: [{ id: profileId }] },
-    });
-  }
-
-  addRole(profileId: number, role: Role) {
-    return this.roleRepository.save(
-      this.roleRepository.create({
-        role,
-        profiles: [{ id: profileId }],
-      }),
-    );
   }
 }

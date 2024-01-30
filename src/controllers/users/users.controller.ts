@@ -9,9 +9,9 @@ import {
   Req,
 } from '@nestjs/common';
 import { UsersService } from 'src/controllers/users/users.service';
-import { CreateUserDto, CreateUserProfileDto } from './users.dto';
-import { Role } from 'src/types/enums';
+import { CreateUserProfileDto, UpdateUserProfileDto } from './users.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/decorators/public.decorator';
 
 @ApiTags('Users')
 @Controller('users')
@@ -33,6 +33,7 @@ export class UsersController {
     return this.userService.findOneProfile({ id });
   }
 
+  @Public()
   @Post()
   create(@Body() dto: CreateUserProfileDto) {
     return this.userService.create(dto);
@@ -42,7 +43,7 @@ export class UsersController {
   update(
     @Param('id') id: number,
     @Body()
-    userDTO: CreateUserDto,
+    userDTO: UpdateUserProfileDto,
   ) {
     return this.userService.update(id, userDTO);
   }
@@ -50,15 +51,5 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.userService.remove(id);
-  }
-
-  @Get(':profileId/roles')
-  findRoles(@Param('profileId') id: number) {
-    return this.userService.findRoles(id);
-  }
-
-  @Post(':profileId/roles')
-  addRole(@Param('profileId') id: number, @Body('role') role: Role) {
-    return this.userService.addRole(id, role);
   }
 }
