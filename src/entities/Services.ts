@@ -46,6 +46,6 @@ export class ServiceEntity {
   updatedAt: Date;
 
   @ManyToMany(() => UserProfileEntity)
-  @JoinTable()
+  @JoinTable({ name: 'profile_service' })
   profiles: UserProfileEntity[];
 }

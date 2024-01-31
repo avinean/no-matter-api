@@ -7,8 +7,9 @@ import {
   FindUserProfileDto,
   UpdateUserProfileDto,
 } from './users.dto';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { DBErrors } from 'src/types/db-errors';
+import { ServiceEntity } from 'src/entities/Services';
 
 @Injectable()
 export class UsersService {
@@ -17,6 +18,8 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(UserProfileEntity)
     private readonly profileRepository: Repository<UserProfileEntity>,
+    @InjectRepository(ServiceEntity)
+    private readonly serviceRepository: Repository<ServiceEntity>,
   ) {}
 
   findAll() {
@@ -41,7 +44,7 @@ export class UsersService {
     });
   }
 
-  async create({ roles, services, ...params }: CreateUserProfileDto) {
+  async create({ services, ...params }: CreateUserProfileDto) {
     try {
       const profile = await this.profileRepository.save(
         this.profileRepository.create(params),
@@ -59,7 +62,6 @@ export class UsersService {
 
       profile.user = user;
       profile.services = services;
-      profile.roles = roles;
 
       await this.profileRepository.save(profile);
 
@@ -80,7 +82,6 @@ export class UsersService {
     try {
       const profile = await this.profileRepository.findOne({ where: { id } });
       Object.assign(profile, params);
-      console.log(profile);
       await this.profileRepository.save(profile);
     } catch (e) {
       if (e.errno === DBErrors.ER_DUP_ENTRY) {

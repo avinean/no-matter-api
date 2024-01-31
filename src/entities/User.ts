@@ -79,6 +79,6 @@ export class UserProfileEntity {
   user: UserEntity;
 
   @ManyToMany(() => ServiceEntity)
-  @JoinTable()
+  @JoinTable({ name: 'profile_service' })
   services: ServiceEntity[];
 }
