@@ -13,6 +13,10 @@ export class CreateBookingDto {
   @IsString()
   duration: number;
 
+  @ApiProperty({ example: '' })
+  @IsString()
+  coment: string;
+
   @ApiProperty({ example: [] })
   @IsArray()
   services: ServiceEntity[];

@@ -26,6 +26,9 @@ export class BookingEntity {
   @Column({ default: false })
   status: boolean;
 
+  @Column({ default: '' })
+  comment: string;
+
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 

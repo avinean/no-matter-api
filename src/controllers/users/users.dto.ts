@@ -90,3 +90,13 @@ export class CreateUserProfileDto {
 }
 
 export class UpdateUserProfileDto extends CreateUserProfileDto {}
+
+export class ResetPasswordDto {
+  @ApiProperty({ example: 'password' })
+  @IsString()
+  password: string;
+
+  @ApiProperty({ example: 'password' })
+  @IsString()
+  newPassword: string;
+}

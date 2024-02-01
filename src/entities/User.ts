@@ -29,7 +29,7 @@ export class UserEntity {
   @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
-  @OneToMany(() => UserProfileEntity, (profile) => profile.user)
+  @OneToMany(() => UserProfileEntity, (profile) => profile.userId)
   @JoinColumn()
   profiles: UserProfileEntity[];
 }
@@ -75,7 +75,10 @@ export class UserProfileEntity {
   @Column({ default: 'guest' })
   roles: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.id)
+  @Column({ nullable: true })
+  userId: number;
+
+  @ManyToOne(() => UserEntity)
   @JoinColumn()
   user: UserEntity;
 

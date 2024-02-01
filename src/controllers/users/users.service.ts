@@ -5,6 +5,7 @@ import {
   CreateUserProfileDto,
   FindUserDto,
   FindUserProfileDto,
+  ResetPasswordDto,
   UpdateUserProfileDto,
 } from './users.dto';
 import { In, Repository } from 'typeorm';
@@ -97,5 +98,15 @@ export class UsersService {
 
   remove(id: number) {
     return this.userRepository.delete({ id });
+  }
+
+  async updatePassword(id: number, body: ResetPasswordDto) {
+    const profile = await this.profileRepository.findOne({ where: { id } });
+    const user = await this.userRepository.findOne({
+      where: { id: profile.userId, password: body.password },
+    });
+
+    user.password = body.newPassword;
+    return this.userRepository.save(user);
   }
 }
