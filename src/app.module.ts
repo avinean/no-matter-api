@@ -17,6 +17,8 @@ import { SuggestionsModule } from './controllers/suggestions/suggestions.module'
 import { ServiceEntity } from './entities/Services';
 import { ServicesModule } from './controllers/services/services.module';
 import { BookingModule } from './controllers/booking/booking.module';
+import { BookingEntity } from './entities/Booking';
+import { OrderEntity } from './entities/Order';
 
 @Module({
   imports: [
@@ -28,7 +30,7 @@ import { BookingModule } from './controllers/booking/booking.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       logging: true,
-      logger: 'advanced-console',
+      logger: 'simple-console',
       entities: [
         UserEntity,
         UserProfileEntity,
@@ -37,6 +39,8 @@ import { BookingModule } from './controllers/booking/booking.module';
         MaterialEntity,
         MaterialTransactionEntity,
         ServiceEntity,
+        BookingEntity,
+        OrderEntity,
       ],
       synchronize: true,
     }),

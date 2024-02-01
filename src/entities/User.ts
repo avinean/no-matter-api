@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Sex } from 'src/types/enums';
 import { ServiceEntity } from './Services';
+import { BookingEntity } from './Booking';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -81,4 +82,8 @@ export class UserProfileEntity {
   @ManyToMany(() => ServiceEntity)
   @JoinTable({ name: 'profile_service' })
   services: ServiceEntity[];
+
+  @OneToMany(() => BookingEntity, (booking) => booking.profile)
+  @JoinColumn({ name: 'profile_booking' })
+  bookings: BookingEntity[];
 }

@@ -7,6 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BookingEntity } from './Booking';
 
 @Entity({ name: 'clients' })
 export class ClientEntity {
@@ -57,6 +58,10 @@ export class ClientEntity {
 
   @OneToMany(() => ContactEntity, (contact) => contact.client)
   contacts: ContactEntity[];
+
+  @OneToMany(() => BookingEntity, (booking) => booking.client)
+  @JoinColumn({ name: 'client_booking' })
+  bookings: BookingEntity[];
 }
 
 @Entity({ name: 'contacts' })

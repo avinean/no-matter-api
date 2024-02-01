@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserProfileEntity } from './User';
+import { BookingEntity } from './Booking';
 
 @Entity({ name: 'services' })
 export class ServiceEntity {
@@ -48,4 +49,8 @@ export class ServiceEntity {
   @ManyToMany(() => UserProfileEntity)
   @JoinTable({ name: 'profile_service' })
   profiles: UserProfileEntity[];
+
+  @ManyToMany(() => BookingEntity)
+  @JoinTable({ name: 'service_booking' })
+  bookings: BookingEntity[];
 }
