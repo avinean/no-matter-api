@@ -10,6 +10,9 @@ import {
 } from './users.dto';
 import { Repository } from 'typeorm';
 import { DBErrors } from 'src/types/db-errors';
+import { BussinessService } from '../bussiness/bussiness.service';
+import { ProfileConfig } from 'src/types/config';
+import { Role } from 'src/types/enums';
 
 @Injectable()
 export class UsersService {
@@ -18,6 +21,7 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(UserProfileEntity)
     private readonly profileRepository: Repository<UserProfileEntity>,
+    private readonly bussinessService: BussinessService,
   ) {}
 
   findAll() {
@@ -36,10 +40,29 @@ export class UsersService {
     return this.profileRepository.findOne({ where });
   }
 
-  findMe(id: number) {
-    return this.profileRepository.findOne({
+  async findMe(id: number) {
+    const profile = await this.profileRepository.findOne({
       where: { user: { id } },
+      relations: {
+        bussinesses: {
+          objects: true,
+        },
+      },
     });
+
+    const config: ProfileConfig = {
+      allowSeeBussiness: profile.roles.includes(Role.admin),
+      allowSeeMaterails: profile.roles.includes(Role.admin),
+      allowSeeProducts: profile.roles.includes(Role.admin),
+      allowSeeProfile: profile.roles.includes(Role.admin),
+      allowSeeServices: profile.roles.includes(Role.admin),
+      allowSeeUsers: profile.roles.includes(Role.admin),
+    };
+
+    return {
+      profile,
+      config,
+    };
   }
 
   async create({ services, ...params }: CreateUserProfileDto) {

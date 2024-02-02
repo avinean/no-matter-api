@@ -94,7 +94,7 @@ export class UserProfileEntity {
 
   @OneToMany(() => BussinessEntity, (bussiness) => bussiness.profile)
   @JoinTable({ name: 'profile_bussiness' })
-  profile: BussinessEntity;
+  bussinesses: BussinessEntity[];
 
   @OneToMany(
     () => BussinessObjectEntity,

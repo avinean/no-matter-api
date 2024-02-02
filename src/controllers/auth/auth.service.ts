@@ -15,7 +15,7 @@ export class AuthService {
   async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
     const user = await this.usersService.findOne(signInDto);
     if (!user) throw new UnauthorizedException();
-    const profile = await this.usersService.findMe(user.id);
+    const { profile } = await this.usersService.findMe(user.id);
 
     if (!user) throw new UnauthorizedException();
 
