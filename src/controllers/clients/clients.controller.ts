@@ -6,14 +6,9 @@ import {
   Param,
   Post,
   Put,
-  UploadedFile,
-  UseInterceptors,
 } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './clients.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
 
 @Controller('clients')
 export class ClientsController {
@@ -42,25 +37,6 @@ export class ClientsController {
   @Delete(':id')
   remove(@Param() id: number) {
     return this.clientService.remove(id);
-  }
-
-  @Post('photo')
-  @UseInterceptors(
-    FileInterceptor('photo', {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  )
-  async addAvatar(@UploadedFile() file: Express.Multer.File) {
-    return file.filename;
   }
 
   @Put(':id/status')

@@ -21,6 +21,8 @@ import { BookingEntity } from './entities/Booking';
 import { OrderEntity } from './entities/Order';
 import { BussinessEntity, BussinessObjectEntity } from './entities/Bussiness';
 import { BussinessModule } from './controllers/bussiness/bussiness.module';
+import { BussinessObjectsModule } from './controllers/bussiness-object/bussiness-object.module';
+import { UtilsModule } from './controllers/utils/utils.module';
 
 @Module({
   imports: [
@@ -60,6 +62,8 @@ import { BussinessModule } from './controllers/bussiness/bussiness.module';
     ServicesModule,
     BookingModule,
     BussinessModule,
+    BussinessObjectsModule,
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [

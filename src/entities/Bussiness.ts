@@ -17,6 +17,12 @@ export class BussinessEntity {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  description: string;
+
+  @Column({ nullable: true })
+  image: string;
+
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
@@ -42,6 +48,12 @@ export class BussinessObjectEntity {
 
   @Column()
   name: string;
+
+  @Column({ nullable: true })
+  description: string;
+
+  @Column({ nullable: true })
+  image: string;
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

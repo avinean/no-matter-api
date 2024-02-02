@@ -1,27 +1,21 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { BussinessService } from './bussiness.service';
+import { CreateBussinessDto } from './bussiness.dto';
 
 @Controller('bussiness')
 export class BussinessController {
   constructor(private readonly bussinessService: BussinessService) {}
 
-  @Get('')
-  async getAll() {
-    return await this.bussinessService.getAll();
+  @Get(':profileId')
+  async getAll(@Param('profileId') profileId: number,) {
+    return await this.bussinessService.getAll(profileId);
   }
 
-  @Get('objects')
-  async getAllObjects() {
-    return await this.bussinessService.getAllObjects();
-  }
-
-  @Post('')
-  async create() {
-    // return await this.bussinessService.create();
-  }
-
-  @Post('objects')
-  async createObject() {
-    // return await this.bussinessService.createObject();
+  @Post(':profileId')
+  create(
+    @Body() body: CreateBussinessDto,
+    @Param('profileId') profileId: number,
+  ) {
+    return this.bussinessService.create(body, profileId);
   }
 }

@@ -10,7 +10,6 @@ import {
 } from './users.dto';
 import { Repository } from 'typeorm';
 import { DBErrors } from 'src/types/db-errors';
-import { BussinessService } from '../bussiness/bussiness.service';
 import { ProfileConfig } from 'src/types/config';
 import { Role } from 'src/types/enums';
 
@@ -21,7 +20,6 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(UserProfileEntity)
     private readonly profileRepository: Repository<UserProfileEntity>,
-    private readonly bussinessService: BussinessService,
   ) {}
 
   findAll() {

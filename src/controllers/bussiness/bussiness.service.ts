@@ -1,24 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BussinessEntity, BussinessObjectEntity } from 'src/entities/Bussiness';
+import { BussinessEntity } from 'src/entities/Bussiness';
 import { UserProfileEntity } from 'src/entities/User';
 import { Repository } from 'typeorm';
+import { CreateBussinessDto } from './bussiness.dto';
 
 @Injectable()
 export class BussinessService {
   constructor(
     @InjectRepository(BussinessEntity)
     private readonly bussinessRepository: Repository<BussinessEntity>,
-    @InjectRepository(BussinessObjectEntity)
-    private readonly bussinessObjectRepository: Repository<BussinessObjectEntity>,
   ) {}
 
-  async getAll() {
-    return await this.bussinessRepository.find();
+  async getAll(profileId: number) {
+    return await this.bussinessRepository.find({
+      where: { profile: { id: profileId } },
+      relations: {
+        objects: true,
+      },
+    });
   }
 
-  async getAllObjects() {
-    return await this.bussinessObjectRepository.find();
+  async create(dto: CreateBussinessDto, profileId: number) {
+    const profile = new UserProfileEntity();
+    profile.id = profileId;
+    const bussiness = new BussinessEntity();
+    bussiness.name = dto.name;
+    bussiness.description = dto.description;
+    bussiness.image = dto.image;
+    bussiness.profile = profile;
+    return await this.bussinessRepository.save(bussiness);
   }
 
   async createTmp(profile: UserProfileEntity) {
@@ -26,16 +37,5 @@ export class BussinessService {
     bussiness.name = 'Temporary bussiness name';
     bussiness.profile = profile;
     return await this.bussinessRepository.save(bussiness);
-  }
-
-  async createObjectTmp(
-    bussiness: BussinessEntity,
-    profile: UserProfileEntity,
-  ) {
-    const bussinessObject = new BussinessObjectEntity();
-    bussinessObject.name = 'Temporary bussiness object name';
-    bussinessObject.profile = profile;
-    bussinessObject.bussiness = bussiness;
-    return await this.bussinessObjectRepository.save(bussinessObject);
   }
 }

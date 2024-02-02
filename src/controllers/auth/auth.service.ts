@@ -3,12 +3,14 @@ import { UsersService } from 'src/controllers/users/users.service';
 import { SignInDto, SignUpDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { BussinessService } from '../bussiness/bussiness.service';
+import { BussinessObjectService } from '../bussiness-object/bussiness-object.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private bussinessService: BussinessService,
+    private objectService: BussinessObjectService,
     private jwtService: JwtService,
   ) {}
 
@@ -32,7 +34,7 @@ export class AuthService {
   async signUp(dto: SignUpDto) {
     const profile = await this.usersService.create(dto as any);
     const bussiness = await this.bussinessService.createTmp(profile);
-    await this.bussinessService.createObjectTmp(bussiness, profile);
+    await this.objectService.createTmp(bussiness, profile);
     return profile;
   }
 }
