@@ -62,24 +62,42 @@ export class BookingService {
   async findTimeSlots(dto: SearchTimeslotsDto) {
     const { profile, date, duration } = dto;
 
+    const startDate = new Date(date);
+    const endDate = new Date(date);
+    endDate.setHours(startDate.getHours() + 23, 59, 59, 999);
+
     const bookedTimeSlots = await this.bookingRepository
       .createQueryBuilder('booking')
-      .select(['booking.date', 'booking.duration'])
-      .where('booking.date = :date', { date })
+      .select(['booking.comment', 'booking.date', 'booking.duration'])
+      .where('booking.date >= :startDate', { startDate })
+      .andWhere('booking.date <= :endDate', { endDate })
       .getMany();
 
-    const freeTimeSlots = [];
-
-    // If there are no bookings on the given date, return the full day as free
-    if (!bookedTimeSlots.length) {
-      for (let i = 0; i < 25 - duration; i++) {
-        const time = new Date();
-        time.setHours(i, 0, 0, 0);
-        freeTimeSlots.push(time);
-      }
-
-      return freeTimeSlots;
+    const freeTimeSlots: { time: string; booked?: BookingEntity }[] = [];
+    // 9am to 6pm
+    // default values
+    // these values will be taken from personal employee's settings
+    // or from company settings
+    for (let i = 9; i < 20 - duration; i++) {
+      const time = new Date();
+      time.setHours(i, 0, 0, 0);
+      freeTimeSlots.push({ time: time.toISOString() });
     }
+
+    if (!bookedTimeSlots.length) return freeTimeSlots;
+
+    bookedTimeSlots.forEach((_) => {
+      for (let i = 0; i < _.duration; i++) {
+        const time = new Date(_.date);
+        time.setHours(time.getHours() + i);
+
+        const slot = freeTimeSlots.find((__) => {
+          return __.time === time.toISOString();
+        });
+
+        if (slot) slot.booked = _;
+      }
+    });
 
     return freeTimeSlots;
   }

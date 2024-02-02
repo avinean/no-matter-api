@@ -8,7 +8,7 @@ import {
   IsString,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import {  Sex } from 'src/types/enums';
+import { Sex } from 'src/types/enums';
 import { ServiceEntity } from 'src/entities/Services';
 
 export class CreateUserDto {
@@ -32,7 +32,7 @@ export class FindUserDto {
   @ApiProperty({ example: 'user1' })
   @IsOptional()
   @IsString()
-  email?: string;
+  phone?: string;
 }
 
 export class FindUserProfileDto {

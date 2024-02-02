@@ -11,6 +11,7 @@ import {
 import { Sex } from 'src/types/enums';
 import { ServiceEntity } from './Services';
 import { BookingEntity } from './Booking';
+import { BussinessEntity, BussinessObjectEntity } from './Bussiness';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -18,7 +19,7 @@ export class UserEntity {
   id: number;
 
   @Column({ unique: true })
-  email: string;
+  phone: string;
 
   @Column()
   password: string;
@@ -48,10 +49,11 @@ export class UserProfileEntity {
   @Column({
     type: 'enum',
     enum: Sex,
+    nullable: true,
   })
   sex: Sex;
 
-  @Column()
+  @Column({ nullable: true })
   birthday: Date;
 
   @Column({ nullable: true })
@@ -89,4 +91,15 @@ export class UserProfileEntity {
   @OneToMany(() => BookingEntity, (booking) => booking.profile)
   @JoinColumn({ name: 'profile_booking' })
   bookings: BookingEntity[];
+
+  @OneToMany(() => BussinessEntity, (bussiness) => bussiness.profile)
+  @JoinTable({ name: 'profile_bussiness' })
+  profile: BussinessEntity;
+
+  @OneToMany(
+    () => BussinessObjectEntity,
+    (bussinessObject) => bussinessObject.profile,
+  )
+  @JoinTable({ name: 'profile_to_objects' })
+  objects: BussinessObjectEntity;
 }

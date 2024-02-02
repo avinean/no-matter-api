@@ -8,9 +8,8 @@ import {
   ResetPasswordDto,
   UpdateUserProfileDto,
 } from './users.dto';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { DBErrors } from 'src/types/db-errors';
-import { ServiceEntity } from 'src/entities/Services';
 
 @Injectable()
 export class UsersService {
@@ -19,8 +18,6 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(UserProfileEntity)
     private readonly profileRepository: Repository<UserProfileEntity>,
-    @InjectRepository(ServiceEntity)
-    private readonly serviceRepository: Repository<ServiceEntity>,
   ) {}
 
   findAll() {
@@ -53,7 +50,7 @@ export class UsersService {
 
       const user = await this.userRepository.save(
         this.userRepository.create({
-          email: params.email,
+          phone: params.phone,
           password: Array(6)
             .fill(null)
             .map(() => Math.round(Math.random() * 16).toString(16))

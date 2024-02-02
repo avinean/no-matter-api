@@ -19,6 +19,8 @@ import { ServicesModule } from './controllers/services/services.module';
 import { BookingModule } from './controllers/booking/booking.module';
 import { BookingEntity } from './entities/Booking';
 import { OrderEntity } from './entities/Order';
+import { BussinessEntity, BussinessObjectEntity } from './entities/Bussiness';
+import { BussinessModule } from './controllers/bussiness/bussiness.module';
 
 @Module({
   imports: [
@@ -41,6 +43,8 @@ import { OrderEntity } from './entities/Order';
         ServiceEntity,
         BookingEntity,
         OrderEntity,
+        BussinessEntity,
+        BussinessObjectEntity,
       ],
       synchronize: true,
     }),
@@ -55,6 +59,7 @@ import { OrderEntity } from './entities/Order';
     SuggestionsModule,
     ServicesModule,
     BookingModule,
+    BussinessModule,
   ],
   controllers: [AppController],
   providers: [
