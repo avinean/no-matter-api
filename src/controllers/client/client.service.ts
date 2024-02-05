@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ContactEntity, ClientEntity } from 'src/entities/Client';
+import { ContactEntity, ClientEntity } from 'src/entities/client.entity';
 import { Repository } from 'typeorm';
 import { CreateClientDto } from './client.dto';
 import { DBErrors } from 'src/types/db-errors';

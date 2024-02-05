@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { BussinessService } from './bussiness.service';
 import { BussinessController } from './bussiness.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BussinessEntity } from 'src/entities/Bussiness';
+import { BussinessEntity } from 'src/entities/bussiness.entity';
 
 @Module({
   providers: [BussinessService],

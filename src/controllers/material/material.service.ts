@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   MaterialEntity,
   MaterialTransactionEntity,
-} from 'src/entities/Material';
+} from 'src/entities/material.entity';
 import { Repository } from 'typeorm';
 import { CreateMaterialDto, CreateTransactionDto } from './material.dto';
 import { MaterialTransactionType } from 'src/types/enums';

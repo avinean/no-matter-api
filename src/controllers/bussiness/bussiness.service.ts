@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BussinessEntity } from 'src/entities/Bussiness';
-import { UserProfileEntity } from 'src/entities/User';
+import { BussinessEntity } from 'src/entities/bussiness.entity';
+import { ProfileEntity } from 'src/entities/profile.entity';
 import { FindOneOptions, Repository } from 'typeorm';
 import { CreateBussinessDto } from './bussiness.dto';
 
@@ -26,7 +26,7 @@ export class BussinessService {
   }
 
   async create(dto: CreateBussinessDto, profileId: number) {
-    const profile = new UserProfileEntity();
+    const profile = new ProfileEntity();
     profile.id = profileId;
     const bussiness = new BussinessEntity();
     bussiness.name = dto.name;
@@ -36,7 +36,7 @@ export class BussinessService {
     return await this.bussinessRepository.save(bussiness);
   }
 
-  async createTmp(profile: UserProfileEntity) {
+  async createTmp(profile: ProfileEntity) {
     const bussiness = new BussinessEntity();
     bussiness.name = 'Temporary bussiness name';
     bussiness.profile = profile;

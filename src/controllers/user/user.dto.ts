@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Sex } from 'src/types/enums';
-import { ServiceEntity } from 'src/entities/Services';
+import { ServiceEntity } from 'src/entities/service.entity';
 
 export class CreateUserDto {
   @ApiProperty({ example: 'password' })

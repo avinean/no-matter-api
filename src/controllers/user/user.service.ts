@@ -1,6 +1,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity, UserProfileEntity } from 'src/entities/User';
+import { UserEntity } from 'src/entities/user.entity';
+import { ProfileEntity } from 'src/entities/profile.entity';
 import {
   CreateUserProfileDto,
   ResetPasswordDto,
@@ -9,15 +10,15 @@ import {
 import { FindOneOptions, Repository } from 'typeorm';
 import { DBErrors } from 'src/types/db-errors';
 import { ProfileConfig } from 'src/types/config';
-import { BussinessObjectEntity } from 'src/entities/Bussiness';
+import { BussinessObjectEntity } from 'src/entities/bussiness-object.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    @InjectRepository(UserProfileEntity)
-    private readonly profileRepository: Repository<UserProfileEntity>,
+    @InjectRepository(ProfileEntity)
+    private readonly profileRepository: Repository<ProfileEntity>,
   ) {}
 
   findAll() {
@@ -35,7 +36,7 @@ export class UserService {
     return this.userRepository.findOne(dto);
   }
 
-  findOneProfile(dto: FindOneOptions<UserProfileEntity>) {
+  findOneProfile(dto: FindOneOptions<ProfileEntity>) {
     return this.profileRepository.findOne(dto);
   }
 

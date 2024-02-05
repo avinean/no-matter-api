@@ -1,5 +1,5 @@
 import { Entity, JoinTable, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { BookingEntity } from './Booking';
+import { BookingEntity } from './booking.entity';
 
 @Entity({ name: 'orders' })
 export class OrderEntity {

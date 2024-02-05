@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ServiceEntity } from 'src/entities/Services';
-import { UserProfileEntity } from 'src/entities/User';
+import { ServiceEntity } from 'src/entities/service.entity';
+import { ProfileEntity } from 'src/entities/profile.entity';
 import { Repository } from 'typeorm';
 import {
   CreateBookingDto,
@@ -9,13 +9,13 @@ import {
   SearchServicesDto,
   SearchTimeslotsDto,
 } from './booking.dto';
-import { BookingEntity } from 'src/entities/Booking';
+import { BookingEntity } from 'src/entities/booking.entity';
 
 @Injectable()
 export class BookingService {
   constructor(
-    @InjectRepository(UserProfileEntity)
-    private readonly profileRepository: Repository<UserProfileEntity>,
+    @InjectRepository(ProfileEntity)
+    private readonly profileRepository: Repository<ProfileEntity>,
     @InjectRepository(ServiceEntity)
     private readonly servicesRepository: Repository<ServiceEntity>,
     @InjectRepository(BookingEntity)

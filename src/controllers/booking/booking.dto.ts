@@ -1,8 +1,8 @@
 import { IsArray, IsObject, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ServiceEntity } from 'src/entities/Services';
-import { UserProfileEntity } from 'src/entities/User';
-import { ClientEntity } from 'src/entities/Client';
+import { ServiceEntity } from 'src/entities/service.entity';
+import { ProfileEntity } from 'src/entities/profile.entity';
+import { ClientEntity } from 'src/entities/client.entity';
 
 export class CreateBookingDto {
   @ApiProperty({ example: '2023-01-01' })
@@ -23,7 +23,7 @@ export class CreateBookingDto {
 
   @ApiProperty({ example: {} })
   @IsObject()
-  profile: UserProfileEntity;
+  profile: ProfileEntity;
 
   @ApiProperty({ example: {} })
   @IsObject()
@@ -37,15 +37,15 @@ export class SearchProfilesDto {
 }
 
 export class SearchServicesDto {
-  @ApiProperty({ example: UserProfileEntity })
+  @ApiProperty({ example: ProfileEntity })
   @IsObject()
-  profile: UserProfileEntity;
+  profile: ProfileEntity;
 }
 
 export class SearchTimeslotsDto {
-  @ApiProperty({ example: UserProfileEntity })
+  @ApiProperty({ example: ProfileEntity })
   @IsObject()
-  profile: UserProfileEntity;
+  profile: ProfileEntity;
 
   @ApiProperty({ example: '2023-01-01' })
   @IsString()

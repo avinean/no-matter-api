@@ -9,34 +9,14 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Sex } from 'src/types/enums';
-import { ServiceEntity } from './Services';
-import { BookingEntity } from './Booking';
-import { BussinessEntity, BussinessObjectEntity } from './Bussiness';
-
-@Entity({ name: 'users' })
-export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ unique: true })
-  phone: string;
-
-  @Column()
-  password: string;
-
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
-
-  @OneToMany(() => UserProfileEntity, (profile) => profile.userId)
-  @JoinColumn()
-  profiles: UserProfileEntity[];
-}
+import { ServiceEntity } from './service.entity';
+import { BookingEntity } from './booking.entity';
+import { BussinessEntity } from './bussiness.entity';
+import { BussinessObjectEntity } from './bussiness-object.entity';
+import { UserEntity } from './user.entity';
 
 @Entity({ name: 'user_profiles' })
-export class UserProfileEntity {
+export class ProfileEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -6,8 +6,8 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { UserProfileEntity } from './User';
-import { BookingEntity } from './Booking';
+import { ProfileEntity } from './profile.entity';
+import { BookingEntity } from './booking.entity';
 
 @Entity({ name: 'services' })
 export class ServiceEntity {
@@ -46,9 +46,9 @@ export class ServiceEntity {
   @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
-  @ManyToMany(() => UserProfileEntity)
+  @ManyToMany(() => ProfileEntity)
   @JoinTable({ name: 'profile_service' })
-  profiles: UserProfileEntity[];
+  profiles: ProfileEntity[];
 
   @ManyToMany(() => BookingEntity)
   @JoinTable({ name: 'service_booking' })

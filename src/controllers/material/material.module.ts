@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   MaterialEntity,
   MaterialTransactionEntity,
-} from 'src/entities/Material';
+} from 'src/entities/material.entity';
 
 @Module({
   imports: [

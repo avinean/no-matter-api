@@ -7,7 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { BookingEntity } from './Booking';
+import { BookingEntity } from './booking.entity';
 
 @Entity({ name: 'clients' })
 export class ClientEntity {

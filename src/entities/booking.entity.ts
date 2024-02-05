@@ -7,10 +7,10 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { UserProfileEntity } from './User';
-import { ClientEntity } from './Client';
-import { ServiceEntity } from './Services';
-import { OrderEntity } from './Order';
+import { ProfileEntity } from './profile.entity';
+import { ClientEntity } from './client.entity';
+import { ServiceEntity } from './service.entity';
+import { OrderEntity } from './order.entity';
 
 @Entity({ name: 'booking' })
 export class BookingEntity {
@@ -35,9 +35,9 @@ export class BookingEntity {
   @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
-  @ManyToOne(() => UserProfileEntity)
+  @ManyToOne(() => ProfileEntity)
   @JoinTable({ name: 'profile_booking' })
-  profile: UserProfileEntity;
+  profile: ProfileEntity;
 
   @ManyToMany(() => ServiceEntity)
   @JoinTable({ name: 'service_booking' })

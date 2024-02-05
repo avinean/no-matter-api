@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ServiceEntity } from 'src/entities/Services';
+import { ServiceEntity } from 'src/entities/service.entity';
 import { DBErrors } from 'src/types/db-errors';
 import { ServiceType } from 'src/types/enums';
 import { Repository } from 'typeorm';

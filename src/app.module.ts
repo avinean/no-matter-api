@@ -2,28 +2,36 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity, UserProfileEntity } from './entities/User';
+import { UserEntity } from './entities/user.entity';
+import { ProfileEntity } from './entities/profile.entity';
 import { UserModule } from './controllers/user/user.module';
 import { AuthModule } from './controllers/auth/auth.module';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 import { MaterialModule } from './controllers/material/material.module';
-import { MaterialEntity, MaterialTransactionEntity } from './entities/Material';
-import { ContactEntity, ClientEntity } from './entities/Client';
+import {
+  MaterialEntity,
+  MaterialTransactionEntity,
+} from './entities/material.entity';
+import { ContactEntity, ClientEntity } from './entities/client.entity';
 import { ClientModule } from './controllers/client/client.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { SuggestionsModule } from './controllers/suggestions/suggestions.module';
-import { ServiceEntity } from './entities/Services';
+import { ServiceEntity } from './entities/service.entity';
 import { ServicesModule } from './controllers/service/service.module';
 import { BookingModule } from './controllers/booking/booking.module';
-import { BookingEntity } from './entities/Booking';
-import { OrderEntity } from './entities/Order';
-import { BussinessEntity, BussinessObjectEntity } from './entities/Bussiness';
+import { BookingEntity } from './entities/booking.entity';
+import { OrderEntity } from './entities/order.entity';
+import { BussinessEntity } from './entities/bussiness.entity';
+import { BussinessObjectEntity } from './entities/bussiness-object.entity';
 import { BussinessModule } from './controllers/bussiness/bussiness.module';
 import { BussinessObjectsModule } from './controllers/bussiness-object/bussiness-object.module';
 import { UtilModule } from './controllers/util/util.module';
 import { PropertyGuard } from './guards/property.guard';
+import { InitializerModule } from './initializer/initializer.module';
+import { RoleEntity } from './entities/role.entity';
+import { PermissionEntity } from './entities/permission.entity';
 
 @Module({
   imports: [
@@ -38,7 +46,7 @@ import { PropertyGuard } from './guards/property.guard';
       // logger: 'simple-console',
       entities: [
         UserEntity,
-        UserProfileEntity,
+        ProfileEntity,
         ClientEntity,
         ContactEntity,
         MaterialEntity,
@@ -48,6 +56,8 @@ import { PropertyGuard } from './guards/property.guard';
         OrderEntity,
         BussinessEntity,
         BussinessObjectEntity,
+        RoleEntity,
+        PermissionEntity,
       ],
       synchronize: true,
     }),
@@ -65,6 +75,7 @@ import { PropertyGuard } from './guards/property.guard';
     BussinessModule,
     BussinessObjectsModule,
     UtilModule,
+    InitializerModule,
   ],
   controllers: [AppController],
   providers: [

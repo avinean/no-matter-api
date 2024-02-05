@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BussinessEntity, BussinessObjectEntity } from 'src/entities/Bussiness';
-import { UserProfileEntity } from 'src/entities/User';
+import { BussinessEntity } from 'src/entities/bussiness.entity';
+import { BussinessObjectEntity } from 'src/entities/bussiness-object.entity';
+import { ProfileEntity } from 'src/entities/profile.entity';
 import { FindOneOptions, Repository } from 'typeorm';
 import { CreateBussinessObjectDto } from './bussiness-object.dto';
 
@@ -34,7 +35,7 @@ export class BussinessObjectService {
     profileId: number,
     bussinessId: number,
   ) {
-    const profile = new UserProfileEntity();
+    const profile = new ProfileEntity();
     profile.id = profileId;
     const bussiness = new BussinessEntity();
     bussiness.id = bussinessId;
@@ -47,7 +48,7 @@ export class BussinessObjectService {
     return await this.objectRepository.save(bussinessObject);
   }
 
-  async createTmp(bussiness: BussinessEntity, profile: UserProfileEntity) {
+  async createTmp(bussiness: BussinessEntity, profile: ProfileEntity) {
     const bussinessObject = new BussinessObjectEntity();
     bussinessObject.name = 'Temporary bussiness object name';
     bussinessObject.profile = profile;
