@@ -7,8 +7,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
 
+  app.use((req, _, next) => {
+    console.log(new Date(), `[${req.method}]`, req.url);
+    next();
+  });
+
   const options = new DocumentBuilder()
-    .addSecurity('Bearer', { type: 'http', scheme: 'Bearer' })
     .setTitle('API')
     .setDescription('API')
     .setVersion('1')

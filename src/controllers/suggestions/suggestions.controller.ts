@@ -8,8 +8,8 @@ import {
   ProfileRelationshipType,
 } from 'src/types/enums';
 
-@ApiTags('Suggestions')
-@Controller('suggestions')
+@ApiTags('Suggestion')
+@Controller('suggestion')
 export class SuggestionsController {
   @Get('contact-types')
   getContactTypesSuggestions() {

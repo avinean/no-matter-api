@@ -5,16 +5,16 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { JwtService } from '@nestjs/jwt';
+import { BussinessObjectService } from 'src/controllers/bussiness-object/bussiness-object.service';
 import { BussinessService } from 'src/controllers/bussiness/bussiness.service';
 import { UserService } from 'src/controllers/user/user.service';
 
 @Injectable()
 export class PropertyGuard implements CanActivate {
   constructor(
-    private jwtService: JwtService,
     private reflector: Reflector,
     private bussinessService: BussinessService,
+    private bussinessObjectService: BussinessObjectService,
     private userService: UserService,
   ) {}
 
@@ -29,32 +29,26 @@ export class PropertyGuard implements CanActivate {
       user: { sub },
       params: { bussinessId, bussinessObjectId },
     } = context.switchToHttp().getRequest();
-    console.log('sub', sub, bussinessId, bussinessObjectId);
     const checks = [];
     if (bussinessId) checks.push(this.isOwnsBussiness(sub, bussinessId));
-
     if (bussinessObjectId)
-      checks.push(this.isOwnsBussiness(sub, bussinessObjectId));
+      checks.push(this.isOwnsBussinessObject(sub, bussinessObjectId));
     await Promise.all(checks);
     return true;
   }
 
   async isOwnsBussiness(sub: number, bussinessId: number) {
-    const profile = await this.userService.findOneProfile({
-      where: { user: { id: sub } },
-    });
     const bussiness = await this.bussinessService.findOne({
-      where: { id: bussinessId, profile },
+      select: ['id'],
+      where: { id: bussinessId, profile: { user: { id: sub } } },
     });
     if (!bussiness) throw new UnauthorizedException();
   }
 
   async isOwnsBussinessObject(sub: number, bussinessObjectId: number) {
-    const profile = await this.userService.findOneProfile({
-      where: { user: { id: sub } },
-    });
-    const object = await this.bussinessService.findOne({
-      where: { id: bussinessObjectId, profile },
+    const object = await this.bussinessObjectService.findOne({
+      select: ['id'],
+      where: { id: +bussinessObjectId, profile: { user: { id: sub } } },
     });
     if (!object) throw new UnauthorizedException();
   }

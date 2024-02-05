@@ -47,13 +47,14 @@ export class UserController {
     return this.userService.create(dto, bussinessObjectId);
   }
 
-  @Put(':id')
+  @Put(':bussinessObjectId/:id')
   update(
     @Param('id') id: number,
+    @Param('bussinessObjectId') bussinessObjectId: number,
     @Body()
     userDTO: UpdateUserProfileDto,
   ) {
-    return this.userService.update(id, userDTO);
+    return this.userService.update(bussinessObjectId, id, userDTO);
   }
 
   @Delete(':id')

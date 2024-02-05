@@ -80,9 +80,15 @@ export class UserService {
     }
   }
 
-  async update(id: number, params: UpdateUserProfileDto) {
+  async update(
+    bussinessObjectId: number,
+    id: number,
+    params: UpdateUserProfileDto,
+  ) {
     try {
-      const profile = await this.profileRepository.findOne({ where: { id } });
+      const profile = await this.profileRepository.findOne({
+        where: { id, employers: [{ id: bussinessObjectId }] },
+      });
       Object.assign(profile, params);
       await this.profileRepository.save(profile);
     } catch (e) {
