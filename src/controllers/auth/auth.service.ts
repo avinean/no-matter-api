@@ -14,10 +14,12 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
-    const user = await this.usersService.findOne(signInDto);
+  async signIn(where: SignInDto): Promise<{ access_token: string }> {
+    const user = await this.usersService.findOne({ where });
     if (!user) throw new UnauthorizedException();
-    const { profile } = await this.usersService.findMe(user.id);
+    const profile = await this.usersService.findOneProfile({
+      where: { user },
+    });
 
     if (!user) throw new UnauthorizedException();
 
@@ -32,7 +34,10 @@ export class AuthService {
   }
 
   async signUp(dto: SignUpDto) {
-    const profile = await this.usersService.create(dto as any);
+    const profile = await this.usersService.create({
+      ...dto,
+      roles: 'admin',
+    } as any);
     const bussiness = await this.bussinessService.createTmp(profile);
     await this.objectService.createTmp(bussiness, profile);
     return profile;

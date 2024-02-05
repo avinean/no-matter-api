@@ -102,4 +102,8 @@ export class UserProfileEntity {
   )
   @JoinTable({ name: 'profile_to_objects' })
   objects: BussinessObjectEntity;
+
+  @ManyToMany(() => BussinessObjectEntity)
+  @JoinTable({ name: 'profile_to_employer' })
+  employers: BussinessObjectEntity[];
 }

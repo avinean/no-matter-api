@@ -3,6 +3,7 @@ import {
   Entity,
   JoinColumn,
   JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -68,4 +69,8 @@ export class BussinessObjectEntity {
   @ManyToOne(() => BussinessEntity, (bussiness) => bussiness.objects)
   @JoinTable({ name: 'bussiness_to_objects' })
   bussiness: BussinessEntity;
+
+  @ManyToMany(() => UserProfileEntity)
+  @JoinTable({ name: 'profile_to_employer' })
+  employees: UserProfileEntity[];
 }

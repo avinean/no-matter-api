@@ -7,11 +7,11 @@ export class BussinessObjectController {
   constructor(private readonly objectService: BussinessObjectService) {}
 
   @Get(':profileId/:bussinessId')
-  async getAll(
+  async findAll(
     @Param('profileId') profileId: number,
     @Param('bussinessId') bussinessId: number,
   ) {
-    return await this.objectService.getAll(profileId, bussinessId);
+    return await this.objectService.findAll(profileId, bussinessId);
   }
 
   @Post(':profileId/:bussinessId')

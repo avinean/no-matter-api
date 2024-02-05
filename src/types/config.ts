@@ -1,4 +1,5 @@
 export interface ProfileConfig {
+  allowSeeCatalog?: boolean;
   allowSeeProducts?: boolean;
   allowSeeServices?: boolean;
   allowSeeBussiness?: boolean;

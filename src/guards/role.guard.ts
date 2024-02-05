@@ -7,20 +7,23 @@ export class RoleGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const allowedRoles = this.reflector.getAllAndOverride<Role[]>('ROLE', [
+    const isPublic = this.reflector.getAllAndOverride<boolean>('IS_PUBLIC', [
       context.getHandler(),
       context.getClass(),
     ]);
+    if (isPublic) return true;
 
-    if (!allowedRoles) return true;
+    const allowedRoles = this.reflector.getAllAndOverride<(Role | '*')[]>(
+      'ROLE',
+      [context.getHandler(), context.getClass()],
+    ) || [Role.admin, Role.owner];
+
+    if (allowedRoles.includes('*')) return true;
 
     const {
       user: { sud },
     } = context.switchToHttp().getRequest();
 
-    return sud.some(
-      (role) =>
-        [Role.admin, Role.owner].includes(role) || allowedRoles.includes(role),
-    );
+    return sud.some((role) => allowedRoles.includes(role));
   }
 }

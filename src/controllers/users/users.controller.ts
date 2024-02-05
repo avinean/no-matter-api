@@ -15,7 +15,7 @@ import {
   UpdateUserProfileDto,
 } from './users.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/decorators/public.decorator';
+import { Roles } from 'src/decorators/role.decorator';
 
 @ApiTags('Users')
 @Controller('users')
@@ -27,25 +27,24 @@ export class UsersController {
     return this.userService.updatePassword(req.user.sub, body);
   }
 
-  @Get()
-  findAll() {
-    return this.userService.findAllProfiles();
-  }
-
+  @Roles(['*'])
   @Get('me')
   findMe(@Req() req) {
+    console.log('req.user.sub', req.user.sub);
     return this.userService.findMe(req.user.sub);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.userService.findOneProfile({ id });
+  @Get(':bussinessObjectId')
+  findAll(@Param('bussinessObjectId') bussinessObjectId: number) {
+    return this.userService.findAllProfiles(bussinessObjectId);
   }
 
-  @Public()
-  @Post()
-  create(@Body() dto: CreateUserProfileDto) {
-    return this.userService.create(dto);
+  @Post(':bussinessObjectId')
+  create(
+    @Body() dto: CreateUserProfileDto,
+    @Param('bussinessObjectId') bussinessObjectId: number,
+  ) {
+    return this.userService.create(dto, bussinessObjectId);
   }
 
   @Put(':id')

@@ -23,6 +23,7 @@ import { BussinessEntity, BussinessObjectEntity } from './entities/Bussiness';
 import { BussinessModule } from './controllers/bussiness/bussiness.module';
 import { BussinessObjectsModule } from './controllers/bussiness-object/bussiness-object.module';
 import { UtilsModule } from './controllers/utils/utils.module';
+import { PropertyGuard } from './guards/property.guard';
 
 @Module({
   imports: [
@@ -33,8 +34,8 @@ import { UtilsModule } from './controllers/utils/utils.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      logging: true,
-      logger: 'simple-console',
+      // logging: true,
+      // logger: 'simple-console',
       entities: [
         UserEntity,
         UserProfileEntity,
@@ -74,6 +75,10 @@ import { UtilsModule } from './controllers/utils/utils.module';
     {
       provide: 'APP_GUARD',
       useClass: RoleGuard,
+    },
+    {
+      provide: 'APP_GUARD',
+      useClass: PropertyGuard,
     },
     AppService,
   ],

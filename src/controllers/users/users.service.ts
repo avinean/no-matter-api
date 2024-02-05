@@ -3,15 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity, UserProfileEntity } from 'src/entities/User';
 import {
   CreateUserProfileDto,
-  FindUserDto,
-  FindUserProfileDto,
   ResetPasswordDto,
   UpdateUserProfileDto,
 } from './users.dto';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { DBErrors } from 'src/types/db-errors';
 import { ProfileConfig } from 'src/types/config';
 import { Role } from 'src/types/enums';
+import { BussinessObjectEntity } from 'src/entities/Bussiness';
 
 @Injectable()
 export class UsersService {
@@ -26,16 +25,19 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  findAllProfiles() {
-    return this.profileRepository.find({ relations: ['services'] });
+  findAllProfiles(bussinessObjectId: number) {
+    return this.profileRepository.find({
+      where: { employers: { id: bussinessObjectId } },
+      relations: ['services'],
+    });
   }
 
-  findOne(where: FindUserDto) {
-    return this.userRepository.findOne({ where });
+  findOne(dto: FindOneOptions<UserEntity>) {
+    return this.userRepository.findOne(dto);
   }
 
-  findOneProfile(where: FindUserProfileDto) {
-    return this.profileRepository.findOne({ where });
+  findOneProfile(dto: FindOneOptions<UserProfileEntity>) {
+    return this.profileRepository.findOne(dto);
   }
 
   async findMe(id: number) {
@@ -49,6 +51,7 @@ export class UsersService {
     });
 
     const config: ProfileConfig = {
+      allowSeeCatalog: profile.roles.includes(Role.admin),
       allowSeeBussiness: profile.roles.includes(Role.admin),
       allowSeeMaterails: profile.roles.includes(Role.admin),
       allowSeeProducts: profile.roles.includes(Role.admin),
@@ -63,7 +66,10 @@ export class UsersService {
     };
   }
 
-  async create({ services, ...params }: CreateUserProfileDto) {
+  async create(
+    { services, ...params }: CreateUserProfileDto,
+    bussinessObjectId?: number,
+  ) {
     try {
       const profile = await this.profileRepository.save(
         this.profileRepository.create(params),
@@ -79,8 +85,12 @@ export class UsersService {
         }),
       );
 
+      const employer = new BussinessObjectEntity();
+      employer.id = bussinessObjectId;
+
       profile.user = user;
       profile.services = services;
+      profile.employers = [employer];
 
       await this.profileRepository.save(profile);
 

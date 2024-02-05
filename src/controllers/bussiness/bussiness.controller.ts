@@ -7,8 +7,8 @@ export class BussinessController {
   constructor(private readonly bussinessService: BussinessService) {}
 
   @Get(':profileId')
-  async getAll(@Param('profileId') profileId: number,) {
-    return await this.bussinessService.getAll(profileId);
+  async findAll(@Param('profileId') profileId: number,) {
+    return await this.bussinessService.findAll(profileId);
   }
 
   @Post(':profileId')

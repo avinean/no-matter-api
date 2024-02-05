@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BussinessEntity } from 'src/entities/Bussiness';
 import { UserProfileEntity } from 'src/entities/User';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { CreateBussinessDto } from './bussiness.dto';
 
 @Injectable()
@@ -12,13 +12,17 @@ export class BussinessService {
     private readonly bussinessRepository: Repository<BussinessEntity>,
   ) {}
 
-  async getAll(profileId: number) {
+  async findAll(profileId: number) {
     return await this.bussinessRepository.find({
       where: { profile: { id: profileId } },
       relations: {
         objects: true,
       },
     });
+  }
+
+  async findOne(dto: FindOneOptions<BussinessEntity>) {
+    return await this.bussinessRepository.findOne(dto);
   }
 
   async create(dto: CreateBussinessDto, profileId: number) {
