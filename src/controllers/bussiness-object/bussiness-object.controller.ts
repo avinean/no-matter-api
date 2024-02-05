@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { BussinessObjectService } from './bussiness-object.service';
 import { CreateBussinessObjectDto } from './bussiness-object.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Bussiness Object')
 @Controller('bussiness-object')
 export class BussinessObjectController {
   constructor(private readonly objectService: BussinessObjectService) {}

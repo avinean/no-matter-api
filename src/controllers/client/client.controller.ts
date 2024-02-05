@@ -7,12 +7,14 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ClientsService } from './clients.service';
-import { CreateClientDto } from './clients.dto';
+import { ClientService } from './client.service';
+import { CreateClientDto } from './client.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('clients')
-export class ClientsController {
-  constructor(private readonly clientService: ClientsService) {}
+@ApiTags('Client')
+@Controller('client')
+export class ClientController {
+  constructor(private readonly clientService: ClientService) {}
 
   @Get('')
   async findAll() {

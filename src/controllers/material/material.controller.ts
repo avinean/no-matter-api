@@ -7,13 +7,15 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { MaterialsService } from './materials.service';
-import { CreateMaterialDto, CreateTransactionDto } from './materials.dto';
+import { MaterialService } from './material.service';
+import { CreateMaterialDto, CreateTransactionDto } from './material.dto';
 import { Public } from 'src/decorators/public.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('materials')
-export class MaterialsController {
-  constructor(private readonly materialsService: MaterialsService) {}
+@ApiTags('Material')
+@Controller('material')
+export class MaterialController {
+  constructor(private readonly materialsService: MaterialService) {}
 
   @Public()
   @Get('transactions')

@@ -6,7 +6,9 @@ import {
   SearchServicesDto,
   SearchTimeslotsDto,
 } from './booking.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Booking')
 @Controller('booking')
 export class BookingController {
   constructor(private readonly bookingService: BookingService) {}

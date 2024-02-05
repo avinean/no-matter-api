@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from 'src/controllers/users/users.service';
+import { UserService } from 'src/controllers/user/user.service';
 import { SignInDto, SignUpDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { BussinessService } from '../bussiness/bussiness.service';
@@ -8,7 +8,7 @@ import { BussinessObjectService } from '../bussiness-object/bussiness-object.ser
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    private usersService: UserService,
     private bussinessService: BussinessService,
     private objectService: BussinessObjectService,
     private jwtService: JwtService,

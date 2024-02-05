@@ -7,13 +7,15 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ServicesService } from './services.service';
-import { CreateServiceDto } from './services.dto';
+import { ServiceService } from './service.service';
+import { CreateServiceDto } from './service.dto';
 import { ServiceType } from 'src/types/enums';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('services')
-export class ServicesController {
-  constructor(private readonly servicesService: ServicesService) {}
+@ApiTags('Serive')
+@Controller('service')
+export class ServiceController {
+  constructor(private readonly servicesService: ServiceService) {}
 
   @Get(':type')
   findAll(@Param('type') type: ServiceType) {

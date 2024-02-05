@@ -8,19 +8,19 @@ import {
   Put,
   Req,
 } from '@nestjs/common';
-import { UsersService } from 'src/controllers/users/users.service';
+import { UserService } from 'src/controllers/user/user.service';
 import {
   CreateUserProfileDto,
   ResetPasswordDto,
   UpdateUserProfileDto,
-} from './users.dto';
+} from './user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/role.decorator';
 
-@ApiTags('Users')
-@Controller('users')
-export class UsersController {
-  constructor(private userService: UsersService) {}
+@ApiTags('User')
+@Controller('user')
+export class UserController {
+  constructor(private userService: UserService) {}
 
   @Put('password')
   updatePassword(@Req() req, @Body() body: ResetPasswordDto) {

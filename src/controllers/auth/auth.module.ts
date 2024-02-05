@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UsersModule } from 'src/controllers/users/users.module';
+import { UserModule } from 'src/controllers/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { BussinessModule } from '../bussiness/bussiness.module';
 import { BussinessObjectsModule } from '../bussiness-object/bussiness-object.module';
 
 @Module({
   imports: [
-    UsersModule,
+    UserModule,
     BussinessModule,
     BussinessObjectsModule,
     JwtModule.register({

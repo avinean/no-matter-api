@@ -4,10 +4,10 @@ import { ServiceEntity } from 'src/entities/Services';
 import { DBErrors } from 'src/types/db-errors';
 import { ServiceType } from 'src/types/enums';
 import { Repository } from 'typeorm';
-import { CreateServiceDto } from './services.dto';
+import { CreateServiceDto } from './service.dto';
 
 @Injectable()
-export class ServicesService {
+export class ServiceService {
   constructor(
     @InjectRepository(ServiceEntity)
     private serviceRepository: Repository<ServiceEntity>,

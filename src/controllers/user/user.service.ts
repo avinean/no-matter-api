@@ -5,15 +5,14 @@ import {
   CreateUserProfileDto,
   ResetPasswordDto,
   UpdateUserProfileDto,
-} from './users.dto';
+} from './user.dto';
 import { FindOneOptions, Repository } from 'typeorm';
 import { DBErrors } from 'src/types/db-errors';
 import { ProfileConfig } from 'src/types/config';
-import { Role } from 'src/types/enums';
 import { BussinessObjectEntity } from 'src/entities/Bussiness';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
@@ -38,32 +37,6 @@ export class UsersService {
 
   findOneProfile(dto: FindOneOptions<UserProfileEntity>) {
     return this.profileRepository.findOne(dto);
-  }
-
-  async findMe(id: number) {
-    const profile = await this.profileRepository.findOne({
-      where: { user: { id } },
-      relations: {
-        bussinesses: {
-          objects: true,
-        },
-      },
-    });
-
-    const config: ProfileConfig = {
-      allowSeeCatalog: profile.roles.includes(Role.admin),
-      allowSeeBussiness: profile.roles.includes(Role.admin),
-      allowSeeMaterails: profile.roles.includes(Role.admin),
-      allowSeeProducts: profile.roles.includes(Role.admin),
-      allowSeeProfile: profile.roles.includes(Role.admin),
-      allowSeeServices: profile.roles.includes(Role.admin),
-      allowSeeUsers: profile.roles.includes(Role.admin),
-    };
-
-    return {
-      profile,
-      config,
-    };
   }
 
   async create(
@@ -136,5 +109,32 @@ export class UsersService {
 
     user.password = body.newPassword;
     return this.userRepository.save(user);
+  }
+
+  async findMe(id: number) {
+    const profile = await this.profileRepository.findOne({
+      where: { user: { id } },
+      relations: {
+        bussinesses: {
+          objects: true,
+        },
+      },
+    });
+
+    const hasBussiness = profile.bussinesses.length > 0;
+
+    const config: ProfileConfig = {
+      allowSeeBussinesses: hasBussiness,
+      allowSeeObjects: hasBussiness,
+      allowSeeBussinessSelector: hasBussiness,
+      allowSeeObjectSelector: hasBussiness,
+      allowSeeEmployees: hasBussiness,
+      allowAddEmployee: hasBussiness,
+    };
+
+    return {
+      profile,
+      config,
+    };
   }
 }

@@ -5,11 +5,11 @@ import {
   MaterialTransactionEntity,
 } from 'src/entities/Material';
 import { Repository } from 'typeorm';
-import { CreateMaterialDto, CreateTransactionDto } from './materials.dto';
+import { CreateMaterialDto, CreateTransactionDto } from './material.dto';
 import { MaterialTransactionType } from 'src/types/enums';
 
 @Injectable()
-export class MaterialsService {
+export class MaterialService {
   constructor(
     @InjectRepository(MaterialEntity)
     private readonly materialRepository: Repository<MaterialEntity>,

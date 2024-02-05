@@ -2,11 +2,11 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ContactEntity, ClientEntity } from 'src/entities/Client';
 import { Repository } from 'typeorm';
-import { CreateClientDto } from './clients.dto';
+import { CreateClientDto } from './client.dto';
 import { DBErrors } from 'src/types/db-errors';
 
 @Injectable()
-export class ClientsService {
+export class ClientService {
   constructor(
     @InjectRepository(ClientEntity)
     private profileRepository: Repository<ClientEntity>,

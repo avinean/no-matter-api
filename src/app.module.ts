@@ -3,26 +3,26 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity, UserProfileEntity } from './entities/User';
-import { UsersModule } from './controllers/users/users.module';
+import { UserModule } from './controllers/user/user.module';
 import { AuthModule } from './controllers/auth/auth.module';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
-import { MaterialsModule } from './controllers/materials/materials.module';
+import { MaterialModule } from './controllers/material/material.module';
 import { MaterialEntity, MaterialTransactionEntity } from './entities/Material';
 import { ContactEntity, ClientEntity } from './entities/Client';
-import { ClientsModule } from './controllers/clients/clients.module';
+import { ClientModule } from './controllers/client/client.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { SuggestionsModule } from './controllers/suggestions/suggestions.module';
 import { ServiceEntity } from './entities/Services';
-import { ServicesModule } from './controllers/services/services.module';
+import { ServicesModule } from './controllers/service/service.module';
 import { BookingModule } from './controllers/booking/booking.module';
 import { BookingEntity } from './entities/Booking';
 import { OrderEntity } from './entities/Order';
 import { BussinessEntity, BussinessObjectEntity } from './entities/Bussiness';
 import { BussinessModule } from './controllers/bussiness/bussiness.module';
 import { BussinessObjectsModule } from './controllers/bussiness-object/bussiness-object.module';
-import { UtilsModule } from './controllers/utils/utils.module';
+import { UtilModule } from './controllers/util/util.module';
 import { PropertyGuard } from './guards/property.guard';
 
 @Module({
@@ -55,16 +55,16 @@ import { PropertyGuard } from './guards/property.guard';
       rootPath: join(__dirname, '..', 'uploads'),
       exclude: ['/api/(.*)'],
     }),
-    UsersModule,
+    UserModule,
     AuthModule,
-    MaterialsModule,
-    ClientsModule,
+    MaterialModule,
+    ClientModule,
     SuggestionsModule,
     ServicesModule,
     BookingModule,
     BussinessModule,
     BussinessObjectsModule,
-    UtilsModule,
+    UtilModule,
   ],
   controllers: [AppController],
   providers: [

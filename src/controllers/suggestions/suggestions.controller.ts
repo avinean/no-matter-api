@@ -1,4 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import {
   ContactType,
   MaterialTransactionType,
@@ -7,6 +8,7 @@ import {
   ProfileRelationshipType,
 } from 'src/types/enums';
 
+@ApiTags('Suggestions')
 @Controller('suggestions')
 export class SuggestionsController {
   @Get('contact-types')

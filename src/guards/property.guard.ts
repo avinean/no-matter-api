@@ -7,7 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { BussinessService } from 'src/controllers/bussiness/bussiness.service';
-import { UsersService } from 'src/controllers/users/users.service';
+import { UserService } from 'src/controllers/user/user.service';
 
 @Injectable()
 export class PropertyGuard implements CanActivate {
@@ -15,7 +15,7 @@ export class PropertyGuard implements CanActivate {
     private jwtService: JwtService,
     private reflector: Reflector,
     private bussinessService: BussinessService,
-    private userService: UsersService,
+    private userService: UserService,
   ) {}
 
   async canActivate(context: ExecutionContext) {
@@ -29,7 +29,7 @@ export class PropertyGuard implements CanActivate {
       user: { sub },
       params: { bussinessId, bussinessObjectId },
     } = context.switchToHttp().getRequest();
-
+    console.log('sub', sub, bussinessId, bussinessObjectId);
     const checks = [];
     if (bussinessId) checks.push(this.isOwnsBussiness(sub, bussinessId));
 

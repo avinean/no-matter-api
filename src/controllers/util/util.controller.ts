@@ -1,11 +1,13 @@
 import { Controller, Put } from '@nestjs/common';
 import { Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 
-@Controller('utils')
-export class UtilsController {
+@ApiTags('Util')
+@Controller('util')
+export class UtilController {
   @Post('photo')
   @UseInterceptors(
     FileInterceptor('photo', {
