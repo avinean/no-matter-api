@@ -10,9 +10,10 @@ import {
 import { ClientService } from './client.service';
 import { CreateClientDto } from './client.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Resource } from 'src/types/permissions';
 
 @ApiTags('Client')
-@Controller('client')
+@Controller(Resource.client)
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 

@@ -16,9 +16,10 @@ import {
 } from './user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/role.decorator';
+import { Resource } from 'src/types/permissions';
 
 @ApiTags('User')
-@Controller('user')
+@Controller(Resource.user)
 export class UserController {
   constructor(private userService: UserService) {}
 

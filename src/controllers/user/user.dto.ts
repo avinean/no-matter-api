@@ -10,6 +10,8 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { Sex } from 'src/types/enums';
 import { ServiceEntity } from 'src/entities/service.entity';
+import { Role } from 'src/types/roles';
+import { RoleEntity } from 'src/entities/role.entity';
 
 export class CreateUserDto {
   @ApiProperty({ example: 'password' })
@@ -84,9 +86,9 @@ export class CreateUserProfileDto {
   @IsArray()
   services: ServiceEntity[];
 
-  @ApiProperty({ example: 'admin,guest' })
+  @ApiProperty({ example: ['admin', 'guest'] })
   @IsString()
-  roles: string;
+  roles: RoleEntity[];
 }
 
 export class UpdateUserProfileDto extends CreateUserProfileDto {}

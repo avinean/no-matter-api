@@ -11,9 +11,10 @@ import { MaterialService } from './material.service';
 import { CreateMaterialDto, CreateTransactionDto } from './material.dto';
 import { Public } from 'src/decorators/public.decorator';
 import { ApiTags } from '@nestjs/swagger';
+import { Resource } from 'src/types/permissions';
 
 @ApiTags('Material')
-@Controller('material')
+@Controller(Resource.material)
 export class MaterialController {
   constructor(private readonly materialsService: MaterialService) {}
 

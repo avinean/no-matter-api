@@ -11,9 +11,10 @@ import { ServiceService } from './service.service';
 import { CreateServiceDto } from './service.dto';
 import { ServiceType } from 'src/types/enums';
 import { ApiTags } from '@nestjs/swagger';
+import { Resource } from 'src/types/permissions';
 
 @ApiTags('Serive')
-@Controller('service')
+@Controller(Resource.service)
 export class ServiceController {
   constructor(private readonly servicesService: ServiceService) {}
 

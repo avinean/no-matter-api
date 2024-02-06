@@ -32,6 +32,8 @@ import { PropertyGuard } from './guards/property.guard';
 import { InitializerModule } from './initializer/initializer.module';
 import { RoleEntity } from './entities/role.entity';
 import { PermissionEntity } from './entities/permission.entity';
+import { RoleModule } from './controllers/role/role.module';
+import { PermissionModule } from './controllers/permission/permission.module';
 
 @Module({
   imports: [
@@ -76,6 +78,8 @@ import { PermissionEntity } from './entities/permission.entity';
     BussinessObjectsModule,
     UtilModule,
     InitializerModule,
+    RoleModule,
+    PermissionModule,
   ],
   controllers: [AppController],
   providers: [

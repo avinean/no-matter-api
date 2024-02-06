@@ -125,6 +125,9 @@ export class UserService {
         bussinesses: {
           objects: true,
         },
+        roles: {
+          permissions: true,
+        },
       },
     });
 

@@ -7,9 +7,10 @@ import {
   SearchTimeslotsDto,
 } from './booking.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Resource } from 'src/types/permissions';
 
 @ApiTags('Booking')
-@Controller('booking')
+@Controller(Resource.booking)
 export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 

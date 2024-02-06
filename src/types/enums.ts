@@ -8,14 +8,6 @@ export enum MaterialTransactionType {
   substruct = 'substruct',
 }
 
-export enum Role {
-  admin = 'admin',
-  owner = 'owner',
-  accountant = 'accountant',
-  employee = 'employee',
-  guest = 'guest',
-}
-
 export enum Sex {
   male = 'male',
   female = 'female',

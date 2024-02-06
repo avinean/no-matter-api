@@ -14,6 +14,7 @@ import { BookingEntity } from './booking.entity';
 import { BussinessEntity } from './bussiness.entity';
 import { BussinessObjectEntity } from './bussiness-object.entity';
 import { UserEntity } from './user.entity';
+import { RoleEntity } from './role.entity';
 
 @Entity({ name: 'user_profiles' })
 export class ProfileEntity {
@@ -54,15 +55,16 @@ export class ProfileEntity {
   @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
-  @Column({ default: 'guest' })
-  roles: string;
-
   @Column({ nullable: true })
   userId: number;
 
   @ManyToOne(() => UserEntity)
   @JoinColumn()
   user: UserEntity;
+
+  @ManyToMany(() => RoleEntity)
+  @JoinTable({ name: 'profile_roles' })
+  roles: RoleEntity[];
 
   @ManyToMany(() => ServiceEntity)
   @JoinTable({ name: 'profile_service' })
@@ -81,7 +83,7 @@ export class ProfileEntity {
     (bussinessObject) => bussinessObject.profile,
   )
   @JoinTable({ name: 'profile_to_objects' })
-  objects: BussinessObjectEntity;
+  objects: BussinessObjectEntity[];
 
   @ManyToMany(() => BussinessObjectEntity)
   @JoinTable({ name: 'profile_to_employer' })

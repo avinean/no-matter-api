@@ -3,10 +3,11 @@ import { ApiTags } from '@nestjs/swagger';
 import {
   ContactType,
   MaterialTransactionType,
-  Role,
   Sex,
   ProfileRelationshipType,
 } from 'src/types/enums';
+import { Action, Resource } from 'src/types/permissions';
+import { Role } from 'src/types/roles';
 
 @ApiTags('Suggestion')
 @Controller('suggestion')
@@ -21,11 +22,6 @@ export class SuggestionsController {
     return this.getSuggestionsFromEnum(MaterialTransactionType);
   }
 
-  @Get('roles')
-  getRolesSuggestions() {
-    return this.getSuggestionsFromEnum(Role);
-  }
-
   @Get('sexes')
   getSexesSuggestions() {
     return this.getSuggestionsFromEnum(Sex);
@@ -34,6 +30,21 @@ export class SuggestionsController {
   @Get('profile-connection-types')
   getProfileRelationshipType() {
     return this.getSuggestionsFromEnum(ProfileRelationshipType);
+  }
+
+  @Get('roles')
+  getRolesSuggestions() {
+    return this.getSuggestionsFromEnum(Role);
+  }
+
+  @Get('resources')
+  getResourceSuggestions() {
+    return this.getSuggestionsFromEnum(Resource);
+  }
+
+  @Get('actions')
+  getActionSuggestions() {
+    return this.getSuggestionsFromEnum(Action);
   }
 
   private getSuggestionsFromEnum(enumObject: any): any[] {
