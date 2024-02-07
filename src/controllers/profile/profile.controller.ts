@@ -39,7 +39,10 @@ export class ProfileController {
     @Body() dto: CreateProfileDto,
     @Param('bussinessObjectId') bussinessObjectId: number,
   ) {
-    return this.profileService.create(dto, bussinessObjectId);
+    return this.profileService.create({
+      ...dto,
+      employers: [{ id: bussinessObjectId }],
+    });
   }
 
   @Put(':bussinessObjectId/:id')
@@ -49,6 +52,9 @@ export class ProfileController {
     @Body()
     userDTO: UpdateProfileDto,
   ) {
-    return this.profileService.update(bussinessObjectId, id, userDTO);
+    return this.profileService.update(
+      { id, employers: [{ id: bussinessObjectId }] },
+      userDTO,
+    );
   }
 }

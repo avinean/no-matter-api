@@ -2,9 +2,13 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProfileEntity } from 'src/entities/profile.entity';
 import { UserEntity } from 'src/entities/user.entity';
-import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
-import { CreateProfileDto, UpdateProfileDto } from './profile.dto';
-import { BussinessObjectEntity } from 'src/entities/bussiness-object.entity';
+import {
+  DeepPartial,
+  FindManyOptions,
+  FindOneOptions,
+  Repository,
+} from 'typeorm';
+import { UpdateProfileDto } from './profile.dto';
 import { DBErrors } from 'src/types/db-errors';
 
 @Injectable()
@@ -24,10 +28,7 @@ export class ProfileService {
     return this.profileRepository.findOne(dto);
   }
 
-  async create(
-    { services, ...params }: CreateProfileDto,
-    bussinessObjectId?: number,
-  ) {
+  async create(params: DeepPartial<ProfileEntity>) {
     try {
       const profile = await this.profileRepository.save(
         this.profileRepository.create(params),
@@ -43,16 +44,12 @@ export class ProfileService {
         }),
       );
 
-      const employer = new BussinessObjectEntity();
-      employer.id = bussinessObjectId;
+      await this.profileRepository.update(profile.id, { user });
 
-      profile.user = user;
-      profile.services = services;
-      profile.employers = [employer];
-
-      await this.profileRepository.save(profile);
-
-      return profile;
+      return {
+        ...profile,
+        user,
+      };
     } catch (e) {
       if (e.errno === DBErrors.ER_DUP_ENTRY) {
         throw new ConflictException({
@@ -66,13 +63,12 @@ export class ProfileService {
   }
 
   async update(
-    bussinessObjectId: number,
-    id: number,
+    where: FindOneOptions<ProfileEntity>['where'],
     params: UpdateProfileDto,
   ) {
     try {
       const profile = await this.profileRepository.findOne({
-        where: { id, employers: [{ id: bussinessObjectId }] },
+        where,
       });
       Object.assign(profile, params);
       await this.profileRepository.save(profile);
