@@ -21,7 +21,6 @@ export class AuthService {
   ) {}
 
   async signIn(dto: SignInDto): Promise<{ access_token: string }> {
-    console.log(dto)
     const profile = await this.profileService.findOneProfile({
       where: { user: dto },
       relations: {
@@ -29,7 +28,6 @@ export class AuthService {
         roles: true,
       },
     });
-    console.log(profile);
 
     if (!profile) throw new UnauthorizedException();
 

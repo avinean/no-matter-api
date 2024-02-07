@@ -23,7 +23,6 @@ export class ProfileController {
   @SkipPermission()
   @Get('me')
   findMe(@Req() req) {
-    console.log('req.user.sub', req.user.sub);
     return this.profileService.findMe(req.user.sub);
   }
 

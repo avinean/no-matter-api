@@ -104,4 +104,24 @@ export class ProfileService {
       },
     });
   }
+
+  findPermissions(id: number) {
+    return this.profileRepository
+      .findOne({
+        select: ['roles'],
+        where: { user: { id } },
+        relations: {
+          roles: {
+            permissions: true,
+          },
+        },
+      })
+      .then(({ roles }) =>
+        roles.flatMap((role) =>
+          role.permissions.map(
+            (permission) => `${permission.resource}:${permission.action}`,
+          ),
+        ),
+      );
+  }
 }
