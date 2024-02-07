@@ -13,4 +13,5 @@ export enum Resource {
   bussinessObject = 'bussiness-object',
   bussiness = 'bussiness',
   booking = 'booking',
+  profile = 'profile',
 }

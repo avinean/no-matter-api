@@ -1,21 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  Req,
-} from '@nestjs/common';
+import { Body, Controller, Put, Req } from '@nestjs/common';
 import { UserService } from 'src/controllers/user/user.service';
-import {
-  CreateUserProfileDto,
-  ResetPasswordDto,
-  UpdateUserProfileDto,
-} from './user.dto';
+import { ResetPasswordDto } from './user.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { Roles } from 'src/decorators/role.decorator';
 import { Resource } from 'src/types/permissions';
 
 @ApiTags('User')
@@ -26,40 +12,5 @@ export class UserController {
   @Put('password')
   updatePassword(@Req() req, @Body() body: ResetPasswordDto) {
     return this.userService.updatePassword(req.user.sub, body);
-  }
-
-  @Roles(['*'])
-  @Get('me')
-  findMe(@Req() req) {
-    console.log('req.user.sub', req.user.sub);
-    return this.userService.findMe(req.user.sub);
-  }
-
-  @Get(':bussinessObjectId')
-  findAll(@Param('bussinessObjectId') bussinessObjectId: number) {
-    return this.userService.findAllProfiles(bussinessObjectId);
-  }
-
-  @Post(':bussinessObjectId')
-  create(
-    @Body() dto: CreateUserProfileDto,
-    @Param('bussinessObjectId') bussinessObjectId: number,
-  ) {
-    return this.userService.create(dto, bussinessObjectId);
-  }
-
-  @Put(':bussinessObjectId/:id')
-  update(
-    @Param('id') id: number,
-    @Param('bussinessObjectId') bussinessObjectId: number,
-    @Body()
-    userDTO: UpdateUserProfileDto,
-  ) {
-    return this.userService.update(bussinessObjectId, id, userDTO);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.userService.remove(id);
   }
 }

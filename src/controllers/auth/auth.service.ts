@@ -1,5 +1,4 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserService } from 'src/controllers/user/user.service';
 import { SignInDto, SignUpDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { BussinessService } from '../bussiness/bussiness.service';
@@ -7,12 +6,13 @@ import { BussinessObjectService } from '../bussiness-object/bussiness-object.ser
 import { Role } from 'src/types/roles';
 import { Repository } from 'typeorm';
 import { RoleEntity } from 'src/entities/role.entity';
+import { ProfileService } from '../profile/profile.service';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UserService,
+    private profileService: ProfileService,
     private bussinessService: BussinessService,
     private objectService: BussinessObjectService,
     private jwtService: JwtService,
@@ -20,21 +20,19 @@ export class AuthService {
     private readonly roleRepository: Repository<RoleEntity>,
   ) {}
 
-  async signIn(where: SignInDto): Promise<{ access_token: string }> {
-    const user = await this.usersService.findOne({ where });
-    if (!user) throw new UnauthorizedException();
-    const profile = await this.usersService.findOneProfile({
-      where: { user },
-      relations: ['roles'],
+  async signIn(dto: SignInDto): Promise<{ access_token: string }> {
+    const profile = await this.profileService.findOneProfile({
+      where: { user: dto },
+      relations: ['roles', 'user'],
     });
     console.log(profile);
 
-    if (!user) throw new UnauthorizedException();
+    if (!profile) throw new UnauthorizedException();
 
     const payload = {
-      sub: user.id,
+      sub: profile.user.id,
       sud: profile.roles,
-      phone: user.phone,
+      phone: profile.user.phone,
     };
 
     return {
@@ -46,7 +44,7 @@ export class AuthService {
     const roles = await this.roleRepository.find({
       where: { name: Role.admin },
     });
-    const profile = await this.usersService.create({
+    const profile = await this.profileService.create({
       ...dto,
       roles: roles,
     } as any);

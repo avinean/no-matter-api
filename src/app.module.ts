@@ -34,6 +34,7 @@ import { RoleEntity } from './entities/role.entity';
 import { PermissionEntity } from './entities/permission.entity';
 import { RoleModule } from './controllers/role/role.module';
 import { PermissionModule } from './controllers/permission/permission.module';
+import { ProfileModule } from './controllers/profile/profile.module';
 
 @Module({
   imports: [
@@ -80,6 +81,7 @@ import { PermissionModule } from './controllers/permission/permission.module';
     InitializerModule,
     RoleModule,
     PermissionModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [
