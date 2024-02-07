@@ -28,7 +28,7 @@ export class UserService {
   findAllProfiles(bussinessObjectId: number) {
     return this.profileRepository.find({
       where: { employers: { id: bussinessObjectId } },
-      relations: ['services'],
+      relations: ['services', 'roles'],
     });
   }
 
