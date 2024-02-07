@@ -1,10 +1,18 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  SetMetadata,
+} from '@nestjs/common';
 import { BussinessService } from './bussiness.service';
 import { CreateBussinessDto } from './bussiness.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
 
 @ApiTags('Bussiness')
+@SetMetadata('resource', Resource.bussiness)
 @Controller(Resource.bussiness)
 export class BussinessController {
   constructor(private readonly bussinessService: BussinessService) {}

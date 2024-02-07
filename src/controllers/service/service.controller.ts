@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  SetMetadata,
 } from '@nestjs/common';
 import { ServiceService } from './service.service';
 import { CreateServiceDto } from './service.dto';
@@ -14,6 +15,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
 
 @ApiTags('Serive')
+@SetMetadata('resource', Resource.service)
 @Controller(Resource.service)
 export class ServiceController {
   constructor(private readonly servicesService: ServiceService) {}

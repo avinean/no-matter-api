@@ -19,6 +19,7 @@ export class PropertyGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext) {
+    console.log('PropertyGuard')
     const isPublic = this.reflector.getAllAndOverride<boolean>('IS_PUBLIC', [
       context.getHandler(),
       context.getClass(),

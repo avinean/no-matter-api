@@ -1,8 +1,8 @@
 export enum Action {
-  read = 'read',
-  add = 'add',
-  edit = 'edit',
-  delete = 'delete',
+  GET = 'read',
+  POST = 'add',
+  PUT = 'edit',
+  DELETE = 'delete',
 }
 
 export enum Resource {

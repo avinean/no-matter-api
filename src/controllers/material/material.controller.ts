@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  SetMetadata,
 } from '@nestjs/common';
 import { MaterialService } from './material.service';
 import { CreateMaterialDto, CreateTransactionDto } from './material.dto';
@@ -14,6 +15,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
 
 @ApiTags('Material')
+@SetMetadata('resource', Resource.material)
 @Controller(Resource.material)
 export class MaterialController {
   constructor(private readonly materialsService: MaterialService) {}

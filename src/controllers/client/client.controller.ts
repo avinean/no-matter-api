@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  SetMetadata,
 } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { CreateClientDto } from './client.dto';
@@ -13,6 +14,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
 
 @ApiTags('Client')
+@SetMetadata('resource', Resource.client)
 @Controller(Resource.client)
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}

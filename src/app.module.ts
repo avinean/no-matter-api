@@ -7,7 +7,7 @@ import { ProfileEntity } from './entities/profile.entity';
 import { UserModule } from './controllers/user/user.module';
 import { AuthModule } from './controllers/auth/auth.module';
 import { AuthGuard } from './guards/auth.guard';
-import { RoleGuard } from './guards/role.guard';
+import { PermissionGuard } from './guards/permission.guard';
 import { MaterialModule } from './controllers/material/material.module';
 import {
   MaterialEntity,
@@ -91,7 +91,7 @@ import { ProfileModule } from './controllers/profile/profile.module';
     },
     {
       provide: 'APP_GUARD',
-      useClass: RoleGuard,
+      useClass: PermissionGuard,
     },
     {
       provide: 'APP_GUARD',

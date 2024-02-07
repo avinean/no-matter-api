@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, SetMetadata } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import {
   CreateBookingDto,
@@ -10,6 +10,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
 
 @ApiTags('Booking')
+@SetMetadata('resource', Resource.booking)
 @Controller(Resource.booking)
 export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
