@@ -1,7 +1,17 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  SetMetadata,
+} from '@nestjs/common';
 import { RoleService } from './role.service';
 import { CreateRoleDto, UpdateRoleDto } from './role.dto';
+import { Resource } from 'src/types/permissions';
 
+@SetMetadata('resource', Resource.role)
 @Controller('role')
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}

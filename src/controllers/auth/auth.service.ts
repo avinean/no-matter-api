@@ -21,7 +21,7 @@ export class AuthService {
   ) {}
 
   async signIn(dto: SignInDto): Promise<{ access_token: string }> {
-    const profile = await this.profileService.findOneProfile({
+    const profile = await this.profileService.findOne({
       where: { user: dto },
       relations: {
         user: true,

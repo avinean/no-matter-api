@@ -2,7 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProfileEntity } from 'src/entities/profile.entity';
 import { UserEntity } from 'src/entities/user.entity';
-import { FindOneOptions, Repository } from 'typeorm';
+import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 import { CreateProfileDto, UpdateProfileDto } from './profile.dto';
 import { BussinessObjectEntity } from 'src/entities/bussiness-object.entity';
 import { DBErrors } from 'src/types/db-errors';
@@ -16,14 +16,11 @@ export class ProfileService {
     private readonly profileRepository: Repository<ProfileEntity>,
   ) {}
 
-  findAllProfiles(bussinessObjectId: number) {
-    return this.profileRepository.find({
-      where: { employers: { id: bussinessObjectId } },
-      relations: ['services', 'roles'],
-    });
+  findAll(dto: FindManyOptions<ProfileEntity>) {
+    return this.profileRepository.find(dto);
   }
 
-  findOneProfile(dto: FindOneOptions<ProfileEntity>) {
+  findOne(dto: FindOneOptions<ProfileEntity>) {
     return this.profileRepository.findOne(dto);
   }
 

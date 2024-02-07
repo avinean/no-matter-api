@@ -28,7 +28,10 @@ export class ProfileController {
 
   @Get(':bussinessObjectId')
   findAll(@Param('bussinessObjectId') bussinessObjectId: number) {
-    return this.profileService.findAllProfiles(bussinessObjectId);
+    return this.profileService.findAll({
+      where: { employers: { id: bussinessObjectId } },
+      relations: ['services', 'roles'],
+    });
   }
 
   @Post(':bussinessObjectId')

@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { SkipPermission } from 'src/decorators/permission.decorator';
 import {
   ContactType,
   MaterialTransactionType,
@@ -10,6 +11,7 @@ import { Action, Resource } from 'src/types/permissions';
 import { Role } from 'src/types/roles';
 
 @ApiTags('Suggestion')
+@SkipPermission()
 @Controller('suggestion')
 export class SuggestionsController {
   @Get('contact-types')
