@@ -3,11 +3,14 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BookingEntity } from './booking.entity';
+import { BussinessObjectEntity } from './bussiness-object.entity';
 
 @Entity({ name: 'clients' })
 export class ClientEntity {
@@ -62,6 +65,10 @@ export class ClientEntity {
   @OneToMany(() => BookingEntity, (booking) => booking.client)
   @JoinColumn({ name: 'client_booking' })
   bookings: BookingEntity[];
+
+  @ManyToMany(() => BussinessObjectEntity)
+  @JoinTable({ name: 'client_bussiness_object' })
+  bussinessObjects: BussinessObjectEntity[];
 }
 
 @Entity({ name: 'contacts' })

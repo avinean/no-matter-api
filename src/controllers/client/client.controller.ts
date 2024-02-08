@@ -19,33 +19,36 @@ import { Resource } from 'src/types/permissions';
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
-  @Get('')
-  async findAll() {
-    return await this.clientService.findAll();
+  @Get(':bussinessObjectId')
+  async findAll(@Param('bussinessObjectId') bussinessObjectId: number) {
+    return await this.clientService.findAll({
+      bussinessObjects: [{ id: bussinessObjectId }],
+    });
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.clientService.findOne(id);
+  @Post(':bussinessObjectId')
+  async create(
+    @Param('bussinessObjectId') bussinessObjectId: number,
+    @Body() dto: CreateClientDto,
+  ) {
+    return this.clientService.create({
+      ...dto,
+      bussinessObjects: [{ id: bussinessObjectId }],
+    });
   }
 
-  @Post('')
-  async create(@Body() dto: CreateClientDto) {
-    return this.clientService.create(dto);
-  }
-
-  @Put(':id')
-  update(@Param('id') id: number, @Body() dto: CreateClientDto) {
-    return this.clientService.update(id, dto);
-  }
-
-  @Delete(':id')
-  remove(@Param() id: number) {
-    return this.clientService.remove(id);
-  }
-
-  @Put(':id/status')
-  setStatus(@Param('id') id: number, @Body('status') status: boolean) {
-    return this.clientService.setStatus(id, status);
+  @Put(':bussinessObjectId/:id')
+  update(
+    @Param('id') id: number,
+    @Param('bussinessObjectId') bussinessObjectId: number,
+    @Body() dto: CreateClientDto,
+  ) {
+    return this.clientService.update(
+      {
+        id,
+        bussinessObjects: [{ id: bussinessObjectId }],
+      },
+      dto,
+    );
   }
 }

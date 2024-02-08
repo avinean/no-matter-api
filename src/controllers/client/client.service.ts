@@ -1,32 +1,25 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ContactEntity, ClientEntity } from 'src/entities/client.entity';
-import { Repository } from 'typeorm';
-import { CreateClientDto } from './client.dto';
+import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 import { DBErrors } from 'src/types/db-errors';
 
 @Injectable()
 export class ClientService {
   constructor(
     @InjectRepository(ClientEntity)
-    private profileRepository: Repository<ClientEntity>,
+    private clientRepository: Repository<ClientEntity>,
     @InjectRepository(ContactEntity)
     private contactRepository: Repository<ContactEntity>,
   ) {}
 
-  async findAll() {
-    return await this.profileRepository.find();
+  findAll(where: FindOptionsWhere<ClientEntity>) {
+    return this.clientRepository.find({ where });
   }
 
-  findOne(id: number) {
-    return this.profileRepository.findOne({ where: { id } });
-  }
-
-  async create(dto: Partial<CreateClientDto>) {
+  create(dto: DeepPartial<ClientEntity>) {
     try {
-      const profile = this.profileRepository.create(dto);
-      await this.profileRepository.save(profile);
-      return profile;
+      return this.clientRepository.save(this.clientRepository.create(dto));
     } catch (e) {
       if (e.errno === DBErrors.ER_DUP_ENTRY) {
         throw new ConflictException({
@@ -39,15 +32,10 @@ export class ClientService {
     }
   }
 
-  update(id: number, dto: Partial<CreateClientDto>) {
-    return this.profileRepository.update({ id }, dto);
-  }
-
-  remove(id: number) {
-    return this.profileRepository.delete({ id });
-  }
-
-  setStatus(id: number, status: boolean) {
-    return this.profileRepository.update({ id }, { status });
+  update(
+    where: FindOptionsWhere<ClientEntity>,
+    dto: DeepPartial<ClientEntity>,
+  ) {
+    return this.clientRepository.update(where, dto);
   }
 }
