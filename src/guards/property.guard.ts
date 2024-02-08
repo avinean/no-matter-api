@@ -31,14 +31,17 @@ export class PropertyGuard implements CanActivate {
       params: { bussinessId, bussinessObjectId },
     } = context.switchToHttp().getRequest();
     const checks = [];
-    if (bussinessId) checks.push(this.isOwnsBussiness(sub, bussinessId));
+    if (bussinessId)
+      checks.push(this.isOwnsOrBelongsToBussiness(sub, bussinessId));
     if (bussinessObjectId)
-      checks.push(this.isOwnsBussinessObject(sub, bussinessObjectId));
+      checks.push(
+        this.isOwnsOrBelongsToBussinessObject(sub, bussinessObjectId),
+      );
     await Promise.all(checks);
     return true;
   }
 
-  async isOwnsBussiness(sub: number, bussinessId: number) {
+  async isOwnsOrBelongsToBussiness(sub: number, bussinessId: number) {
     const bussiness = await this.bussinessService.findOne({
       select: ['id'],
       where: { id: bussinessId, profile: { user: { id: sub } } },
@@ -46,10 +49,16 @@ export class PropertyGuard implements CanActivate {
     if (!bussiness) throw new UnauthorizedException();
   }
 
-  async isOwnsBussinessObject(sub: number, bussinessObjectId: number) {
+  async isOwnsOrBelongsToBussinessObject(
+    sub: number,
+    bussinessObjectId: number,
+  ) {
     const object = await this.bussinessObjectService.findOne({
       select: ['id'],
-      where: { id: +bussinessObjectId, profile: { user: { id: sub } } },
+      where: [
+        { id: bussinessObjectId, profile: { user: { id: sub } } },
+        { id: bussinessObjectId, employees: { user: { id: sub } } },
+      ],
     });
     if (!object) throw new UnauthorizedException();
   }

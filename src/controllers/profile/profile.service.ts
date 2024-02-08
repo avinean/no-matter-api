@@ -94,6 +94,7 @@ export class ProfileService {
         roles: {
           permissions: true,
         },
+        employers: true,
       },
     });
   }
