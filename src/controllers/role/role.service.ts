@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RoleEntity } from 'src/entities/role.entity';
-import { FindOneOptions, Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { CreateRoleDto } from './role.dto';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class RoleService {
     });
   }
 
-  async findOne(where: FindOneOptions<RoleEntity>['where'] = {}) {
+  async findOne(where: FindOptionsWhere<RoleEntity> = {}) {
     return this.roleRepository.find({
       relations: ['permissions'],
       where,

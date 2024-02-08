@@ -2,9 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ServiceEntity } from 'src/entities/service.entity';
 import { DBErrors } from 'src/types/db-errors';
-import { ServiceType } from 'src/types/enums';
-import { Repository } from 'typeorm';
-import { CreateServiceDto } from './service.dto';
+import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class ServiceService {
@@ -13,27 +11,16 @@ export class ServiceService {
     private serviceRepository: Repository<ServiceEntity>,
   ) {}
 
-  async findAll(type: ServiceType) {
+  async findAll(where: FindOptionsWhere<ServiceEntity>) {
     return this.serviceRepository.find({
-      where: {
-        type,
-      },
+      where,
       relations: ['profiles'],
     });
   }
 
-  findOne(id: number) {
-    return this.serviceRepository.findOne({ where: { id } });
-  }
-
-  async create(type: ServiceType, dto: Partial<CreateServiceDto>) {
+  async create(dto: DeepPartial<ServiceEntity>) {
     try {
-      const service = this.serviceRepository.create({
-        ...dto,
-        type,
-      });
-      await this.serviceRepository.save(service);
-      return service;
+      return this.serviceRepository.save(this.serviceRepository.create(dto));
     } catch (e) {
       if (e.errno === DBErrors.ER_DUP_ENTRY) {
         throw new ConflictException({
@@ -46,8 +33,11 @@ export class ServiceService {
     }
   }
 
-  update(id: number, dto: Partial<CreateServiceDto>) {
-    return this.serviceRepository.update({ id }, dto);
+  update(
+    where: FindOptionsWhere<ServiceEntity>,
+    params: DeepPartial<ServiceEntity>,
+  ) {
+    return this.serviceRepository.update(where, params);
   }
 
   remove(id: number) {

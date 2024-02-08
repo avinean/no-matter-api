@@ -6,9 +6,9 @@ import {
   DeepPartial,
   FindManyOptions,
   FindOneOptions,
+  FindOptionsWhere,
   Repository,
 } from 'typeorm';
-import { UpdateProfileDto } from './profile.dto';
 import { DBErrors } from 'src/types/db-errors';
 
 @Injectable()
@@ -63,8 +63,8 @@ export class ProfileService {
   }
 
   async update(
-    where: FindOneOptions<ProfileEntity>['where'],
-    params: UpdateProfileDto,
+    where: FindOptionsWhere<ProfileEntity>,
+    params: DeepPartial<ProfileEntity>,
   ) {
     try {
       const profile = await this.profileRepository.findOne({
