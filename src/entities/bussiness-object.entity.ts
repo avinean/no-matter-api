@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { ProfileEntity } from './profile.entity';
 import { BussinessEntity } from './bussiness.entity';
+import { ClientEntity } from './client.entity';
 
 @Entity({ name: 'bussiness_objects' })
 export class BussinessObjectEntity {
@@ -40,4 +41,8 @@ export class BussinessObjectEntity {
   @ManyToMany(() => ProfileEntity)
   @JoinTable({ name: 'profile_to_employer' })
   employees: ProfileEntity[];
+
+  @ManyToMany(() => ClientEntity)
+  @JoinTable({ name: 'client_bussiness_object' })
+  clients: ClientEntity[];
 }

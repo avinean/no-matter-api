@@ -32,10 +32,14 @@ export class ClientService {
     }
   }
 
-  update(
+  async pdate(
     where: FindOptionsWhere<ClientEntity>,
     dto: DeepPartial<ClientEntity>,
   ) {
-    return this.clientRepository.update(where, dto);
+    const client = await this.clientRepository.findOne({
+      where,
+    });
+    Object.assign(client, dto);
+    return this.clientRepository.save(client);
   }
 }

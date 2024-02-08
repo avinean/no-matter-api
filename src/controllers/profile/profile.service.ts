@@ -71,7 +71,7 @@ export class ProfileService {
         where,
       });
       Object.assign(profile, params);
-      await this.profileRepository.save(profile);
+      return this.profileRepository.save(profile);
     } catch (e) {
       if (e.errno === DBErrors.ER_DUP_ENTRY) {
         throw new ConflictException({
