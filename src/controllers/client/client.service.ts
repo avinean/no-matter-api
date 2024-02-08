@@ -32,7 +32,7 @@ export class ClientService {
     }
   }
 
-  async pdate(
+  async update(
     where: FindOptionsWhere<ClientEntity>,
     dto: DeepPartial<ClientEntity>,
   ) {
