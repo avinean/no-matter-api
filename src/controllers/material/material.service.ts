@@ -1,66 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  MaterialEntity,
-  MaterialTransactionEntity,
-} from 'src/entities/material.entity';
-import { Repository } from 'typeorm';
-import { CreateMaterialDto, CreateTransactionDto } from './material.dto';
-import { MaterialTransactionType } from 'src/types/enums';
+import { MaterialEntity } from 'src/entities/material.entity';
+import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class MaterialService {
   constructor(
     @InjectRepository(MaterialEntity)
     private readonly materialRepository: Repository<MaterialEntity>,
-    @InjectRepository(MaterialTransactionEntity)
-    private readonly materialTransactionRepository: Repository<MaterialTransactionEntity>,
   ) {}
 
-  findAll() {
-    return this.materialRepository.find();
+  findAll(where: FindOptionsWhere<MaterialEntity>) {
+    return this.materialRepository.find({ where });
   }
 
-  findOne(id: number) {
-    return this.materialRepository.findOne({ where: { id } });
+  findOne(where: FindOptionsWhere<MaterialEntity>) {
+    return this.materialRepository.findOne({ where });
   }
 
-  create(dto: CreateMaterialDto) {
+  create(dto: DeepPartial<MaterialEntity>) {
     return this.materialRepository.save(this.materialRepository.create(dto));
   }
 
-  update(id: number, dto: CreateMaterialDto) {
-    return this.materialRepository.update({ id }, dto);
+  /**
+   * The quantity can't be changed directly, it should be done through a transaction
+   */
+  update(
+    where: FindOptionsWhere<MaterialEntity>,
+    { quantity: _, ...dto }: Partial<MaterialEntity>,
+  ) {
+    return this.materialRepository.update(where, dto);
   }
 
-  remove(id: number) {
-    return this.materialRepository.delete({ id });
+  incrementQuantity(id: number, quantity: number) {
+    return this.materialRepository.increment({ id }, 'quantity', quantity);
   }
 
-  async createTransaction(dto: CreateTransactionDto) {
-    const transaction = await this.materialTransactionRepository.save(
-      this.materialTransactionRepository.create(dto),
-    );
-
-    const action = {
-      [MaterialTransactionType.add]: 'increment',
-      [MaterialTransactionType.substruct]: 'decrement',
-    }[Number(dto.type)];
-
-    await this.materialRepository[action](
-      { id: dto.materialId },
-      'quantity',
-      dto.quantity,
-    );
-
-    return transaction;
-  }
-
-  findAllTransactions() {
-    return this.materialTransactionRepository.find();
-  }
-
-  findOneTransaction(id: number) {
-    return this.materialTransactionRepository.findOne({ where: { id } });
+  decrementQuantity(id: number, quantity: number) {
+    return this.materialRepository.decrement({ id }, 'quantity', quantity);
   }
 }

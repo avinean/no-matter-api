@@ -4,8 +4,9 @@ export enum ContactType {
 }
 
 export enum MaterialTransactionType {
-  add = 'add',
-  substruct = 'substruct',
+  increase = 'increase',
+  decrease = 'decrease',
+  revert = 'revert',
 }
 
 export enum Sex {

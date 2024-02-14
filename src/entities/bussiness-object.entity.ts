@@ -4,11 +4,13 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProfileEntity } from './profile.entity';
 import { BussinessEntity } from './bussiness.entity';
 import { ClientEntity } from './client.entity';
+import { MaterialTransactionEntity } from './material-transaction.entity';
 
 @Entity({ name: 'bussiness_objects' })
 export class BussinessObjectEntity {
@@ -45,4 +47,7 @@ export class BussinessObjectEntity {
   @ManyToMany(() => ClientEntity)
   @JoinTable({ name: 'client_bussiness_object' })
   clients: ClientEntity[];
+
+  @OneToMany(() => MaterialTransactionEntity, (transaction) => transaction.id)
+  materialTransactions: MaterialTransactionEntity[];
 }

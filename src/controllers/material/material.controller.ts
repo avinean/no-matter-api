@@ -9,8 +9,7 @@ import {
   SetMetadata,
 } from '@nestjs/common';
 import { MaterialService } from './material.service';
-import { CreateMaterialDto, CreateTransactionDto } from './material.dto';
-import { Public } from 'src/decorators/public.decorator';
+import { CreateMaterialDto } from './material.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
 
@@ -20,44 +19,36 @@ import { Resource } from 'src/types/permissions';
 export class MaterialController {
   constructor(private readonly materialsService: MaterialService) {}
 
-  @Public()
-  @Get('transactions')
-  findAllTransactions() {
-    return this.materialsService.findAllTransactions();
+  @Get(':businessObjectId')
+  findAll(@Param('businessObjectId') businessObjectId: number) {
+    return this.materialsService.findAll({
+      bussinessObject: { id: businessObjectId },
+    });
   }
 
-  @Get('transactions/:id')
-  findOneTransaction(@Param('id') id: number) {
-    return this.materialsService.findOneTransaction(id);
+  @Post(':businessObjectId')
+  create(
+    @Body() dto: CreateMaterialDto,
+    @Param('businessObjectId') businessObjectId: number,
+  ) {
+    return this.materialsService.create({
+      ...dto,
+      bussinessObject: { id: businessObjectId },
+    });
   }
 
-  @Post('transactions')
-  addTransaction(@Body() dto: CreateTransactionDto) {
-    return this.materialsService.createTransaction(dto);
-  }
-
-  @Get('')
-  findAll() {
-    return this.materialsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.materialsService.findOne(id);
-  }
-
-  @Post('')
-  create(@Body() dto: CreateMaterialDto) {
-    return this.materialsService.create(dto);
-  }
-
-  @Put(':id')
-  update(@Param('id') id: number, @Body() dto: CreateMaterialDto) {
-    return this.materialsService.update(id, dto);
-  }
-
-  @Delete(':id')
-  remove(@Param() id: number) {
-    return this.materialsService.remove(id);
+  @Put(':businessObjectId/:id')
+  update(
+    @Param('id') id: number,
+    @Body() dto: CreateMaterialDto,
+    @Param('businessObjectId') businessObjectId: number,
+  ) {
+    return this.materialsService.update(
+      {
+        id,
+        bussinessObject: { id: businessObjectId },
+      },
+      dto,
+    );
   }
 }

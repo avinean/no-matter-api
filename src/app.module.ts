@@ -9,10 +9,7 @@ import { AuthModule } from './controllers/auth/auth.module';
 import { AuthGuard } from './guards/auth.guard';
 import { PermissionGuard } from './guards/permission.guard';
 import { MaterialModule } from './controllers/material/material.module';
-import {
-  MaterialEntity,
-  MaterialTransactionEntity,
-} from './entities/material.entity';
+import { MaterialEntity } from './entities/material.entity';
 import { ContactEntity, ClientEntity } from './entities/client.entity';
 import { ClientModule } from './controllers/client/client.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -35,6 +32,8 @@ import { PermissionEntity } from './entities/permission.entity';
 import { RoleModule } from './controllers/role/role.module';
 import { PermissionModule } from './controllers/permission/permission.module';
 import { ProfileModule } from './controllers/profile/profile.module';
+import { MaterialTransactionEntity } from './entities/material-transaction.entity';
+import { MaterialTransactionModule } from './controllers/material-transaction/material-transaction.module';
 
 @Module({
   imports: [
@@ -45,7 +44,7 @@ import { ProfileModule } from './controllers/profile/profile.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      // logging: true,
+      logging: ['query'],
       // logger: 'simple-console',
       entities: [
         UserEntity,
@@ -82,6 +81,7 @@ import { ProfileModule } from './controllers/profile/profile.module';
     RoleModule,
     PermissionModule,
     ProfileModule,
+    MaterialTransactionModule,
   ],
   controllers: [AppController],
   providers: [

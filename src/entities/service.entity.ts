@@ -9,6 +9,8 @@ import {
 import { ProfileEntity } from './profile.entity';
 import { BookingEntity } from './booking.entity';
 import { BussinessObjectEntity } from './bussiness-object.entity';
+import { OrderEntity } from './order.entity';
+import { MaterialEntity } from './material.entity';
 
 @Entity({ name: 'services' })
 export class ServiceEntity {
@@ -58,4 +60,8 @@ export class ServiceEntity {
   @ManyToMany(() => BussinessObjectEntity)
   @JoinTable({ name: 'bussiness_object_service' })
   bussinessObjects: BussinessObjectEntity[];
+
+  @ManyToMany(() => OrderEntity, (order) => order.products)
+  @JoinTable({ name: 'order_product' })
+  orders: OrderEntity[];
 }

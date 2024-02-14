@@ -1,5 +1,4 @@
-import { IsEnum, IsNumber, IsString } from 'class-validator';
-import { MaterialTransactionType } from 'src/types/enums';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateMaterialDto {
   @IsString()
@@ -15,13 +14,3 @@ export class CreateMaterialDto {
   criticalQuantity: number;
 }
 
-export class CreateTransactionDto {
-  @IsNumber()
-  materialId: number;
-
-  @IsNumber()
-  quantity: number;
-
-  @IsEnum(MaterialTransactionType)
-  type: MaterialTransactionType;
-}
