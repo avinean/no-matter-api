@@ -24,7 +24,11 @@ export class BookingService {
 
   findAll() {
     return this.bookingRepository.find({
-      relations: ['services', 'profile', 'client'],
+      relations: {
+        services: true,
+        profile: true,
+        client: true,
+      },
     });
   }
 

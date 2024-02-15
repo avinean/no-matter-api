@@ -14,7 +14,9 @@ export class ServiceService {
   async findAll(where: FindOptionsWhere<ServiceEntity>) {
     return this.serviceRepository.find({
       where,
-      relations: ['profiles'],
+      relations: {
+        profiles: true,
+      },
     });
   }
 

@@ -30,7 +30,10 @@ export class ProfileController {
   findAll(@Param('businessObjectId') businessObjectId: number) {
     return this.profileService.findAll({
       where: { employers: { id: businessObjectId } },
-      relations: ['services', 'roles'],
+      relations: {
+        services: true,
+        roles: true,
+      },
     });
   }
 

@@ -13,14 +13,18 @@ export class RoleService {
 
   async findAll(businessId: number) {
     return this.roleRepository.find({
-      relations: ['permissions'],
+      relations: {
+        assignedPermissions: true,
+      },
       where: { business: { id: businessId } },
     });
   }
 
   async findOne(where: FindOptionsWhere<RoleEntity> = {}) {
     return this.roleRepository.find({
-      relations: ['permissions'],
+      relations: {
+        assignedPermissions: true,
+      },
       where,
     });
   }
