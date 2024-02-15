@@ -88,11 +88,11 @@ export class ProfileService {
     return await this.profileRepository.findOne({
       where: { user: { id } },
       relations: {
-        businesses: {
-          objects: true,
+        ownedBusinesses: {
+          businessObjects: true,
         },
         roles: {
-          permissions: true,
+          assignedPermissions: true,
         },
         employers: true,
       },
@@ -106,14 +106,15 @@ export class ProfileService {
         where: { user: { id } },
         relations: {
           roles: {
-            permissions: true,
+            assignedPermissions: true,
           },
         },
       })
       .then(({ roles }) =>
         roles.flatMap((role) =>
-          role.permissions.map(
-            (permission) => `${permission.resource}:${permission.action}`,
+          role.assignedPermissions.map(
+            (permission) =>
+              `${permission.resourceType}:${permission.actionType}`,
           ),
         ),
       );

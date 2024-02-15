@@ -1,16 +1,19 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
-  JoinTable,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ProfileEntity } from './profile.entity';
 import { ClientEntity } from './client.entity';
 import { ServiceEntity } from './service.entity';
 import { OrderEntity } from './order.entity';
+import { ConfirmationStatus } from 'src/types/enums';
 
 @Entity({ name: 'booking' })
 export class BookingEntity {
@@ -23,31 +26,34 @@ export class BookingEntity {
   @Column()
   duration: number;
 
-  @Column({ default: false })
-  status: boolean;
+  @Column({
+    type: 'enum',
+    enum: ConfirmationStatus,
+    default: ConfirmationStatus.new,
+  })
+  status: ConfirmationStatus;
 
   @Column({ default: '' })
   comment: string;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
   @ManyToOne(() => ProfileEntity)
-  @JoinTable({ name: 'profile_booking' })
+  @JoinColumn({ name: 'profile_id' })
   profile: ProfileEntity;
 
   @ManyToMany(() => ServiceEntity)
-  @JoinTable({ name: 'service_booking' })
   services: ServiceEntity[];
 
   @ManyToOne(() => ClientEntity)
-  @JoinTable({ name: 'client_booking' })
+  @JoinColumn({ name: 'client_id' })
   client: ClientEntity;
 
-  @OneToOne(() => OrderEntity, (order) => order.id)
-  @JoinTable({ name: 'order_booking' })
+  @OneToOne(() => OrderEntity, (order) => order.booking)
   order: OrderEntity;
 }
+

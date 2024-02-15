@@ -1,4 +1,3 @@
-import { ContactType, Sex } from 'src/types/enums';
 import {
   Column,
   Entity,
@@ -8,9 +7,12 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { BookingEntity } from './booking.entity';
 import { BusinessObjectEntity } from './business-object.entity';
+import { ContactType, Sex } from 'src/types/enums';
 
 @Entity({ name: 'clients' })
 export class ClientEntity {
@@ -53,17 +55,16 @@ export class ClientEntity {
   @Column({ default: 0 })
   discount: number;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
   @OneToMany(() => ContactEntity, (contact) => contact.client)
   contacts: ContactEntity[];
 
   @OneToMany(() => BookingEntity, (booking) => booking.client)
-  @JoinColumn({ name: 'client_booking' })
   bookings: BookingEntity[];
 
   @ManyToMany(() => BusinessObjectEntity)
@@ -89,7 +90,7 @@ export class ContactEntity {
   @Column({ default: false })
   verified: boolean;
 
-  @ManyToOne(() => ClientEntity, (client) => client.contacts, { eager: true })
+  @ManyToOne(() => ClientEntity, (client) => client.contacts)
   @JoinColumn()
   client: ClientEntity;
 }

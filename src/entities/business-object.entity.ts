@@ -11,6 +11,7 @@ import { ProfileEntity } from './profile.entity';
 import { BusinessEntity } from './business.entity';
 import { ClientEntity } from './client.entity';
 import { MaterialTransactionEntity } from './material-transaction.entity';
+import { MaterialEntity } from './material.entity';
 
 @Entity({ name: 'business_objects' })
 export class BusinessObjectEntity {
@@ -34,9 +35,9 @@ export class BusinessObjectEntity {
 
   @ManyToOne(() => ProfileEntity)
   @JoinTable({ name: 'profile_to_objects' })
-  profile: ProfileEntity;
+  createdBy: ProfileEntity;
 
-  @ManyToOne(() => BusinessEntity, (business) => business.objects)
+  @ManyToOne(() => BusinessEntity, (business) => business.businessObjects)
   @JoinTable({ name: 'business_to_objects' })
   business: BusinessEntity;
 
@@ -46,8 +47,11 @@ export class BusinessObjectEntity {
 
   @ManyToMany(() => ClientEntity)
   @JoinTable({ name: 'client_business_object' })
-  clients: ClientEntity[];
+  customers: ClientEntity[];
 
   @OneToMany(() => MaterialTransactionEntity, (transaction) => transaction.id)
   materialTransactions: MaterialTransactionEntity[];
+
+  @OneToMany(() => MaterialEntity, (transaction) => transaction.id)
+  materials: MaterialEntity[];
 }

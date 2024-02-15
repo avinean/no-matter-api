@@ -29,31 +29,37 @@ export class MaterialTransactionEntity {
   })
   type: MaterialTransactionType;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
   @ManyToOne(() => MaterialEntity, (material) => material.transactions)
   material: MaterialEntity;
 
-  @ManyToOne(() => ProfileEntity, (profile) => profile.transactions)
+  @ManyToOne(
+    () => ProfileEntity,
+    (profile) => profile.initiatedMaterialTransactions,
+  )
   initiator: ProfileEntity;
 
-  @ManyToOne(() => BusinessObjectEntity, (businessObject) => businessObject.id)
+  @ManyToOne(
+    () => BusinessObjectEntity,
+    (businessObject) => businessObject.materialTransactions,
+  )
   businessObject: BusinessObjectEntity;
 
   @OneToOne(
     () => MaterialTransactionEntity,
-    (revertedTransaction) => revertedTransaction.revertingTransaction,
+    (revertedTransaction) => revertedTransaction.reverting,
     { nullable: true },
   )
   @JoinColumn()
-  revertedTransaction: MaterialTransactionEntity;
+  reverted: MaterialTransactionEntity;
 
   @OneToOne(
     () => MaterialTransactionEntity,
-    (revertingTransaction) => revertingTransaction.revertedTransaction,
+    (revertingTransaction) => revertingTransaction.reverted,
     { nullable: true },
   )
   @JoinColumn()
-  revertingTransaction: MaterialTransactionEntity;
+  reverting: MaterialTransactionEntity;
 }

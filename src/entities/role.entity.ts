@@ -5,6 +5,8 @@ import {
   ManyToMany,
   JoinTable,
   ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { PermissionEntity } from './permission.entity';
 import { ProfileEntity } from './profile.entity';
@@ -24,13 +26,19 @@ export class RoleEntity {
     joinColumn: { name: 'role_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'permission_id', referencedColumnName: 'id' },
   })
-  permissions: PermissionEntity[];
+  assignedPermissions: PermissionEntity[];
 
   @ManyToMany(() => ProfileEntity, (profile) => profile.roles)
   @JoinTable({ name: 'profile_roles' })
-  profiles: ProfileEntity[];
+  assignedProfiles: ProfileEntity[];
 
   @ManyToOne(() => BusinessEntity)
   @JoinTable({ name: 'role_business' })
   business: BusinessEntity;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }

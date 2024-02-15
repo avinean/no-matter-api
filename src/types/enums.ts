@@ -9,7 +9,7 @@ export enum MaterialTransactionType {
   revert = 'revert',
 }
 
-export enum MaterialBookingStatus {
+export enum ConfirmationStatus {
   new = 'new',
   approved = 'approved',
   rejected = 'rejected',

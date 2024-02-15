@@ -27,7 +27,7 @@ export class ServiceController {
   ) {
     return this.servicesService.findAll({
       type,
-      businessObjects: [{ id: businessObjectId }],
+      relatedBusinessObjects: [{ id: businessObjectId }],
     });
   }
 
@@ -40,7 +40,7 @@ export class ServiceController {
     return this.servicesService.create({
       ...dto,
       type,
-      businessObjects: [{ id: businessObjectId }],
+      relatedBusinessObjects: [{ id: businessObjectId }],
     });
   }
 

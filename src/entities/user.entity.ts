@@ -4,6 +4,8 @@ import {
   JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ProfileEntity } from './profile.entity';
 
@@ -18,13 +20,13 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToMany(() => ProfileEntity, (profile) => profile.userId)
+  @OneToMany(() => ProfileEntity, (profile) => profile.user)
   @JoinColumn()
-  profiles: ProfileEntity[];
+  associatedProfiles: ProfileEntity[];
 }

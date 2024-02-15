@@ -7,6 +7,8 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Sex } from 'src/types/enums';
 import { ServiceEntity } from './service.entity';
@@ -50,10 +52,10 @@ export class ProfileEntity {
   @Column({ default: false })
   status: boolean;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
   @Column({ nullable: true })
@@ -75,16 +77,16 @@ export class ProfileEntity {
   @JoinColumn({ name: 'profile_booking' })
   bookings: BookingEntity[];
 
-  @OneToMany(() => BusinessEntity, (business) => business.profile)
+  @OneToMany(() => BusinessEntity, (business) => business.owner)
   @JoinTable({ name: 'profile_business' })
-  businesses: BusinessEntity[];
+  ownedBusinesses: BusinessEntity[];
 
   @OneToMany(
     () => BusinessObjectEntity,
-    (businessObject) => businessObject.profile,
+    (businessObject) => businessObject.createdBy,
   )
   @JoinTable({ name: 'profile_to_objects' })
-  objects: BusinessObjectEntity[];
+  ownedObjects: BusinessObjectEntity[];
 
   @ManyToMany(() => BusinessObjectEntity)
   @JoinTable({ name: 'profile_to_employer' })
@@ -94,5 +96,5 @@ export class ProfileEntity {
     () => MaterialTransactionEntity,
     (transaction) => transaction.initiator,
   )
-  transactions: MaterialTransactionEntity[];
+  initiatedMaterialTransactions: MaterialTransactionEntity[];
 }

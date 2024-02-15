@@ -1,7 +1,4 @@
-import {
-  MaterialBookingStatus,
-  MaterialTransactionType,
-} from 'src/types/enums';
+import { ConfirmationStatus, MaterialTransactionType } from 'src/types/enums';
 import {
   Column,
   Entity,
@@ -25,10 +22,10 @@ export class MaterialBookingEntity {
 
   @Column({
     type: 'enum',
-    enum: MaterialBookingStatus,
-    default: MaterialBookingStatus.new,
+    enum: ConfirmationStatus,
+    default: ConfirmationStatus.new,
   })
-  status: MaterialBookingStatus;
+  status: ConfirmationStatus;
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

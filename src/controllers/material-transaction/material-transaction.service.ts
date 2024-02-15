@@ -17,8 +17,8 @@ export class MaterialTransactionService {
     return this.materialTransactionRepository.find({
       where,
       relations: {
-        revertedTransaction: true,
-        revertingTransaction: true,
+        reverted: true,
+        reverting: true,
       },
     });
   }
@@ -47,40 +47,39 @@ export class MaterialTransactionService {
     where: FindOptionsWhere<MaterialTransactionEntity>,
     dto: DeepPartial<MaterialTransactionEntity>,
   ) {
-    const revertedTransaction =
-      await this.materialTransactionRepository.findOne({
-        where,
-        relations: {
-          material: true,
-        },
-      });
+    const reverted = await this.materialTransactionRepository.findOne({
+      where,
+      relations: {
+        material: true,
+      },
+    });
 
-    const revertingTransaction = await this.materialTransactionRepository.save(
+    const reverting = await this.materialTransactionRepository.save(
       this.materialTransactionRepository.create({
         ...dto,
         quantity: 10,
-        material: revertedTransaction.material,
+        material: reverted.material,
         type: MaterialTransactionType.revert,
-        revertedTransaction,
+        reverted,
       }),
     );
 
-    this.materialTransactionRepository.update(revertedTransaction.id, {
-      revertingTransaction,
+    this.materialTransactionRepository.update(reverted.id, {
+      reverting,
     });
 
-    if (revertedTransaction.type === MaterialTransactionType.increase) {
+    if (reverted.type === MaterialTransactionType.increase) {
       await this.materialService.decrementQuantity(
-        revertedTransaction.material.id,
-        revertedTransaction.quantity,
+        reverted.material.id,
+        reverted.quantity,
       );
     } else {
       await this.materialService.incrementQuantity(
-        revertedTransaction.material.id,
-        revertedTransaction.quantity,
+        reverted.material.id,
+        reverted.quantity,
       );
     }
 
-    return revertingTransaction;
+    return reverting;
   }
 }

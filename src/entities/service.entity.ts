@@ -5,12 +5,13 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ProfileEntity } from './profile.entity';
 import { BookingEntity } from './booking.entity';
 import { BusinessObjectEntity } from './business-object.entity';
 import { OrderEntity } from './order.entity';
-import { MaterialEntity } from './material.entity';
 
 @Entity({ name: 'services' })
 export class ServiceEntity {
@@ -43,10 +44,10 @@ export class ServiceEntity {
   @Column({ default: false })
   status: boolean;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
   @ManyToMany(() => ProfileEntity)
@@ -59,7 +60,7 @@ export class ServiceEntity {
 
   @ManyToMany(() => BusinessObjectEntity)
   @JoinTable({ name: 'business_object_service' })
-  businessObjects: BusinessObjectEntity[];
+  relatedBusinessObjects: BusinessObjectEntity[];
 
   @ManyToMany(() => OrderEntity, (order) => order.products)
   @JoinTable({ name: 'order_product' })

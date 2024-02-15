@@ -34,9 +34,7 @@ export class PropertyGuard implements CanActivate {
     if (businessId)
       checks.push(this.isOwnsOrBelongsToBusiness(sub, businessId));
     if (businessObjectId)
-      checks.push(
-        this.isOwnsOrBelongsToBusinessObject(sub, businessObjectId),
-      );
+      checks.push(this.isOwnsOrBelongsToBusinessObject(sub, businessObjectId));
     await Promise.all(checks);
     return true;
   }
@@ -44,19 +42,16 @@ export class PropertyGuard implements CanActivate {
   async isOwnsOrBelongsToBusiness(sub: number, businessId: number) {
     const business = await this.businessService.findOne({
       select: ['id'],
-      where: { id: businessId, profile: { user: { id: sub } } },
+      where: { id: businessId, owner: { user: { id: sub } } },
     });
     if (!business) throw new UnauthorizedException();
   }
 
-  async isOwnsOrBelongsToBusinessObject(
-    sub: number,
-    businessObjectId: number,
-  ) {
+  async isOwnsOrBelongsToBusinessObject(sub: number, businessObjectId: number) {
     const object = await this.businessObjectService.findOne({
       select: ['id'],
       where: [
-        { id: businessObjectId, profile: { user: { id: sub } } },
+        { id: businessObjectId, createdBy: { user: { id: sub } } },
         { id: businessObjectId, employees: { user: { id: sub } } },
       ],
     });

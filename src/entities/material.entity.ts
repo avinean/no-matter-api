@@ -2,11 +2,11 @@ import {
   Column,
   Entity,
   JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { MaterialTransactionEntity } from './material-transaction.entity';
 import { BusinessObjectEntity } from './business-object.entity';
@@ -33,10 +33,10 @@ export class MaterialEntity {
   @Column()
   criticalQuantity: number;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
   @OneToMany(
@@ -47,7 +47,7 @@ export class MaterialEntity {
 
   @ManyToOne(
     () => BusinessObjectEntity,
-    (businessObject) => businessObject.id,
+    (businessObject) => businessObject.materials,
   )
   businessObject: BusinessObjectEntity;
 }

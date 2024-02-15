@@ -6,6 +6,8 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ProfileEntity } from './profile.entity';
 import { BusinessObjectEntity } from './business-object.entity';
@@ -25,22 +27,21 @@ export class BusinessEntity {
   @Column({ nullable: true })
   image: string;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
   @ManyToOne(() => ProfileEntity)
   @JoinTable({ name: 'profile_business' })
-  profile: ProfileEntity;
+  owner: ProfileEntity;
 
   @OneToMany(
     () => BusinessObjectEntity,
     (businessObject) => businessObject.business,
   )
-  @JoinColumn({ name: 'business_to_objects' })
-  objects: BusinessObjectEntity[];
+  businessObjects: BusinessObjectEntity[];
 
   @OneToMany(() => RoleEntity, (role) => role.business)
   @JoinTable({ name: 'role_business' })

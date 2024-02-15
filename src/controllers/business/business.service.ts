@@ -14,9 +14,9 @@ export class BusinessService {
 
   async findAll(profileId: number) {
     return await this.businessRepository.find({
-      where: { profile: { id: profileId } },
+      where: { owner: { id: profileId } },
       relations: {
-        objects: true,
+        businessObjects: true,
       },
     });
   }
@@ -32,14 +32,14 @@ export class BusinessService {
     business.name = dto.name;
     business.description = dto.description;
     business.image = dto.image;
-    business.profile = profile;
+    business.owner = profile;
     return await this.businessRepository.save(business);
   }
 
   async createTmp(profile: ProfileEntity) {
     const business = new BusinessEntity();
     business.name = 'Temporary business name';
-    business.profile = profile;
+    business.owner = profile;
     return await this.businessRepository.save(business);
   }
 }

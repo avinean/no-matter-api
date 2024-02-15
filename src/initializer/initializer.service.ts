@@ -33,21 +33,26 @@ export class InitializerService implements OnApplicationBootstrap {
   }
 
   async initializePermissions() {
-    const permissionsToCreate = [];
+    const permissionsToCreate: PermissionEntity[] = [];
 
     for (const resource in Resource) {
       if (isNaN(parseInt(resource, 10))) {
         for (const action in Action) {
           if (isNaN(parseInt(action, 10))) {
             const existingPermission = await this.permissionRepository.findOne({
-              where: { action: Action[action], resource: Resource[resource] },
+              where: {
+                actionType: Action[action],
+                resourceType: Resource[resource],
+              },
             });
 
             if (!existingPermission) {
-              permissionsToCreate.push({
-                action: Action[action],
-                resource: Resource[resource],
-              });
+              permissionsToCreate.push(
+                this.permissionRepository.create({
+                  actionType: Action[action],
+                  resourceType: Resource[resource],
+                }),
+              );
             }
           }
         }
@@ -65,7 +70,7 @@ export class InitializerService implements OnApplicationBootstrap {
 
     for (const role of roles) {
       if (role.name === Role.admin) {
-        role.permissions = permissions;
+        role.assignedPermissions = permissions;
       }
 
       await this.roleRepository.save(role);

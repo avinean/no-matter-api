@@ -8,17 +8,17 @@ export class PermissionEntity {
   id: number;
 
   @Column({
-    enum: Action,
     type: 'enum',
+    enum: Action,
   })
-  action: Action;
+  actionType: Action;
 
   @Column({
-    enum: Resource,
     type: 'enum',
+    enum: Resource,
   })
-  resource: Resource;
+  resourceType: Resource;
 
-  @ManyToMany(() => RoleEntity, (role) => role.permissions)
+  @ManyToMany(() => RoleEntity, (role) => role.assignedPermissions)
   roles: RoleEntity[];
 }
