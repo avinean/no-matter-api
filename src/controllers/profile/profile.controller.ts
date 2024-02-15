@@ -52,11 +52,14 @@ export class ProfileController {
   update(
     @Param('id') id: number,
     @Param('businessObjectId') businessObjectId: number,
-    @Body()
-    userDTO: UpdateProfileDto,
+    @Body() userDTO: UpdateProfileDto,
+    @Req() req,
   ) {
     return this.profileService.update(
-      { id, employers: [{ id: businessObjectId }] },
+      [
+        { id, employers: [{ id: businessObjectId }] },
+        { id, user: { id: req.user.sub } },
+      ],
       userDTO,
     );
   }

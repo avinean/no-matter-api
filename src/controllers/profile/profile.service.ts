@@ -63,7 +63,7 @@ export class ProfileService {
   }
 
   async update(
-    where: FindOptionsWhere<ProfileEntity>,
+    where: FindOptionsWhere<ProfileEntity> | FindOptionsWhere<ProfileEntity>[],
     params: DeepPartial<ProfileEntity>,
   ) {
     try {

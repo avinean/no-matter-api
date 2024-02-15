@@ -44,7 +44,7 @@ import { MaterialTransactionModule } from './controllers/material-transaction/ma
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      logging: ['query'],
+      // logging: ['query'],
       // logger: 'simple-console',
       entities: [
         UserEntity,

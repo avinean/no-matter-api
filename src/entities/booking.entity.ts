@@ -56,4 +56,3 @@ export class BookingEntity {
   @OneToOne(() => OrderEntity, (order) => order.booking)
   order: OrderEntity;
 }
-

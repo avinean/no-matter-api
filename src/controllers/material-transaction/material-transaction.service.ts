@@ -19,6 +19,7 @@ export class MaterialTransactionService {
       relations: {
         reverted: true,
         reverting: true,
+        initiator: true,
       },
     });
   }
