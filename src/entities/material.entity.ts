@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { MaterialTransactionEntity } from './material-transaction.entity';
-import { BussinessObjectEntity } from './bussiness-object.entity';
+import { BusinessObjectEntity } from './business-object.entity';
 
 @Entity({ name: 'materials' })
 export class MaterialEntity {
@@ -46,8 +46,8 @@ export class MaterialEntity {
   transactions: MaterialTransactionEntity[];
 
   @ManyToOne(
-    () => BussinessObjectEntity,
-    (bussinessObject) => bussinessObject.id,
+    () => BusinessObjectEntity,
+    (businessObject) => businessObject.id,
   )
-  bussinessObject: BussinessObjectEntity;
+  businessObject: BusinessObjectEntity;
 }

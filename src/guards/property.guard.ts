@@ -5,16 +5,16 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { BussinessObjectService } from 'src/controllers/bussiness-object/bussiness-object.service';
-import { BussinessService } from 'src/controllers/bussiness/bussiness.service';
+import { BusinessObjectService } from 'src/controllers/business-object/business-object.service';
+import { BusinessService } from 'src/controllers/business/business.service';
 import { UserService } from 'src/controllers/user/user.service';
 
 @Injectable()
 export class PropertyGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
-    private bussinessService: BussinessService,
-    private bussinessObjectService: BussinessObjectService,
+    private businessService: BusinessService,
+    private businessObjectService: BusinessObjectService,
     private userService: UserService,
   ) {}
 
@@ -28,36 +28,36 @@ export class PropertyGuard implements CanActivate {
 
     const {
       user: { sub },
-      params: { bussinessId, bussinessObjectId },
+      params: { businessId, businessObjectId },
     } = context.switchToHttp().getRequest();
     const checks = [];
-    if (bussinessId)
-      checks.push(this.isOwnsOrBelongsToBussiness(sub, bussinessId));
-    if (bussinessObjectId)
+    if (businessId)
+      checks.push(this.isOwnsOrBelongsToBusiness(sub, businessId));
+    if (businessObjectId)
       checks.push(
-        this.isOwnsOrBelongsToBussinessObject(sub, bussinessObjectId),
+        this.isOwnsOrBelongsToBusinessObject(sub, businessObjectId),
       );
     await Promise.all(checks);
     return true;
   }
 
-  async isOwnsOrBelongsToBussiness(sub: number, bussinessId: number) {
-    const bussiness = await this.bussinessService.findOne({
+  async isOwnsOrBelongsToBusiness(sub: number, businessId: number) {
+    const business = await this.businessService.findOne({
       select: ['id'],
-      where: { id: bussinessId, profile: { user: { id: sub } } },
+      where: { id: businessId, profile: { user: { id: sub } } },
     });
-    if (!bussiness) throw new UnauthorizedException();
+    if (!business) throw new UnauthorizedException();
   }
 
-  async isOwnsOrBelongsToBussinessObject(
+  async isOwnsOrBelongsToBusinessObject(
     sub: number,
-    bussinessObjectId: number,
+    businessObjectId: number,
   ) {
-    const object = await this.bussinessObjectService.findOne({
+    const object = await this.businessObjectService.findOne({
       select: ['id'],
       where: [
-        { id: bussinessObjectId, profile: { user: { id: sub } } },
-        { id: bussinessObjectId, employees: { user: { id: sub } } },
+        { id: businessObjectId, profile: { user: { id: sub } } },
+        { id: businessObjectId, employees: { user: { id: sub } } },
       ],
     });
     if (!object) throw new UnauthorizedException();

@@ -1,16 +1,16 @@
-import { MaterialTransactionType } from 'src/types/enums';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { MaterialTransactionType } from 'src/types/enums';
 import { MaterialEntity } from './material.entity';
 import { ProfileEntity } from './profile.entity';
-import { BussinessObjectEntity } from './bussiness-object.entity';
+import { BusinessObjectEntity } from './business-object.entity';
 
 @Entity({ name: 'material_transactions' })
 export class MaterialTransactionEntity {
@@ -29,20 +29,17 @@ export class MaterialTransactionEntity {
   })
   type: MaterialTransactionType;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn()
   createdAt: Date;
 
   @ManyToOne(() => MaterialEntity, (material) => material.transactions)
   material: MaterialEntity;
 
-  @ManyToOne(() => ProfileEntity, (profile) => profile.id)
+  @ManyToOne(() => ProfileEntity, (profile) => profile.transactions)
   initiator: ProfileEntity;
 
-  @ManyToOne(
-    () => BussinessObjectEntity,
-    (bussinessObject) => bussinessObject.id,
-  )
-  bussinessObject: BussinessObjectEntity;
+  @ManyToOne(() => BusinessObjectEntity, (businessObject) => businessObject.id)
+  businessObject: BusinessObjectEntity;
 
   @OneToOne(
     () => MaterialTransactionEntity,

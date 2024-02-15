@@ -29,7 +29,7 @@ export class MaterialTransactionController {
   @Get(':businessObjectId')
   findAll(@Param('businessObjectId') businessObjectId: number) {
     return this.materialTransactionService.findAll({
-      bussinessObject: { id: businessObjectId },
+      businessObject: { id: businessObjectId },
     });
   }
 
@@ -47,7 +47,7 @@ export class MaterialTransactionController {
     return this.materialTransactionService.add({
       ...dto,
       initiator,
-      bussinessObject: {
+      businessObject: {
         id: +businessObjectId,
       },
     });
@@ -69,12 +69,12 @@ export class MaterialTransactionController {
     return this.materialTransactionService.revert(
       {
         id,
-        bussinessObject: { id: businessObjectId },
+        businessObject: { id: businessObjectId },
       },
       {
         ...dto,
         initiator,
-        bussinessObject: { id: businessObjectId },
+        businessObject: { id: businessObjectId },
       },
     );
   }

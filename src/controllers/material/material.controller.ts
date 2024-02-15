@@ -22,7 +22,7 @@ export class MaterialController {
   @Get(':businessObjectId')
   findAll(@Param('businessObjectId') businessObjectId: number) {
     return this.materialsService.findAll({
-      bussinessObject: { id: businessObjectId },
+      businessObject: { id: businessObjectId },
     });
   }
 
@@ -33,7 +33,7 @@ export class MaterialController {
   ) {
     return this.materialsService.create({
       ...dto,
-      bussinessObject: { id: businessObjectId },
+      businessObject: { id: businessObjectId },
     });
   }
 
@@ -46,7 +46,7 @@ export class MaterialController {
     return this.materialsService.update(
       {
         id,
-        bussinessObject: { id: businessObjectId },
+        businessObject: { id: businessObjectId },
       },
       dto,
     );

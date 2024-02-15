@@ -16,22 +16,19 @@ import { Resource } from 'src/types/permissions';
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
-  @Get(':bussinessId')
-  findAll(@Param('bussinessId') bussinessId: number) {
-    return this.roleService.findAll(bussinessId);
+  @Get(':businessId')
+  findAll(@Param('businessId') businessId: number) {
+    return this.roleService.findAll(businessId);
   }
 
-  @Post(':bussinessId')
-  create(
-    @Param('bussinessId') bussinessId: number,
-    @Body() dto: CreateRoleDto,
-  ) {
-    return this.roleService.create(bussinessId, dto);
+  @Post(':businessId')
+  create(@Param('businessId') businessId: number, @Body() dto: CreateRoleDto) {
+    return this.roleService.create(businessId, dto);
   }
 
-  @Put(':bussinessId/:id')
+  @Put(':businessId/:id')
   update(
-    @Param('bussinessId') bussinessId: number,
+    @Param('businessId') businessId: number,
     @Param('id') id: number,
     @Body() dto: UpdateRoleDto,
   ) {

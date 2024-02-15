@@ -8,11 +8,11 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProfileEntity } from './profile.entity';
-import { BussinessObjectEntity } from './bussiness-object.entity';
+import { BusinessObjectEntity } from './business-object.entity';
 import { RoleEntity } from './role.entity';
 
-@Entity({ name: 'bussinesses' })
-export class BussinessEntity {
+@Entity({ name: 'businesses' })
+export class BusinessEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -32,17 +32,17 @@ export class BussinessEntity {
   updatedAt: Date;
 
   @ManyToOne(() => ProfileEntity)
-  @JoinTable({ name: 'profile_bussiness' })
+  @JoinTable({ name: 'profile_business' })
   profile: ProfileEntity;
 
   @OneToMany(
-    () => BussinessObjectEntity,
-    (bussinessObject) => bussinessObject.bussiness,
+    () => BusinessObjectEntity,
+    (businessObject) => businessObject.business,
   )
-  @JoinColumn({ name: 'bussiness_to_objects' })
-  objects: BussinessObjectEntity[];
+  @JoinColumn({ name: 'business_to_objects' })
+  objects: BusinessObjectEntity[];
 
-  @OneToMany(() => RoleEntity, (role) => role.bussiness)
-  @JoinTable({ name: 'role_bussiness' })
+  @OneToMany(() => RoleEntity, (role) => role.business)
+  @JoinTable({ name: 'role_business' })
   roles: RoleEntity[];
 }

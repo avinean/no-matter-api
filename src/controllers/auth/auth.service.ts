@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { SignInDto, SignUpDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
-import { BussinessService } from '../bussiness/bussiness.service';
-import { BussinessObjectService } from '../bussiness-object/bussiness-object.service';
+import { BusinessService } from '../business/business.service';
+import { BusinessObjectService } from '../business-object/business-object.service';
 import { Role } from 'src/types/roles';
 import { Repository } from 'typeorm';
 import { RoleEntity } from 'src/entities/role.entity';
@@ -13,8 +13,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class AuthService {
   constructor(
     private profileService: ProfileService,
-    private bussinessService: BussinessService,
-    private objectService: BussinessObjectService,
+    private businessService: BusinessService,
+    private objectService: BusinessObjectService,
     private jwtService: JwtService,
     @InjectRepository(RoleEntity)
     private readonly roleRepository: Repository<RoleEntity>,
@@ -50,8 +50,8 @@ export class AuthService {
       ...dto,
       roles: roles,
     } as any);
-    const bussiness = await this.bussinessService.createTmp(profile);
-    await this.objectService.createTmp(bussiness, profile);
+    const business = await this.businessService.createTmp(profile);
+    await this.objectService.createTmp(business, profile);
     return profile;
   }
 }

@@ -8,12 +8,12 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProfileEntity } from './profile.entity';
-import { BussinessEntity } from './bussiness.entity';
+import { BusinessEntity } from './business.entity';
 import { ClientEntity } from './client.entity';
 import { MaterialTransactionEntity } from './material-transaction.entity';
 
-@Entity({ name: 'bussiness_objects' })
-export class BussinessObjectEntity {
+@Entity({ name: 'business_objects' })
+export class BusinessObjectEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -36,16 +36,16 @@ export class BussinessObjectEntity {
   @JoinTable({ name: 'profile_to_objects' })
   profile: ProfileEntity;
 
-  @ManyToOne(() => BussinessEntity, (bussiness) => bussiness.objects)
-  @JoinTable({ name: 'bussiness_to_objects' })
-  bussiness: BussinessEntity;
+  @ManyToOne(() => BusinessEntity, (business) => business.objects)
+  @JoinTable({ name: 'business_to_objects' })
+  business: BusinessEntity;
 
   @ManyToMany(() => ProfileEntity)
   @JoinTable({ name: 'profile_to_employer' })
   employees: ProfileEntity[];
 
   @ManyToMany(() => ClientEntity)
-  @JoinTable({ name: 'client_bussiness_object' })
+  @JoinTable({ name: 'client_business_object' })
   clients: ClientEntity[];
 
   @OneToMany(() => MaterialTransactionEntity, (transaction) => transaction.id)

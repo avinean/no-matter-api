@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { PermissionEntity } from './permission.entity';
 import { ProfileEntity } from './profile.entity';
-import { BussinessEntity } from './bussiness.entity';
+import { BusinessEntity } from './business.entity';
 
 @Entity({ name: 'roles' })
 export class RoleEntity {
@@ -30,7 +30,7 @@ export class RoleEntity {
   @JoinTable({ name: 'profile_roles' })
   profiles: ProfileEntity[];
 
-  @ManyToOne(() => BussinessEntity)
-  @JoinTable({ name: 'role_bussiness' })
-  bussiness: BussinessEntity;
+  @ManyToOne(() => BusinessEntity)
+  @JoinTable({ name: 'role_business' })
+  business: BusinessEntity;
 }

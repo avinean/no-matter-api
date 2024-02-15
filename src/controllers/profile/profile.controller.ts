@@ -26,34 +26,34 @@ export class ProfileController {
     return this.profileService.findMe(req.user.sub);
   }
 
-  @Get(':bussinessObjectId')
-  findAll(@Param('bussinessObjectId') bussinessObjectId: number) {
+  @Get(':businessObjectId')
+  findAll(@Param('businessObjectId') businessObjectId: number) {
     return this.profileService.findAll({
-      where: { employers: { id: bussinessObjectId } },
+      where: { employers: { id: businessObjectId } },
       relations: ['services', 'roles'],
     });
   }
 
-  @Post(':bussinessObjectId')
+  @Post(':businessObjectId')
   create(
     @Body() dto: CreateProfileDto,
-    @Param('bussinessObjectId') bussinessObjectId: number,
+    @Param('businessObjectId') businessObjectId: number,
   ) {
     return this.profileService.create({
       ...dto,
-      employers: [{ id: bussinessObjectId }],
+      employers: [{ id: businessObjectId }],
     });
   }
 
-  @Put(':bussinessObjectId/:id')
+  @Put(':businessObjectId/:id')
   update(
     @Param('id') id: number,
-    @Param('bussinessObjectId') bussinessObjectId: number,
+    @Param('businessObjectId') businessObjectId: number,
     @Body()
     userDTO: UpdateProfileDto,
   ) {
     return this.profileService.update(
-      { id, employers: [{ id: bussinessObjectId }] },
+      { id, employers: [{ id: businessObjectId }] },
       userDTO,
     );
   }

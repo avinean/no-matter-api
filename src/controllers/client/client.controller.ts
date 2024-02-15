@@ -18,34 +18,34 @@ import { Resource } from 'src/types/permissions';
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
-  @Get(':bussinessObjectId')
-  async findAll(@Param('bussinessObjectId') bussinessObjectId: number) {
+  @Get(':businessObjectId')
+  async findAll(@Param('businessObjectId') businessObjectId: number) {
     return await this.clientService.findAll({
-      bussinessObjects: [{ id: bussinessObjectId }],
+      businessObjects: [{ id: businessObjectId }],
     });
   }
 
-  @Post(':bussinessObjectId')
+  @Post(':businessObjectId')
   async create(
-    @Param('bussinessObjectId') bussinessObjectId: number,
+    @Param('businessObjectId') businessObjectId: number,
     @Body() dto: CreateClientDto,
   ) {
     return this.clientService.create({
       ...dto,
-      bussinessObjects: [{ id: bussinessObjectId }],
+      businessObjects: [{ id: businessObjectId }],
     });
   }
 
-  @Put(':bussinessObjectId/:id')
+  @Put(':businessObjectId/:id')
   update(
     @Param('id') id: number,
-    @Param('bussinessObjectId') bussinessObjectId: number,
+    @Param('businessObjectId') businessObjectId: number,
     @Body() dto: CreateClientDto,
   ) {
     return this.clientService.update(
       {
         id,
-        bussinessObjects: [{ id: bussinessObjectId }],
+        businessObjects: [{ id: businessObjectId }],
       },
       dto,
     );

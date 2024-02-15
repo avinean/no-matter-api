@@ -20,36 +20,36 @@ import { Resource } from 'src/types/permissions';
 export class ServiceController {
   constructor(private readonly servicesService: ServiceService) {}
 
-  @Get(':type/:bussinessObjectId')
+  @Get(':type/:businessObjectId')
   findAll(
     @Param('type') type: ServiceType,
-    @Param('bussinessObjectId') bussinessObjectId: number,
+    @Param('businessObjectId') businessObjectId: number,
   ) {
     return this.servicesService.findAll({
       type,
-      bussinessObjects: [{ id: bussinessObjectId }],
+      businessObjects: [{ id: businessObjectId }],
     });
   }
 
-  @Post(':type/:bussinessObjectId')
+  @Post(':type/:businessObjectId')
   create(
     @Param('type') type: ServiceType,
-    @Param('bussinessObjectId') bussinessObjectId: number,
+    @Param('businessObjectId') businessObjectId: number,
     @Body() dto: CreateServiceDto,
   ) {
     return this.servicesService.create({
       ...dto,
       type,
-      bussinessObjects: [{ id: bussinessObjectId }],
+      businessObjects: [{ id: businessObjectId }],
     });
   }
 
-  @Put(':type/:bussinessObjectId/:id')
+  @Put(':type/:businessObjectId/:id')
   update(@Param('id') id: number, @Body() dto: CreateServiceDto) {
     return this.servicesService.update({ id }, dto);
   }
 
-  @Delete(':type/:bussinessObjectId/:id')
+  @Delete(':type/:businessObjectId/:id')
   remove(@Param() id: number) {
     return this.servicesService.remove(id);
   }

@@ -88,7 +88,7 @@ export class ProfileService {
     return await this.profileRepository.findOne({
       where: { user: { id } },
       relations: {
-        bussinesses: {
+        businesses: {
           objects: true,
         },
         roles: {

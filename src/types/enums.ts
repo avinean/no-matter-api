@@ -9,6 +9,12 @@ export enum MaterialTransactionType {
   revert = 'revert',
 }
 
+export enum MaterialBookingStatus {
+  new = 'new',
+  approved = 'approved',
+  rejected = 'rejected',
+}
+
 export enum Sex {
   male = 'male',
   female = 'female',

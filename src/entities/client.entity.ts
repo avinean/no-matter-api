@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BookingEntity } from './booking.entity';
-import { BussinessObjectEntity } from './bussiness-object.entity';
+import { BusinessObjectEntity } from './business-object.entity';
 
 @Entity({ name: 'clients' })
 export class ClientEntity {
@@ -66,9 +66,9 @@ export class ClientEntity {
   @JoinColumn({ name: 'client_booking' })
   bookings: BookingEntity[];
 
-  @ManyToMany(() => BussinessObjectEntity)
-  @JoinTable({ name: 'client_bussiness_object' })
-  bussinessObjects: BussinessObjectEntity[];
+  @ManyToMany(() => BusinessObjectEntity)
+  @JoinTable({ name: 'client_business_object' })
+  businessObjects: BusinessObjectEntity[];
 }
 
 @Entity({ name: 'contacts' })

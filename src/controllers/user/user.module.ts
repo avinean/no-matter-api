@@ -5,11 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from 'src/entities/user.entity';
 import { ProfileEntity } from 'src/entities/profile.entity';
 import { ServiceEntity } from 'src/entities/service.entity';
-import { BussinessModule } from '../bussiness/bussiness.module';
+import { BusinessModule } from '../business/business.module';
 
 @Module({
   imports: [
-    BussinessModule,
+    BusinessModule,
     TypeOrmModule.forFeature([UserEntity, ProfileEntity, ServiceEntity]),
   ],
   controllers: [UserController],

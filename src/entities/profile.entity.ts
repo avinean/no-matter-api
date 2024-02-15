@@ -11,10 +11,11 @@ import {
 import { Sex } from 'src/types/enums';
 import { ServiceEntity } from './service.entity';
 import { BookingEntity } from './booking.entity';
-import { BussinessEntity } from './bussiness.entity';
-import { BussinessObjectEntity } from './bussiness-object.entity';
+import { BusinessEntity } from './business.entity';
+import { BusinessObjectEntity } from './business-object.entity';
 import { UserEntity } from './user.entity';
 import { RoleEntity } from './role.entity';
+import { MaterialTransactionEntity } from './material-transaction.entity';
 
 @Entity({ name: 'user_profiles' })
 export class ProfileEntity {
@@ -74,18 +75,24 @@ export class ProfileEntity {
   @JoinColumn({ name: 'profile_booking' })
   bookings: BookingEntity[];
 
-  @OneToMany(() => BussinessEntity, (bussiness) => bussiness.profile)
-  @JoinTable({ name: 'profile_bussiness' })
-  bussinesses: BussinessEntity[];
+  @OneToMany(() => BusinessEntity, (business) => business.profile)
+  @JoinTable({ name: 'profile_business' })
+  businesses: BusinessEntity[];
 
   @OneToMany(
-    () => BussinessObjectEntity,
-    (bussinessObject) => bussinessObject.profile,
+    () => BusinessObjectEntity,
+    (businessObject) => businessObject.profile,
   )
   @JoinTable({ name: 'profile_to_objects' })
-  objects: BussinessObjectEntity[];
+  objects: BusinessObjectEntity[];
 
-  @ManyToMany(() => BussinessObjectEntity)
+  @ManyToMany(() => BusinessObjectEntity)
   @JoinTable({ name: 'profile_to_employer' })
-  employers: BussinessObjectEntity[];
+  employers: BusinessObjectEntity[];
+
+  @OneToMany(
+    () => MaterialTransactionEntity,
+    (transaction) => transaction.initiator,
+  )
+  transactions: MaterialTransactionEntity[];
 }

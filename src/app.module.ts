@@ -20,10 +20,10 @@ import { ServicesModule } from './controllers/service/service.module';
 import { BookingModule } from './controllers/booking/booking.module';
 import { BookingEntity } from './entities/booking.entity';
 import { OrderEntity } from './entities/order.entity';
-import { BussinessEntity } from './entities/bussiness.entity';
-import { BussinessObjectEntity } from './entities/bussiness-object.entity';
-import { BussinessModule } from './controllers/bussiness/bussiness.module';
-import { BussinessObjectsModule } from './controllers/bussiness-object/bussiness-object.module';
+import { BusinessEntity } from './entities/business.entity';
+import { BusinessObjectEntity } from './entities/business-object.entity';
+import { BusinessModule } from './controllers/business/business.module';
+import { BusinessObjectsModule } from './controllers/business-object/business-object.module';
 import { UtilModule } from './controllers/util/util.module';
 import { PropertyGuard } from './guards/property.guard';
 import { InitializerModule } from './initializer/initializer.module';
@@ -56,8 +56,8 @@ import { MaterialTransactionModule } from './controllers/material-transaction/ma
         ServiceEntity,
         BookingEntity,
         OrderEntity,
-        BussinessEntity,
-        BussinessObjectEntity,
+        BusinessEntity,
+        BusinessObjectEntity,
         RoleEntity,
         PermissionEntity,
       ],
@@ -74,8 +74,8 @@ import { MaterialTransactionModule } from './controllers/material-transaction/ma
     SuggestionsModule,
     ServicesModule,
     BookingModule,
-    BussinessModule,
-    BussinessObjectsModule,
+    BusinessModule,
+    BusinessObjectsModule,
     UtilModule,
     InitializerModule,
     RoleModule,

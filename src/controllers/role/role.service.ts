@@ -11,10 +11,10 @@ export class RoleService {
     private roleRepository: Repository<RoleEntity>,
   ) {}
 
-  async findAll(bussinessId: number) {
+  async findAll(businessId: number) {
     return this.roleRepository.find({
       relations: ['permissions'],
-      where: { bussiness: { id: bussinessId } },
+      where: { business: { id: businessId } },
     });
   }
 
@@ -25,11 +25,11 @@ export class RoleService {
     });
   }
 
-  async create(bussinessId: number, dto: CreateRoleDto) {
+  async create(businessId: number, dto: CreateRoleDto) {
     return this.roleRepository.save(
       this.roleRepository.create({
         ...dto,
-        bussiness: { id: bussinessId },
+        business: { id: businessId },
       }),
     );
   }
