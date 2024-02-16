@@ -7,11 +7,14 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { ProfileEntity } from './profile.entity';
 import { BookingEntity } from './booking.entity';
 import { BusinessObjectEntity } from './business-object.entity';
 import { OrderEntity } from './order.entity';
+import { ServiceMaterialEntity } from './service-material.entity';
 
 @Entity({ name: 'services' })
 export class ServiceEntity {
@@ -65,4 +68,11 @@ export class ServiceEntity {
   @ManyToMany(() => OrderEntity, (order) => order.products)
   @JoinTable({ name: 'order_product' })
   orders: OrderEntity[];
+
+  @OneToMany(
+    () => ServiceMaterialEntity,
+    (serviceMaterial) => serviceMaterial.service,
+  )
+  @JoinColumn({ name: 'id' })
+  spending: ServiceMaterialEntity[];
 }

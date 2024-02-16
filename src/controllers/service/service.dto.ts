@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNumber, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsEnum,
+  IsNumber,
+  IsString,
+} from 'class-validator';
+import { ProfileEntity } from 'src/entities/profile.entity';
+import { ServiceMaterialEntity } from 'src/entities/service-material.entity';
 import { ServiceType } from 'src/types/enums';
 
 export class CreateServiceDto {
@@ -26,4 +34,12 @@ export class CreateServiceDto {
   @ApiProperty({ example: 10 })
   @IsNumber()
   discount: number;
+
+  @ApiProperty({ example: true })
+  @IsBoolean()
+  status: boolean;
+
+  @ApiProperty({ type: [ProfileEntity] })
+  @IsArray()
+  materials: ServiceMaterialEntity[];
 }

@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  JoinTable,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -10,6 +9,8 @@ import {
 } from 'typeorm';
 import { MaterialTransactionEntity } from './material-transaction.entity';
 import { BusinessObjectEntity } from './business-object.entity';
+import { MaterialBookingEntity } from './material-booking.entity';
+import { ServiceMaterialEntity } from './service-material.entity';
 
 @Entity({ name: 'materials' })
 export class MaterialEntity {
@@ -45,9 +46,19 @@ export class MaterialEntity {
   )
   transactions: MaterialTransactionEntity[];
 
+  @OneToMany(() => MaterialBookingEntity, (booking) => booking.material)
+  bookings: MaterialBookingEntity[];
+
   @ManyToOne(
     () => BusinessObjectEntity,
     (businessObject) => businessObject.materials,
   )
   businessObject: BusinessObjectEntity;
+
+  @OneToMany(
+    () => ServiceMaterialEntity,
+    (serviceMaterial) => serviceMaterial.material,
+    { cascade: true },
+  )
+  spending: ServiceMaterialEntity[];
 }

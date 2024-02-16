@@ -1,16 +1,14 @@
-import { ConfirmationStatus, MaterialTransactionType } from 'src/types/enums';
+import { ConfirmationStatus } from 'src/types/enums';
 import {
   Column,
+  CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { MaterialEntity } from './material.entity';
-import { ProfileEntity } from './profile.entity';
-import { BusinessObjectEntity } from './business-object.entity';
 import { BookingEntity } from './booking.entity';
+import { MaterialEntity } from './material.entity';
 
 @Entity({ name: 'material_booking' })
 export class MaterialBookingEntity {
@@ -27,11 +25,14 @@ export class MaterialBookingEntity {
   })
   status: ConfirmationStatus;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @ManyToOne(() => MaterialEntity, (material) => material.bookings)
+  material: MaterialEntity;
 
   @ManyToOne(() => BookingEntity, (booking) => booking)
   booking: BookingEntity;

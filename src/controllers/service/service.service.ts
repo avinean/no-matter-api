@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ServiceEntity } from 'src/entities/service.entity';
 import { DBErrors } from 'src/types/db-errors';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
+import { ServiceMaterialService } from '../service-material/service-material.service';
 
 @Injectable()
 export class ServiceService {
   constructor(
     @InjectRepository(ServiceEntity)
     private serviceRepository: Repository<ServiceEntity>,
+    private readonly serviceMaterialService: ServiceMaterialService,
   ) {}
 
   async findAll(where: FindOptionsWhere<ServiceEntity>) {
@@ -16,13 +18,31 @@ export class ServiceService {
       where,
       relations: {
         profiles: true,
+        spending: {
+          material: true,
+        },
       },
     });
   }
 
-  async create(dto: DeepPartial<ServiceEntity>) {
+  async findOne(where: FindOptionsWhere<ServiceEntity>) {
+    return this.serviceRepository.find({ where });
+  }
+
+  async create({ spending, ...params }: DeepPartial<ServiceEntity>) {
     try {
-      return this.serviceRepository.save(this.serviceRepository.create(dto));
+      const service = await this.serviceRepository.save(
+        this.serviceRepository.create(params),
+      );
+
+      await this.serviceMaterialService.update(
+        spending.map((spending) => ({
+          ...spending,
+          service,
+        })),
+      );
+
+      return service;
     } catch (e) {
       if (e.errno === DBErrors.ER_DUP_ENTRY) {
         throw new ConflictException({
@@ -35,10 +55,17 @@ export class ServiceService {
     }
   }
 
-  update(
+  async update(
     where: FindOptionsWhere<ServiceEntity>,
-    params: DeepPartial<ServiceEntity>,
+    { spending, ...params }: ServiceEntity,
   ) {
+    await this.serviceMaterialService.update(
+      spending.map((spending) => ({
+        ...spending,
+        service: { id: +where.id },
+      })),
+    );
+
     return this.serviceRepository.update(where, params);
   }
 

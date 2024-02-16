@@ -13,6 +13,7 @@ import { CreateServiceDto } from './service.dto';
 import { ServiceType } from 'src/types/enums';
 import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
+import { ServiceEntity } from 'src/entities/service.entity';
 
 @ApiTags('Serive')
 @SetMetadata('resource', Resource.service)
@@ -45,7 +46,7 @@ export class ServiceController {
   }
 
   @Put(':type/:businessObjectId/:id')
-  update(@Param('id') id: number, @Body() dto: CreateServiceDto) {
+  update(@Param('id') id: number, @Body() dto: ServiceEntity) {
     return this.servicesService.update({ id }, dto);
   }
 
