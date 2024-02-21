@@ -12,6 +12,7 @@ import { ProfileModule } from '../profile/profile.module';
     MaterialModule,
     ProfileModule,
   ],
+  exports: [MaterialTransactionService],
   providers: [MaterialTransactionService],
   controllers: [MaterialTransactionController],
 })

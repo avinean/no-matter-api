@@ -17,9 +17,10 @@ export class MaterialTransactionService {
     return this.materialTransactionRepository.find({
       where,
       relations: {
-        reverted: true,
-        reverting: true,
+        previous: true,
+        next: true,
         initiator: true,
+        booking: true
       },
     });
   }
@@ -44,43 +45,88 @@ export class MaterialTransactionService {
     return transaction;
   }
 
-  async revert(
+  async book(dto: DeepPartial<MaterialTransactionEntity>) {
+    const transaction = await this.materialTransactionRepository.save(
+      this.materialTransactionRepository.create({
+        ...dto,
+        type: MaterialTransactionType.book,
+      }),
+    );
+console.log(transaction)
+    this.materialService.incrementBookedQuantity(
+      dto.material.id,
+      transaction.quantity,
+    );
+
+    return transaction;
+  }
+
+  async release(
     where: FindOptionsWhere<MaterialTransactionEntity>,
     dto: DeepPartial<MaterialTransactionEntity>,
   ) {
-    const reverted = await this.materialTransactionRepository.findOne({
+    const previous = await this.materialTransactionRepository.findOne({
       where,
       relations: {
         material: true,
       },
     });
 
-    const reverting = await this.materialTransactionRepository.save(
+    const next = await this.materialTransactionRepository.save(
       this.materialTransactionRepository.create({
         ...dto,
-        quantity: 10,
-        material: reverted.material,
-        type: MaterialTransactionType.revert,
-        reverted,
+        material: previous.material,
+        type: MaterialTransactionType.release,
+        previous,
       }),
     );
 
-    this.materialTransactionRepository.update(reverted.id, {
-      reverting,
+    this.materialTransactionRepository.update(previous.id, { next });
+
+    await this.materialService.decrementBookedQuantity(
+      previous.material.id,
+      previous.quantity,
+    );
+
+    return next;
+  }
+
+  async revert(
+    where: FindOptionsWhere<MaterialTransactionEntity>,
+    dto: DeepPartial<MaterialTransactionEntity>,
+  ) {
+    const previous = await this.materialTransactionRepository.findOne({
+      where,
+      relations: {
+        material: true,
+      },
     });
 
-    if (reverted.type === MaterialTransactionType.increase) {
+    const next = await this.materialTransactionRepository.save(
+      this.materialTransactionRepository.create({
+        ...dto,
+        material: previous.material,
+        type: MaterialTransactionType.revert,
+        previous,
+      }),
+    );
+
+    this.materialTransactionRepository.update(previous.id, {
+      next,
+    });
+
+    if (previous.type === MaterialTransactionType.increase) {
       await this.materialService.decrementQuantity(
-        reverted.material.id,
-        reverted.quantity,
+        previous.material.id,
+        previous.quantity,
       );
     } else {
       await this.materialService.incrementQuantity(
-        reverted.material.id,
-        reverted.quantity,
+        previous.material.id,
+        previous.quantity,
       );
     }
 
-    return reverting;
+    return next;
   }
 }

@@ -15,6 +15,7 @@ import { BookingEntity } from './booking.entity';
 import { BusinessObjectEntity } from './business-object.entity';
 import { OrderEntity } from './order.entity';
 import { ServiceMaterialEntity } from './service-material.entity';
+import { BookingServiceEntity } from './booking-service.entity';
 
 @Entity({ name: 'services' })
 export class ServiceEntity {
@@ -75,4 +76,11 @@ export class ServiceEntity {
   )
   @JoinColumn({ name: 'id' })
   spending: ServiceMaterialEntity[];
+
+  @OneToMany(
+    () => BookingServiceEntity,
+    (serviceMaterial) => serviceMaterial.service,
+    { cascade: true },
+  )
+  booked: BookingServiceEntity[];
 }

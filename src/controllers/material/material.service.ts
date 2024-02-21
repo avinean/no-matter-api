@@ -39,4 +39,20 @@ export class MaterialService {
   decrementQuantity(id: number, quantity: number) {
     return this.materialRepository.decrement({ id }, 'quantity', quantity);
   }
+
+  incrementBookedQuantity(id: number, quantity: number) {
+    return this.materialRepository.increment(
+      { id },
+      'bookedQuantity',
+      quantity,
+    );
+  }
+
+  decrementBookedQuantity(id: number, quantity: number) {
+    return this.materialRepository.decrement(
+      { id },
+      'bookedQuantity',
+      quantity,
+    );
+  }
 }

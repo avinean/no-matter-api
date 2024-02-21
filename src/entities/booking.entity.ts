@@ -3,17 +3,20 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToMany,
+  JoinTable,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ProfileEntity } from './profile.entity';
 import { ClientEntity } from './client.entity';
-import { ServiceEntity } from './service.entity';
 import { OrderEntity } from './order.entity';
 import { ConfirmationStatus } from 'src/types/enums';
+import { BookingServiceEntity } from './booking-service.entity';
+import { MaterialTransactionEntity } from './material-transaction.entity';
+import { BusinessObjectEntity } from './business-object.entity';
 
 @Entity({ name: 'booking' })
 export class BookingEntity {
@@ -43,11 +46,16 @@ export class BookingEntity {
   updatedAt: Date;
 
   @ManyToOne(() => ProfileEntity)
+  @JoinTable({ name: 'profile_to_objects' })
+  createdBy: ProfileEntity;
+
+  @ManyToOne(() => ProfileEntity)
   @JoinColumn({ name: 'profile_id' })
   profile: ProfileEntity;
 
-  @ManyToMany(() => ServiceEntity)
-  services: ServiceEntity[];
+  @ManyToOne(() => BusinessObjectEntity)
+  @JoinColumn({ name: 'business_object_id' })
+  businessObject: BusinessObjectEntity;
 
   @ManyToOne(() => ClientEntity)
   @JoinColumn({ name: 'client_id' })
@@ -55,4 +63,17 @@ export class BookingEntity {
 
   @OneToOne(() => OrderEntity, (order) => order.booking)
   order: OrderEntity;
+
+  @OneToMany(
+    () => BookingServiceEntity,
+    (bookingService) => bookingService.booking,
+  )
+  @JoinColumn({ name: 'id' })
+  services: BookingServiceEntity[];
+
+  @OneToMany(
+    () => MaterialTransactionEntity,
+    (transaction) => transaction.booking,
+  )
+  materialTransactions: MaterialTransactionEntity[];
 }

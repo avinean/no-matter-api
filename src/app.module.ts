@@ -34,9 +34,10 @@ import { PermissionModule } from './controllers/permission/permission.module';
 import { ProfileModule } from './controllers/profile/profile.module';
 import { MaterialTransactionEntity } from './entities/material-transaction.entity';
 import { MaterialTransactionModule } from './controllers/material-transaction/material-transaction.module';
-import { MaterialBookingEntity } from './entities/material-booking.entity';
 import { ServiceMaterialEntity } from './entities/service-material.entity';
 import { ServiceMaterialModule } from './controllers/service-material/service-material.module';
+import { BookingServiceEntity } from './entities/booking-service.entity';
+import { BookingServiceModule } from './controllers/booking-service/booking-service.module';
 
 @Module({
   imports: [
@@ -47,7 +48,7 @@ import { ServiceMaterialModule } from './controllers/service-material/service-ma
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      logging: ['query'],
+      // logging: ['query'],
       // logger: 'simple-console',
       entities: [
         UserEntity,
@@ -56,10 +57,10 @@ import { ServiceMaterialModule } from './controllers/service-material/service-ma
         ContactEntity,
         MaterialEntity,
         MaterialTransactionEntity,
-        MaterialBookingEntity,
         ServiceEntity,
         ServiceMaterialEntity,
         BookingEntity,
+        BookingServiceEntity,
         OrderEntity,
         BusinessEntity,
         BusinessObjectEntity,
@@ -88,6 +89,7 @@ import { ServiceMaterialModule } from './controllers/service-material/service-ma
     ProfileModule,
     MaterialTransactionModule,
     ServiceMaterialModule,
+    BookingServiceModule,
   ],
   controllers: [AppController],
   providers: [

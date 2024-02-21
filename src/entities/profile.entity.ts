@@ -77,6 +77,9 @@ export class ProfileEntity {
   @JoinColumn({ name: 'profile_booking' })
   bookings: BookingEntity[];
 
+  @OneToMany(() => BookingEntity, (booking) => booking.createdBy)
+  createdBookings: BookingEntity[];
+
   @OneToMany(() => BusinessEntity, (business) => business.owner)
   @JoinTable({ name: 'profile_business' })
   ownedBusinesses: BusinessEntity[];

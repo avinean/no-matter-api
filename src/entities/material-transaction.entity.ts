@@ -11,6 +11,7 @@ import { MaterialTransactionType } from 'src/types/enums';
 import { MaterialEntity } from './material.entity';
 import { ProfileEntity } from './profile.entity';
 import { BusinessObjectEntity } from './business-object.entity';
+import { BookingEntity } from './booking.entity';
 
 @Entity({ name: 'material_transactions' })
 export class MaterialTransactionEntity {
@@ -20,7 +21,7 @@ export class MaterialTransactionEntity {
   @Column()
   quantity: number;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
   @Column({
@@ -47,19 +48,18 @@ export class MaterialTransactionEntity {
   )
   businessObject: BusinessObjectEntity;
 
-  @OneToOne(
-    () => MaterialTransactionEntity,
-    (revertedTransaction) => revertedTransaction.reverting,
-    { nullable: true },
-  )
+  @OneToOne(() => MaterialTransactionEntity, (prev) => prev.next, {
+    nullable: true,
+  })
   @JoinColumn()
-  reverted: MaterialTransactionEntity;
+  previous: MaterialTransactionEntity;
 
-  @OneToOne(
-    () => MaterialTransactionEntity,
-    (revertingTransaction) => revertingTransaction.reverted,
-    { nullable: true },
-  )
+  @OneToOne(() => MaterialTransactionEntity, (next) => next.previous, {
+    nullable: true,
+  })
   @JoinColumn()
-  reverting: MaterialTransactionEntity;
+  next: MaterialTransactionEntity;
+
+  @ManyToOne(() => BookingEntity, (booking) => booking.materialTransactions)
+  booking: BookingEntity;
 }

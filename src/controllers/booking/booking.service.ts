@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ServiceEntity } from 'src/entities/service.entity';
 import { ProfileEntity } from 'src/entities/profile.entity';
-import { Repository } from 'typeorm';
+import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 import {
-  CreateBookingDto,
   SearchProfilesDto,
   SearchServicesDto,
   SearchTimeslotsDto,
 } from './booking.dto';
 import { BookingEntity } from 'src/entities/booking.entity';
+import { BookingServiceService } from '../booking-service/booking-service.service';
 
 @Injectable()
 export class BookingService {
@@ -20,20 +20,35 @@ export class BookingService {
     private readonly servicesRepository: Repository<ServiceEntity>,
     @InjectRepository(BookingEntity)
     private readonly bookingRepository: Repository<BookingEntity>,
+    private readonly bookingServicesService: BookingServiceService,
   ) {}
 
-  findAll() {
+  findAll(where: FindOptionsWhere<BookingEntity>) {
     return this.bookingRepository.find({
+      where,
       relations: {
-        services: true,
         profile: true,
         client: true,
+        services: {
+          service: true,
+        },
       },
     });
   }
 
-  async create(dto: CreateBookingDto) {
-    return this.bookingRepository.save(this.bookingRepository.create(dto));
+  async create({ services, ...params }: DeepPartial<BookingEntity>) {
+    const booking = await this.bookingRepository.save(
+      this.bookingRepository.create(params),
+    );
+
+    await this.bookingServicesService.update(
+      services.map((service) => ({
+        ...service,
+        booking,
+      })),
+    );
+
+    return booking;
   }
 
   findProfiles({ services }: SearchProfilesDto) {
