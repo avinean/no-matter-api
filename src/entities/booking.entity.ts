@@ -3,7 +3,6 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -13,7 +12,6 @@ import {
 import { ProfileEntity } from './profile.entity';
 import { ClientEntity } from './client.entity';
 import { OrderEntity } from './order.entity';
-import { ConfirmationStatus } from 'src/types/enums';
 import { OrderProductsEntity } from './order-products.entity';
 import { MaterialTransactionEntity } from './material-transaction.entity';
 import { BusinessObjectEntity } from './business-object.entity';
@@ -46,6 +44,10 @@ export class BookingEntity {
   @ManyToOne(() => ClientEntity)
   @JoinColumn({ name: 'client_id' })
   client: ClientEntity;
+
+  @ManyToOne(() => ProfileEntity)
+  @JoinColumn({ name: 'profile_id' })
+  profile: ProfileEntity;
 
   @OneToOne(() => OrderEntity, (order) => order.booking)
   order: OrderEntity;

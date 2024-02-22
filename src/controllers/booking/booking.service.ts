@@ -3,11 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ServiceEntity } from 'src/entities/service.entity';
 import { ProfileEntity } from 'src/entities/profile.entity';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
-import {
-  SearchProfilesDto,
-  SearchServicesDto,
-  SearchTimeslotsDto,
-} from './booking.dto';
+import { SearchTimeslotsDto } from './booking.dto';
 import { BookingEntity } from 'src/entities/booking.entity';
 import { OrderProductsService } from '../order-products/order-products.service';
 import { BookingStatusEntity } from 'src/entities/booking-status.entity';
@@ -31,6 +27,7 @@ export class OrderProducts {
     return this.bookingRepository.find({
       where,
       relations: {
+        profile: true,
         client: true,
         statuses: {
           createdBy: true,
@@ -67,6 +64,33 @@ export class OrderProducts {
     return booking;
   }
 
+  async update(
+    where: FindOptionsWhere<BookingEntity>,
+    { services, ...dto }: DeepPartial<BookingEntity>,
+    createdBy: ProfileEntity,
+  ) {
+    const booking = await this.bookingRepository.findOne({ where });
+    Object.assign(booking, dto);
+    this.bookingRepository.save(booking);
+
+    await this.bookingStatusRepository.save(
+      this.bookingStatusRepository.create({
+        booking,
+        status: ConfirmationStatus.updated,
+        createdBy,
+      }),
+    );
+
+    await this.orderProductsService.update(
+      services.map((service) => ({
+        ...service,
+        booking,
+      })),
+    );
+
+    return booking;
+  }
+
   async cancel(id: number, createdBy: ProfileEntity) {
     await this.bookingStatusRepository.save(
       this.bookingStatusRepository.create({
@@ -87,7 +111,7 @@ export class OrderProducts {
     );
   }
 
-  findProfiles({ services }: SearchProfilesDto) {
+  findProfiles(services: ServiceEntity[]) {
     const serviceIds = services.map((service) => service.id);
 
     // If serviceIds is empty, return an empty array
@@ -102,7 +126,7 @@ export class OrderProducts {
       .getMany();
   }
 
-  findServices({ profile }: SearchServicesDto) {
+  findServices({ profile }: Partial<BookingEntity>) {
     if (!profile) {
       return this.servicesRepository.find();
     }
@@ -115,7 +139,7 @@ export class OrderProducts {
   }
 
   async findTimeSlots(dto: SearchTimeslotsDto) {
-    const { profile, date, duration } = dto;
+    const { date, duration } = dto;
 
     const startDate = new Date(date);
     const endDate = new Date(date);

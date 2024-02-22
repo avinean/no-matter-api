@@ -18,6 +18,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
 import { BookingEntity } from 'src/entities/booking.entity';
 import { ProfileService } from '../profile/profile.service';
+import { ServiceEntity } from 'src/entities/service.entity';
 
 @ApiTags('Booking')
 @SetMetadata('resource', Resource.booking)
@@ -56,6 +57,31 @@ export class BookingController {
     );
   }
 
+  @Put(':businessObjectId/:id')
+  async update(
+    @Body() dto: BookingEntity,
+    @Param('businessObjectId') businessObjectId: number,
+    @Param('id') id: number,
+    @Req() req,
+  ) {
+    const profile = await this.profileService.findOne({
+      where: { user: { id: req.user.sub } },
+    });
+
+    return this.bookingService.update(
+      {
+        id,
+      },
+      {
+        ...dto,
+        businessObject: {
+          id: businessObjectId,
+        },
+      },
+      profile,
+    );
+  }
+
   @Put(':businessObjectId/:id/confirm')
   async confirm(
     @Param('businessObjectId') businessObjectId: number,
@@ -83,8 +109,8 @@ export class BookingController {
   }
 
   @Post(':businessObjectId/profiles')
-  findProfiles(@Body() dto: SearchProfilesDto) {
-    return this.bookingService.findProfiles(dto);
+  findProfiles(@Body() { services }: SearchProfilesDto) {
+    return this.bookingService.findProfiles(services);
   }
 
   @Post(':businessObjectId/services')
