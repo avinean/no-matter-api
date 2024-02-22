@@ -20,7 +20,7 @@ export class MaterialTransactionService {
         previous: true,
         next: true,
         initiator: true,
-        booking: true
+        booking: true,
       },
     });
   }
@@ -44,53 +44,7 @@ export class MaterialTransactionService {
 
     return transaction;
   }
-
-  async book(dto: DeepPartial<MaterialTransactionEntity>) {
-    const transaction = await this.materialTransactionRepository.save(
-      this.materialTransactionRepository.create({
-        ...dto,
-        type: MaterialTransactionType.book,
-      }),
-    );
-console.log(transaction)
-    this.materialService.incrementBookedQuantity(
-      dto.material.id,
-      transaction.quantity,
-    );
-
-    return transaction;
-  }
-
-  async release(
-    where: FindOptionsWhere<MaterialTransactionEntity>,
-    dto: DeepPartial<MaterialTransactionEntity>,
-  ) {
-    const previous = await this.materialTransactionRepository.findOne({
-      where,
-      relations: {
-        material: true,
-      },
-    });
-
-    const next = await this.materialTransactionRepository.save(
-      this.materialTransactionRepository.create({
-        ...dto,
-        material: previous.material,
-        type: MaterialTransactionType.release,
-        previous,
-      }),
-    );
-
-    this.materialTransactionRepository.update(previous.id, { next });
-
-    await this.materialService.decrementBookedQuantity(
-      previous.material.id,
-      previous.quantity,
-    );
-
-    return next;
-  }
-
+  
   async revert(
     where: FindOptionsWhere<MaterialTransactionEntity>,
     dto: DeepPartial<MaterialTransactionEntity>,

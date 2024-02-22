@@ -18,6 +18,7 @@ import { BusinessObjectEntity } from './business-object.entity';
 import { UserEntity } from './user.entity';
 import { RoleEntity } from './role.entity';
 import { MaterialTransactionEntity } from './material-transaction.entity';
+import { OrderEntity } from './order.entity';
 
 @Entity({ name: 'user_profiles' })
 export class ProfileEntity {
@@ -73,13 +74,6 @@ export class ProfileEntity {
   @JoinTable({ name: 'profile_service' })
   services: ServiceEntity[];
 
-  @OneToMany(() => BookingEntity, (booking) => booking.profile)
-  @JoinColumn({ name: 'profile_booking' })
-  bookings: BookingEntity[];
-
-  @OneToMany(() => BookingEntity, (booking) => booking.createdBy)
-  createdBookings: BookingEntity[];
-
   @OneToMany(() => BusinessEntity, (business) => business.owner)
   @JoinTable({ name: 'profile_business' })
   ownedBusinesses: BusinessEntity[];
@@ -100,4 +94,7 @@ export class ProfileEntity {
     (transaction) => transaction.initiator,
   )
   initiatedMaterialTransactions: MaterialTransactionEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.createdBy)
+  orders: OrderEntity[];
 }

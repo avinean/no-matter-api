@@ -9,10 +9,12 @@ import {
   SearchTimeslotsDto,
 } from './booking.dto';
 import { BookingEntity } from 'src/entities/booking.entity';
-import { BookingServiceService } from '../booking-service/booking-service.service';
+import { OrderProductsService } from '../order-products/order-products.service';
+import { BookingStatusEntity } from 'src/entities/booking-status.entity';
+import { ConfirmationStatus } from 'src/types/enums';
 
 @Injectable()
-export class BookingService {
+export class OrderProducts {
   constructor(
     @InjectRepository(ProfileEntity)
     private readonly profileRepository: Repository<ProfileEntity>,
@@ -20,15 +22,19 @@ export class BookingService {
     private readonly servicesRepository: Repository<ServiceEntity>,
     @InjectRepository(BookingEntity)
     private readonly bookingRepository: Repository<BookingEntity>,
-    private readonly bookingServicesService: BookingServiceService,
+    @InjectRepository(BookingStatusEntity)
+    private readonly bookingStatusRepository: Repository<BookingStatusEntity>,
+    private readonly orderProductsService: OrderProductsService,
   ) {}
 
   findAll(where: FindOptionsWhere<BookingEntity>) {
     return this.bookingRepository.find({
       where,
       relations: {
-        profile: true,
         client: true,
+        statuses: {
+          createdBy: true,
+        },
         services: {
           service: true,
         },
@@ -36,12 +42,22 @@ export class BookingService {
     });
   }
 
-  async create({ services, ...params }: DeepPartial<BookingEntity>) {
+  async create(
+    { services, ...params }: DeepPartial<BookingEntity>,
+    createdBy: ProfileEntity,
+  ) {
     const booking = await this.bookingRepository.save(
       this.bookingRepository.create(params),
     );
 
-    await this.bookingServicesService.update(
+    await this.bookingStatusRepository.save(
+      this.bookingStatusRepository.create({
+        booking,
+        createdBy,
+      }),
+    );
+
+    await this.orderProductsService.update(
       services.map((service) => ({
         ...service,
         booking,
@@ -49,6 +65,26 @@ export class BookingService {
     );
 
     return booking;
+  }
+
+  async cancel(id: number, createdBy: ProfileEntity) {
+    await this.bookingStatusRepository.save(
+      this.bookingStatusRepository.create({
+        status: ConfirmationStatus.rejected,
+        booking: { id },
+        createdBy,
+      }),
+    );
+  }
+
+  async confirm(id: number, createdBy: ProfileEntity) {
+    await this.bookingStatusRepository.save(
+      this.bookingStatusRepository.create({
+        status: ConfirmationStatus.approved,
+        booking: { id },
+        createdBy,
+      }),
+    );
   }
 
   findProfiles({ services }: SearchProfilesDto) {

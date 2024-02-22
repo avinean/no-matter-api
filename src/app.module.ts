@@ -36,8 +36,9 @@ import { MaterialTransactionEntity } from './entities/material-transaction.entit
 import { MaterialTransactionModule } from './controllers/material-transaction/material-transaction.module';
 import { ServiceMaterialEntity } from './entities/service-material.entity';
 import { ServiceMaterialModule } from './controllers/service-material/service-material.module';
-import { BookingServiceEntity } from './entities/booking-service.entity';
-import { BookingServiceModule } from './controllers/booking-service/booking-service.module';
+import { OrderProductsEntity } from './entities/order-products.entity';
+import { OrderProductsModule } from './controllers/order-products/order-products.module';
+import { BookingStatusEntity } from './entities/booking-status.entity';
 
 @Module({
   imports: [
@@ -48,8 +49,8 @@ import { BookingServiceModule } from './controllers/booking-service/booking-serv
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      // logging: ['query'],
-      // logger: 'simple-console',
+      logging: ['error'],
+      // logger: 'debug',
       entities: [
         UserEntity,
         ProfileEntity,
@@ -60,7 +61,8 @@ import { BookingServiceModule } from './controllers/booking-service/booking-serv
         ServiceEntity,
         ServiceMaterialEntity,
         BookingEntity,
-        BookingServiceEntity,
+        BookingStatusEntity,
+        OrderProductsEntity,
         OrderEntity,
         BusinessEntity,
         BusinessObjectEntity,
@@ -89,7 +91,7 @@ import { BookingServiceModule } from './controllers/booking-service/booking-serv
     ProfileModule,
     MaterialTransactionModule,
     ServiceMaterialModule,
-    BookingServiceModule,
+    OrderProductsModule,
   ],
   controllers: [AppController],
   providers: [

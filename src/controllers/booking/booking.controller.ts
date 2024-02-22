@@ -4,10 +4,11 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Req,
   SetMetadata,
 } from '@nestjs/common';
-import { BookingService } from './booking.service';
+import { OrderProducts } from './booking.service';
 import {
   SearchProfilesDto,
   SearchServicesDto,
@@ -23,7 +24,7 @@ import { ProfileService } from '../profile/profile.service';
 @Controller(Resource.booking)
 export class BookingController {
   constructor(
-    private readonly bookingService: BookingService,
+    private readonly bookingService: OrderProducts,
     private readonly profileService: ProfileService,
   ) {}
 
@@ -44,13 +45,41 @@ export class BookingController {
       where: { user: { id: req.user.sub } },
     });
 
-    return this.bookingService.create({
-      ...dto,
-      createdBy: profile,
-      businessObject: {
-        id: businessObjectId,
+    return this.bookingService.create(
+      {
+        ...dto,
+        businessObject: {
+          id: businessObjectId,
+        },
       },
+      profile,
+    );
+  }
+
+  @Put(':businessObjectId/:id/confirm')
+  async confirm(
+    @Param('businessObjectId') businessObjectId: number,
+    @Param('id') id: number,
+    @Req() req,
+  ) {
+    const profile = await this.profileService.findOne({
+      where: { user: { id: req.user.sub } },
     });
+
+    return this.bookingService.confirm(id, profile);
+  }
+
+  @Put(':businessObjectId/:id/cancel')
+  async cancel(
+    @Param('businessObjectId') businessObjectId: number,
+    @Param('id') id: number,
+    @Req() req,
+  ) {
+    const profile = await this.profileService.findOne({
+      where: { user: { id: req.user.sub } },
+    });
+
+    return this.bookingService.cancel(id, profile);
   }
 
   @Post(':businessObjectId/profiles')

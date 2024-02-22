@@ -14,9 +14,10 @@ import { ProfileEntity } from './profile.entity';
 import { ClientEntity } from './client.entity';
 import { OrderEntity } from './order.entity';
 import { ConfirmationStatus } from 'src/types/enums';
-import { BookingServiceEntity } from './booking-service.entity';
+import { OrderProductsEntity } from './order-products.entity';
 import { MaterialTransactionEntity } from './material-transaction.entity';
 import { BusinessObjectEntity } from './business-object.entity';
+import { BookingStatusEntity } from './booking-status.entity';
 
 @Entity({ name: 'booking' })
 export class BookingEntity {
@@ -29,13 +30,6 @@ export class BookingEntity {
   @Column()
   duration: number;
 
-  @Column({
-    type: 'enum',
-    enum: ConfirmationStatus,
-    default: ConfirmationStatus.new,
-  })
-  status: ConfirmationStatus;
-
   @Column({ default: '' })
   comment: string;
 
@@ -44,14 +38,6 @@ export class BookingEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
-
-  @ManyToOne(() => ProfileEntity)
-  @JoinTable({ name: 'profile_to_objects' })
-  createdBy: ProfileEntity;
-
-  @ManyToOne(() => ProfileEntity)
-  @JoinColumn({ name: 'profile_id' })
-  profile: ProfileEntity;
 
   @ManyToOne(() => BusinessObjectEntity)
   @JoinColumn({ name: 'business_object_id' })
@@ -65,15 +51,18 @@ export class BookingEntity {
   order: OrderEntity;
 
   @OneToMany(
-    () => BookingServiceEntity,
+    () => OrderProductsEntity,
     (bookingService) => bookingService.booking,
   )
   @JoinColumn({ name: 'id' })
-  services: BookingServiceEntity[];
+  services: OrderProductsEntity[];
 
   @OneToMany(
     () => MaterialTransactionEntity,
     (transaction) => transaction.booking,
   )
   materialTransactions: MaterialTransactionEntity[];
+
+  @OneToMany(() => BookingStatusEntity, (status) => status.booking)
+  statuses: BookingStatusEntity[];
 }

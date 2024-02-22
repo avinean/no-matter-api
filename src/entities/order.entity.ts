@@ -1,12 +1,14 @@
 import {
   Entity,
   JoinTable,
-  ManyToMany,
+  ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BookingEntity } from './booking.entity';
-import { ServiceEntity } from './service.entity';
+import { ProfileEntity } from './profile.entity';
+import { OrderProductsEntity } from './order-products.entity';
 
 @Entity({ name: 'orders' })
 export class OrderEntity {
@@ -17,7 +19,11 @@ export class OrderEntity {
   @JoinTable({ name: 'order_booking' })
   booking: BookingEntity;
 
-  @ManyToMany(() => ServiceEntity, (service) => service.orders)
+  @OneToMany(() => OrderProductsEntity, (orderProduct) => orderProduct.order)
   @JoinTable({ name: 'order_product' })
-  products: ServiceEntity[];
+  products: OrderProductsEntity[];
+
+  @ManyToOne(() => ProfileEntity, (profile) => profile.orders)
+  @JoinTable({ name: 'profile_order' })
+  createdBy: ProfileEntity;
 }

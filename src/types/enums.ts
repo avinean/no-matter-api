@@ -7,8 +7,6 @@ export enum MaterialTransactionType {
   increase = 'increase',
   decrease = 'decrease',
   revert = 'revert',
-  book = 'book',
-  release = 'release',
   consume = 'consume',
   transfer = 'transfer',
   adjust = 'adjust',
