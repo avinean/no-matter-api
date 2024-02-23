@@ -4,6 +4,7 @@ import { OrderProductsEntity } from 'src/entities/order-products.entity';
 import { DeepPartial, In, Repository } from 'typeorm';
 import { ServiceService } from '../service/service.service';
 import { MaterialTransactionService } from '../material-transaction/material-transaction.service';
+import { OrderEntity } from 'src/entities/order.entity';
 
 @Injectable()
 export class OrderProductsService {
@@ -34,6 +35,7 @@ export class OrderProductsService {
       );
       if (existing) {
         existing.quantity = booking.quantity;
+        if (booking.order) existing.order = booking.order as OrderEntity;
         return existing;
       }
       return this.orderProductsRepository.create(booking);

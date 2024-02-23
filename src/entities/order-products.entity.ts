@@ -25,7 +25,7 @@ export class OrderProductsEntity {
   @JoinColumn({ name: 'booking_id' })
   booking: BookingEntity;
 
-  @ManyToOne(() => OrderEntity, (order) => order.products)
+  @ManyToOne(() => OrderEntity, (order) => order.services)
   @JoinColumn({ name: 'order_id' })
   order: OrderEntity;
 }

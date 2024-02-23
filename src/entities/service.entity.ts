@@ -66,7 +66,7 @@ export class ServiceEntity {
   @JoinTable({ name: 'business_object_service' })
   relatedBusinessObjects: BusinessObjectEntity[];
 
-  @ManyToMany(() => OrderEntity, (order) => order.products)
+  @ManyToMany(() => OrderEntity, (order) => order.services)
   @JoinTable({ name: 'order_product' })
   orders: OrderEntity[];
 

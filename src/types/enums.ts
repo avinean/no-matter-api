@@ -19,6 +19,13 @@ export enum ConfirmationStatus {
   rejected = 'rejected',
 }
 
+export enum OrderStatus {
+  new = 'new',
+  partiallyPaid = 'partiallyPaid',
+  paid = 'paid',
+  rejected = 'rejected',
+}
+
 export enum Sex {
   male = 'male',
   female = 'female',

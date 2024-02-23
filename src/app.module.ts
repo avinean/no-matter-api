@@ -39,6 +39,8 @@ import { ServiceMaterialModule } from './controllers/service-material/service-ma
 import { OrderProductsEntity } from './entities/order-products.entity';
 import { OrderProductsModule } from './controllers/order-products/order-products.module';
 import { BookingStatusEntity } from './entities/booking-status.entity';
+import { OrderModule } from './controllers/order/order.module';
+import { OrderStatusEntity } from './entities/order-status.entity';
 
 @Module({
   imports: [
@@ -64,6 +66,7 @@ import { BookingStatusEntity } from './entities/booking-status.entity';
         BookingStatusEntity,
         OrderProductsEntity,
         OrderEntity,
+        OrderStatusEntity,
         BusinessEntity,
         BusinessObjectEntity,
         RoleEntity,
@@ -92,6 +95,7 @@ import { BookingStatusEntity } from './entities/booking-status.entity';
     MaterialTransactionModule,
     ServiceMaterialModule,
     OrderProductsModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [

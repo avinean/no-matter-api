@@ -13,6 +13,7 @@ import { ClientEntity } from './client.entity';
 import { MaterialTransactionEntity } from './material-transaction.entity';
 import { MaterialEntity } from './material.entity';
 import { BookingEntity } from './booking.entity';
+import { OrderEntity } from './order.entity';
 
 @Entity({ name: 'business_objects' })
 export class BusinessObjectEntity {
@@ -58,4 +59,7 @@ export class BusinessObjectEntity {
 
   @OneToMany(() => BookingEntity, (booking) => booking.businessObject)
   bookings: BookingEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.businessObject)
+  orders: OrderEntity[];
 }

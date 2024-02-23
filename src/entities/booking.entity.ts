@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -50,6 +51,7 @@ export class BookingEntity {
   profile: ProfileEntity;
 
   @OneToOne(() => OrderEntity, (order) => order.booking)
+  @JoinColumn()
   order: OrderEntity;
 
   @OneToMany(

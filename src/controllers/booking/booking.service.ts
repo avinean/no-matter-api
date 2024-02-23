@@ -8,9 +8,10 @@ import { BookingEntity } from 'src/entities/booking.entity';
 import { OrderProductsService } from '../order-products/order-products.service';
 import { BookingStatusEntity } from 'src/entities/booking-status.entity';
 import { ConfirmationStatus } from 'src/types/enums';
+import { OrderService } from '../order/order.service';
 
 @Injectable()
-export class OrderProducts {
+export class BookingService {
   constructor(
     @InjectRepository(ProfileEntity)
     private readonly profileRepository: Repository<ProfileEntity>,
@@ -21,10 +22,27 @@ export class OrderProducts {
     @InjectRepository(BookingStatusEntity)
     private readonly bookingStatusRepository: Repository<BookingStatusEntity>,
     private readonly orderProductsService: OrderProductsService,
+    private readonly orderService: OrderService,
   ) {}
 
   findAll(where: FindOptionsWhere<BookingEntity>) {
     return this.bookingRepository.find({
+      where,
+      relations: {
+        profile: true,
+        client: true,
+        statuses: {
+          createdBy: true,
+        },
+        services: {
+          service: true,
+        },
+      },
+    });
+  }
+
+  findOne(where: FindOptionsWhere<BookingEntity>) {
+    return this.bookingRepository.findOne({
       where,
       relations: {
         profile: true,
@@ -102,13 +120,38 @@ export class OrderProducts {
   }
 
   async confirm(id: number, createdBy: ProfileEntity) {
+    const booking = await this.bookingRepository.findOne({
+      where: { id },
+      relations: {
+        services: {
+          service: true,
+        },
+      },
+    });
+
     await this.bookingStatusRepository.save(
       this.bookingStatusRepository.create({
         status: ConfirmationStatus.approved,
-        booking: { id },
+        booking,
         createdBy,
       }),
     );
+
+    const order = await this.orderService.create({
+      createdBy,
+      booking,
+      businessObject: booking.businessObject,
+    });
+
+    await this.orderProductsService.update(
+      booking.services.map((service) => ({
+        ...service,
+        booking,
+        order,
+      })),
+    );
+
+    return this.orderService.findOne({ id: order.id });
   }
 
   findProfiles(services: ServiceEntity[]) {

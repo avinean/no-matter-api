@@ -8,7 +8,7 @@ import {
   Req,
   SetMetadata,
 } from '@nestjs/common';
-import { OrderProducts } from './booking.service';
+import { BookingService } from './booking.service';
 import {
   SearchProfilesDto,
   SearchServicesDto,
@@ -18,14 +18,13 @@ import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
 import { BookingEntity } from 'src/entities/booking.entity';
 import { ProfileService } from '../profile/profile.service';
-import { ServiceEntity } from 'src/entities/service.entity';
 
 @ApiTags('Booking')
 @SetMetadata('resource', Resource.booking)
 @Controller(Resource.booking)
 export class BookingController {
   constructor(
-    private readonly bookingService: OrderProducts,
+    private readonly bookingService: BookingService,
     private readonly profileService: ProfileService,
   ) {}
 
@@ -92,7 +91,9 @@ export class BookingController {
       where: { user: { id: req.user.sub } },
     });
 
-    return this.bookingService.confirm(id, profile);
+    const a = await this.bookingService.confirm(id, profile);
+    console.log('!!!!!!', a);
+    return a;
   }
 
   @Put(':businessObjectId/:id/cancel')
