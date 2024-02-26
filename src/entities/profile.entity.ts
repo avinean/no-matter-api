@@ -19,6 +19,7 @@ import { UserEntity } from './user.entity';
 import { RoleEntity } from './role.entity';
 import { MaterialTransactionEntity } from './material-transaction.entity';
 import { OrderEntity } from './order.entity';
+import { ScheduleEntity } from './schedule.entity';
 
 @Entity({ name: 'user_profiles' })
 export class ProfileEntity {
@@ -101,4 +102,7 @@ export class ProfileEntity {
 
   @OneToMany(() => OrderEntity, (order) => order.createdBy)
   orders: OrderEntity[];
+
+  @OneToMany(() => ScheduleEntity, (schedule) => schedule.profile)
+  schedule: ScheduleEntity[];
 }

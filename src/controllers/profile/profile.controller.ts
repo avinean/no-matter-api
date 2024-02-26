@@ -13,12 +13,17 @@ import { Resource } from 'src/types/permissions';
 import { ProfileService } from './profile.service';
 import { SkipPermission } from 'src/decorators/permission.decorator';
 import { CreateProfileDto, UpdateProfileDto } from './profile.dto';
+import { ScheduleService } from '../schedule/schedule.service';
+import { ScheduleEntity } from 'src/entities/schedule.entity';
 
 @ApiTags('Profile')
 @SetMetadata('resource', Resource.profile)
 @Controller(Resource.profile)
 export class ProfileController {
-  constructor(private profileService: ProfileService) {}
+  constructor(
+    private profileService: ProfileService,
+    private scheduleService: ScheduleService,
+  ) {}
 
   @SkipPermission()
   @Get('me')
@@ -61,6 +66,17 @@ export class ProfileController {
         { id, user: { id: req.user.sub } },
       ],
       userDTO,
+    );
+  }
+
+  @Put(':businessObjectId/:id/schedule')
+  setSchedule(
+    @Param('id') id: number,
+    @Param('businessObjectId') businessObjectId: number,
+    @Body() schedule: ScheduleEntity[],
+  ) {
+    return this.scheduleService.set(
+      schedule.map((s) => ({ ...s, profile: { id } })),
     );
   }
 }

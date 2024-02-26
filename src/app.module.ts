@@ -41,6 +41,8 @@ import { OrderProductsModule } from './controllers/order-products/order-products
 import { BookingStatusEntity } from './entities/booking-status.entity';
 import { OrderModule } from './controllers/order/order.module';
 import { OrderStatusEntity } from './entities/order-status.entity';
+import { ScheduleEntity } from './entities/schedule.entity';
+import { ScheduleModule } from './controllers/schedule/schedule.module';
 
 @Module({
   imports: [
@@ -71,6 +73,7 @@ import { OrderStatusEntity } from './entities/order-status.entity';
         BusinessObjectEntity,
         RoleEntity,
         PermissionEntity,
+        ScheduleEntity,
       ],
       synchronize: true,
     }),
@@ -96,6 +99,7 @@ import { OrderStatusEntity } from './entities/order-status.entity';
     ServiceMaterialModule,
     OrderProductsModule,
     OrderModule,
+    ScheduleModule,
   ],
   controllers: [AppController],
   providers: [

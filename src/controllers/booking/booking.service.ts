@@ -224,3 +224,33 @@ export class BookingService {
     return freeTimeSlots;
   }
 }
+
+// comparing time slots to schedules
+// // Assuming you have a time value and offset
+// const timeValue = "08:00:00";
+// const offsetMinutes = -120;
+
+// // Parse the time string to create a Date object
+// const timeDate = new Date(`1970-01-01T${timeValue}`);
+
+// // Adjust the time using the offset in minutes
+// timeDate.setMinutes(timeDate.getMinutes() + offsetMinutes);
+
+// // Now `timeDate` represents the adjusted time with the offset
+
+// // If you have another date object like "Mon Feb 26 2024 16:18:06 GMT+0200 (Eastern European Standard Time)"
+// // and you want to compare only the times, you can use the same approach:
+
+// const otherDate = new Date("Mon Feb 26 2024 16:18:06 GMT+0200 (Eastern European Standard Time)");
+
+// // Extract the time components from the other date
+// const otherTimeDate = new Date(`1970-01-01T${otherDate.toTimeString().slice(0, 8)}`);
+
+// // Compare the two time values
+// if (timeDate.getTime() === otherTimeDate.getTime()) {
+//   console.log("Times are equal");
+// } else if (timeDate.getTime() < otherTimeDate.getTime()) {
+//   console.log("Time 1 is before Time 2");
+// } else {
+//   console.log("Time 1 is after Time 2");
+// }

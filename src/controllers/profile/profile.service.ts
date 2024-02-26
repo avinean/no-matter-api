@@ -89,12 +89,15 @@ export class ProfileService {
       where: { user: { id } },
       relations: {
         ownedBusinesses: {
-          businessObjects: true,
+          businessObjects: {
+            schedule: true,
+          },
         },
         roles: {
           assignedPermissions: true,
         },
         employers: true,
+        schedule: true,
       },
     });
   }
