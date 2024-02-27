@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProfileEntity } from 'src/entities/profile.entity';
 import { UserEntity } from 'src/entities/user.entity';
 import { ScheduleModule } from '../schedule/schedule.module';
+import { CalendarModule } from '../calendar/calendar.module';
 
 @Module({
   providers: [ProfileService],
@@ -13,6 +14,7 @@ import { ScheduleModule } from '../schedule/schedule.module';
   imports: [
     TypeOrmModule.forFeature([ProfileEntity, UserEntity]),
     ScheduleModule,
+    CalendarModule,
   ],
 })
 export class ProfileModule {}

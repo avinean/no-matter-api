@@ -13,6 +13,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
 import { ScheduleEntity } from 'src/entities/schedule.entity';
 import { ScheduleService } from '../schedule/schedule.service';
+import { CalendarEntity } from 'src/entities/calendar.entity';
+import { CalendarService } from '../calendar/calendar.service';
 
 @ApiTags('Business Object')
 @SetMetadata('resource', Resource.businessObject)
@@ -21,6 +23,7 @@ export class BusinessObjectController {
   constructor(
     private readonly objectService: BusinessObjectService,
     private readonly scheduleService: ScheduleService,
+    private readonly calendarService: CalendarService,
   ) {}
 
   @Get(':profileId/:businessId')
@@ -48,5 +51,14 @@ export class BusinessObjectController {
     return this.scheduleService.set(
       schedule.map((s) => ({ ...s, businessObject: { id } })),
     );
+  }
+
+  @Put(':businessObjectId/:id/calendar')
+  setCalendar(
+    @Param('id') id: number,
+    @Param('businessObjectId') businessObjectId: number,
+    @Body() calendar: CalendarEntity,
+  ) {
+    return this.calendarService.set(calendar);
   }
 }

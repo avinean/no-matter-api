@@ -15,6 +15,8 @@ import { SkipPermission } from 'src/decorators/permission.decorator';
 import { CreateProfileDto, UpdateProfileDto } from './profile.dto';
 import { ScheduleService } from '../schedule/schedule.service';
 import { ScheduleEntity } from 'src/entities/schedule.entity';
+import { CalendarEntity } from 'src/entities/calendar.entity';
+import { CalendarService } from '../calendar/calendar.service';
 
 @ApiTags('Profile')
 @SetMetadata('resource', Resource.profile)
@@ -23,6 +25,7 @@ export class ProfileController {
   constructor(
     private profileService: ProfileService,
     private scheduleService: ScheduleService,
+    private calendarService: CalendarService,
   ) {}
 
   @SkipPermission()
@@ -78,5 +81,14 @@ export class ProfileController {
     return this.scheduleService.set(
       schedule.map((s) => ({ ...s, profile: { id } })),
     );
+  }
+
+  @Put(':businessObjectId/:id/calendar')
+  setCalendar(
+    @Param('id') id: number,
+    @Param('businessObjectId') businessObjectId: number,
+    @Body() calendar: CalendarEntity,
+  ) {
+    return this.calendarService.set(calendar);
   }
 }

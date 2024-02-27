@@ -98,6 +98,7 @@ export class ProfileService {
         },
         employers: true,
         schedule: true,
+        calendar: true,
       },
     });
   }

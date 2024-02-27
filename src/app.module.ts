@@ -43,6 +43,8 @@ import { OrderModule } from './controllers/order/order.module';
 import { OrderStatusEntity } from './entities/order-status.entity';
 import { ScheduleEntity } from './entities/schedule.entity';
 import { ScheduleModule } from './controllers/schedule/schedule.module';
+import { CalendarEntity } from './entities/calendar.entity';
+import { CalendarModule } from './controllers/calendar/calendar.module';
 
 @Module({
   imports: [
@@ -74,6 +76,7 @@ import { ScheduleModule } from './controllers/schedule/schedule.module';
         RoleEntity,
         PermissionEntity,
         ScheduleEntity,
+        CalendarEntity,
       ],
       synchronize: true,
     }),
@@ -100,6 +103,7 @@ import { ScheduleModule } from './controllers/schedule/schedule.module';
     OrderProductsModule,
     OrderModule,
     ScheduleModule,
+    CalendarModule,
   ],
   controllers: [AppController],
   providers: [

@@ -42,3 +42,13 @@ export enum ServiceType {
   service = 'service',
   product = 'product',
 }
+
+export enum DayType {
+  stateHoliday = 'stateHoliday',
+  companyHoliday = 'companyHoliday',
+  holiday = 'holiday',
+  workingDay = 'workingDay',
+  vacation = 'vacation',
+  sickLeave = 'sickLeave',
+  dayOff = 'dayOff',
+}
