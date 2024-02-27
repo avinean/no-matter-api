@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessEntity } from 'src/entities/business.entity';
 import { BusinessObjectEntity } from 'src/entities/business-object.entity';
 import { ProfileEntity } from 'src/entities/profile.entity';
-import { FindOneOptions, Repository } from 'typeorm';
+import { DeepPartial, FindOneOptions, Repository } from 'typeorm';
 import { CreateBusinessObjectDto } from './business-object.dto';
 
 @Injectable()
@@ -46,6 +46,10 @@ export class BusinessObjectService {
     businessObject.createdBy = profile;
     businessObject.business = business;
     return await this.objectRepository.save(businessObject);
+  }
+
+  update(dto: DeepPartial<BusinessObjectEntity>, id: number) {
+    return this.objectRepository.update({ id }, dto);
   }
 
   async createTmp(business: BusinessEntity, profile: ProfileEntity) {

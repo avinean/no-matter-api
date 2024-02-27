@@ -36,6 +36,10 @@ export class BusinessService {
     return await this.businessRepository.save(business);
   }
 
+  update(dto: CreateBusinessDto, id: number) {
+    return this.businessRepository.update({ id }, dto);
+  }
+
   async createTmp(profile: ProfileEntity) {
     const business = new BusinessEntity();
     business.name = 'Temporary business name';

@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   SetMetadata,
 } from '@nestjs/common';
 import { BusinessService } from './business.service';
@@ -28,5 +29,13 @@ export class BusinessController {
     @Param('profileId') profileId: number,
   ) {
     return this.businessService.create(body, profileId);
+  }
+
+  @Put(':profileId/:businessId')
+  update(
+    @Body() body: CreateBusinessDto,
+    @Param('businessId') businessId: number,
+  ) {
+    return this.businessService.update(body, businessId);
   }
 }

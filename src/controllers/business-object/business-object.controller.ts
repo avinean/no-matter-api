@@ -43,6 +43,14 @@ export class BusinessObjectController {
     return this.objectService.create(body, profileId, businessId);
   }
 
+  @Put(':profileId/:businessId/:businessObjectId')
+  update(
+    @Body() body: CreateBusinessObjectDto,
+    @Param('businessObjectId') businessObjectId: number,
+  ) {
+    return this.objectService.update(body, businessObjectId);
+  }
+
   @Put(':businessObjectId/schedule')
   setSchedule(
     @Param('businessObjectId') id: number,
