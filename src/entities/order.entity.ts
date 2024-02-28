@@ -13,7 +13,6 @@ import { BookingEntity } from './booking.entity';
 import { ProfileEntity } from './profile.entity';
 import { OrderProductsEntity } from './order-products.entity';
 import { BusinessObjectEntity } from './business-object.entity';
-import { OrderStatus } from 'src/types/enums';
 import { OrderStatusEntity } from './order-status.entity';
 
 @Entity({ name: 'orders' })

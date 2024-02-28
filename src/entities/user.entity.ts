@@ -31,7 +31,10 @@ export class UserEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToOne(() => ProfileEntity, (profile) => profile.isPrimary)
+  @OneToOne(() => ProfileEntity, (profile) => profile.primaryFor, {
+    cascade: ['update'], // Add cascade option if you want changes to propagate
+  })
+  @JoinColumn()
   primaryProfile: ProfileEntity;
 
   @OneToMany(() => ProfileEntity, (profile) => profile.user)

@@ -69,7 +69,8 @@ export class ProfileEntity {
   userId: number;
 
   @OneToOne(() => UserEntity, (user) => user.primaryProfile)
-  isPrimary: UserEntity;
+  @JoinColumn()
+  primaryFor: UserEntity;
 
   @ManyToOne(() => UserEntity)
   @JoinColumn()

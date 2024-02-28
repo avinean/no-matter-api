@@ -86,9 +86,30 @@ export class ProfileService {
     }
   }
 
+  async primary(
+    where: FindOptionsWhere<ProfileEntity> | FindOptionsWhere<ProfileEntity>[],
+  ) {
+    const profile = await this.profileRepository.findOne({
+      where,
+      relations: {
+        user: true,
+        primaryFor: true,
+      },
+    });
+    const prevPrimary = await this.profileRepository.findOne({
+      where: {
+        primaryFor: { id: profile.user.id },
+      },
+    });
+    prevPrimary.primaryFor = null;
+    await this.profileRepository.save(prevPrimary);
+    profile.primaryFor = profile.user;
+    return this.profileRepository.save(profile);
+  }
+
   async findMe(id: number) {
     return await this.profileRepository.findOne({
-      where: { user: { id } },
+      where: { user: { id }, primaryFor: { id } },
       relations: {
         ownedBusinesses: {
           businessObjects: {
@@ -98,6 +119,7 @@ export class ProfileService {
         roles: {
           assignedPermissions: true,
         },
+        primaryFor: true,
         employers: true,
         schedule: true,
         calendar: true,

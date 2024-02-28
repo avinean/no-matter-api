@@ -74,6 +74,19 @@ export class ProfileController {
     );
   }
 
+  @SkipPermission()
+  @Put(':businessObjectId/:id/primary')
+  async primary(
+    @Param('id') id: number,
+    @Param('businessObjectId') businessObjectId: number,
+    @Req() req,
+  ) {
+    return this.profileService.primary([
+      { id, employers: [{ id: businessObjectId }] },
+      { id, user: { id: req.user.sub } },
+    ]);
+  }
+
   @Put(':businessObjectId/:id/schedule')
   setSchedule(
     @Param('id') id: number,

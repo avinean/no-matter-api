@@ -26,6 +26,7 @@ export class UserService {
       relations: {
         associatedProfiles: {
           roles: true,
+          primaryFor: true,
         },
       },
     });

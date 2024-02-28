@@ -7,7 +7,6 @@ import {
 import { Reflector } from '@nestjs/core';
 import { BusinessObjectService } from 'src/controllers/business-object/business-object.service';
 import { BusinessService } from 'src/controllers/business/business.service';
-import { UserService } from 'src/controllers/user/user.service';
 
 @Injectable()
 export class PropertyGuard implements CanActivate {
@@ -15,7 +14,6 @@ export class PropertyGuard implements CanActivate {
     private reflector: Reflector,
     private businessService: BusinessService,
     private businessObjectService: BusinessObjectService,
-    private userService: UserService,
   ) {}
 
   async canActivate(context: ExecutionContext) {
