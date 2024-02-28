@@ -6,6 +6,8 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  OneToOne,
 } from 'typeorm';
 import { ProfileEntity } from './profile.entity';
 
@@ -29,7 +31,13 @@ export class UserEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
+  @OneToOne(() => ProfileEntity, (profile) => profile.isPrimary)
+  primaryProfile: ProfileEntity;
+
   @OneToMany(() => ProfileEntity, (profile) => profile.user)
   @JoinColumn()
   associatedProfiles: ProfileEntity[];
+
+  @ManyToOne(() => ProfileEntity, (profile) => profile.users)
+  createdBy: ProfileEntity;
 }

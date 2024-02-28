@@ -34,15 +34,17 @@ export class ProfileService {
         this.profileRepository.create(params),
       );
 
-      const user = await this.userRepository.save(
-        this.userRepository.create({
-          email: params.email,
-          password: Array(6)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join(''),
-        }),
-      );
+      const user = params.user
+        ? (params.user as UserEntity)
+        : await this.userRepository.save(
+            this.userRepository.create({
+              email: params.email,
+              password: Array(6)
+                .fill(null)
+                .map(() => Math.round(Math.random() * 16).toString(16))
+                .join(''),
+            }),
+          );
 
       await this.profileRepository.update(profile.id, { user });
 
@@ -67,11 +69,11 @@ export class ProfileService {
     params: DeepPartial<ProfileEntity>,
   ) {
     try {
+      console.log(where, params);
       const profile = await this.profileRepository.findOne({
         where,
       });
-      Object.assign(profile, params);
-      return this.profileRepository.save(profile);
+      return this.profileRepository.update(profile.id, params);
     } catch (e) {
       if (e.errno === DBErrors.ER_DUP_ENTRY) {
         throw new ConflictException({

@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
 } from 'typeorm';
 import { Sex } from 'src/types/enums';
 import { ServiceEntity } from './service.entity';
@@ -67,9 +68,16 @@ export class ProfileEntity {
   @Column({ nullable: true })
   userId: number;
 
+  @OneToOne(() => UserEntity, (user) => user.primaryProfile)
+  isPrimary: UserEntity;
+
   @ManyToOne(() => UserEntity)
   @JoinColumn()
   user: UserEntity;
+
+  @OneToMany(() => UserEntity, (user) => user.createdBy)
+  @JoinColumn({ name: 'profile_users' })
+  users: UserEntity[];
 
   @ManyToMany(() => RoleEntity)
   @JoinTable({ name: 'profile_roles' })

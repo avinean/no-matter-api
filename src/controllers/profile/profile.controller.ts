@@ -17,6 +17,8 @@ import { ScheduleService } from '../schedule/schedule.service';
 import { ScheduleEntity } from 'src/entities/schedule.entity';
 import { CalendarEntity } from 'src/entities/calendar.entity';
 import { CalendarService } from '../calendar/calendar.service';
+import { DeepPartial } from 'typeorm';
+import { ProfileEntity } from 'src/entities/profile.entity';
 
 @ApiTags('Profile')
 @SetMetadata('resource', Resource.profile)
@@ -60,7 +62,7 @@ export class ProfileController {
   update(
     @Param('id') id: number,
     @Param('businessObjectId') businessObjectId: number,
-    @Body() userDTO: UpdateProfileDto,
+    @Body() dto: DeepPartial<ProfileEntity>,
     @Req() req,
   ) {
     return this.profileService.update(
@@ -68,7 +70,7 @@ export class ProfileController {
         { id, employers: [{ id: businessObjectId }] },
         { id, user: { id: req.user.sub } },
       ],
-      userDTO,
+      dto,
     );
   }
 

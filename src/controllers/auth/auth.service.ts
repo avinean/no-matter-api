@@ -22,7 +22,7 @@ export class AuthService {
 
   async signIn(dto: SignInDto): Promise<{ access_token: string }> {
     const profile = await this.profileService.findOne({
-      where: { user: dto },
+      where: { user: dto, isPrimary: dto },
       relations: {
         user: true,
         roles: true,

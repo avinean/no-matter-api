@@ -15,7 +15,20 @@ export class UserService {
   ) {}
 
   findAll() {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      select: {
+        id: true,
+        email: true,
+        phone: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      relations: {
+        associatedProfiles: {
+          roles: true,
+        },
+      },
+    });
   }
 
   findOne(dto: FindOneOptions<UserEntity>) {
