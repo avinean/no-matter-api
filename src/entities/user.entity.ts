@@ -14,10 +14,13 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column({ unique: true, default: null })
   phone: string;
 
-  @Column()
+  @Column({ unique: true })
+  email: string;
+
+  @Column({ nullable: true })
   password: string;
 
   @CreateDateColumn({ name: 'created_at' })

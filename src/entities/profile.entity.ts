@@ -46,10 +46,10 @@ export class ProfileEntity {
   @Column({ nullable: true })
   image: string;
 
-  @Column({ unique: true, nullable: true })
+  @Column({ unique: true })
   email: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   phone: string;
 
   @Column({ default: false })

@@ -36,7 +36,7 @@ export class ProfileService {
 
       const user = await this.userRepository.save(
         this.userRepository.create({
-          phone: params.phone,
+          email: params.email,
           password: Array(6)
             .fill(null)
             .map(() => Math.round(Math.random() * 16).toString(16))

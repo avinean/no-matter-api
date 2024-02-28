@@ -10,7 +10,6 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { Sex } from 'src/types/enums';
 import { ServiceEntity } from 'src/entities/service.entity';
-import { Role } from 'src/types/roles';
 import { RoleEntity } from 'src/entities/role.entity';
 
 export class CreateUserDto {
