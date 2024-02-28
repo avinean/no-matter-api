@@ -91,4 +91,20 @@ export class ProfileController {
   ) {
     return this.calendarService.set(calendar);
   }
+
+  @Put(':businessObjectId/:id/lang/:lang')
+  setLang(
+    @Param('id') id: number,
+    @Param('businessObjectId') businessObjectId: number,
+    @Param('lang') language: string,
+    @Req() req,
+  ) {
+    return this.profileService.update(
+      [
+        { id, employers: [{ id: businessObjectId }] },
+        { id, user: { id: req.user.sub } },
+      ],
+      { language },
+    );
+  }
 }

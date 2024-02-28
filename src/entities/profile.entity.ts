@@ -55,6 +55,9 @@ export class ProfileEntity {
   @Column({ default: false })
   status: boolean;
 
+  @Column({ nullable: true })
+  language: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
