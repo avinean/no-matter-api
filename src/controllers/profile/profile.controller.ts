@@ -12,7 +12,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
 import { ProfileService } from './profile.service';
 import { SkipPermission } from 'src/decorators/permission.decorator';
-import { CreateProfileDto, UpdateProfileDto } from './profile.dto';
+import { CreateProfileDto } from './profile.dto';
 import { ScheduleService } from '../schedule/schedule.service';
 import { ScheduleEntity } from 'src/entities/schedule.entity';
 import { CalendarEntity } from 'src/entities/calendar.entity';

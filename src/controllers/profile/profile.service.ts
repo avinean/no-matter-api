@@ -38,6 +38,7 @@ export class ProfileService {
         ? (params.user as UserEntity)
         : await this.userRepository.save(
             this.userRepository.create({
+              primaryProfile: profile,
               email: params.email,
               password: Array(6)
                 .fill(null)
@@ -46,7 +47,10 @@ export class ProfileService {
             }),
           );
 
-      await this.profileRepository.update(profile.id, { user });
+      await this.profileRepository.update(profile.id, {
+        user,
+        primaryFor: user,
+      });
 
       return {
         ...profile,

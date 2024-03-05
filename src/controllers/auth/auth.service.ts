@@ -26,6 +26,7 @@ export class AuthService {
       relations: {
         user: true,
         roles: true,
+        primaryFor: true,
       },
     });
 
@@ -34,7 +35,7 @@ export class AuthService {
     const payload = {
       sub: profile.user.id,
       sud: profile.roles,
-      phone: profile.user.phone,
+      email: profile.user.email,
     };
 
     return {

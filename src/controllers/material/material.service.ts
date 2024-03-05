@@ -27,7 +27,7 @@ export class MaterialService {
    */
   update(
     where: FindOptionsWhere<MaterialEntity>,
-    { quantity: _, ...dto }: Partial<MaterialEntity>,
+    { quantity, ...dto }: Partial<MaterialEntity>,
   ) {
     return this.materialRepository.update(where, dto);
   }

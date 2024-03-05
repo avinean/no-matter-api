@@ -13,4 +13,3 @@ export class CreateMaterialDto {
   @IsNumber()
   criticalQuantity: number;
 }
-

@@ -1,9 +1,13 @@
-import { Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { Controller, Get, Param, Post, Req, SetMetadata } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { DeepPartial } from 'typeorm';
 import { OrderEntity } from 'src/entities/order.entity';
+import { Resource } from 'src/types/permissions';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('order')
+@ApiTags('MaterialTransaction')
+@SetMetadata('resource', Resource.order)
+@Controller(Resource.order)
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 

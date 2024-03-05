@@ -44,7 +44,7 @@ export class MaterialTransactionService {
 
     return transaction;
   }
-  
+
   async revert(
     where: FindOptionsWhere<MaterialTransactionEntity>,
     dto: DeepPartial<MaterialTransactionEntity>,

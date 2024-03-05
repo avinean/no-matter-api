@@ -16,4 +16,5 @@ export enum Resource {
   booking = 'booking',
   profile = 'profile',
   role = 'role',
+  order = 'order',
 }
