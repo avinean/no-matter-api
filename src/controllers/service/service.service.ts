@@ -13,8 +13,12 @@ export class ServiceService {
     private readonly serviceMaterialService: ServiceMaterialService,
   ) {}
 
-  async findAll(where: FindOptionsWhere<ServiceEntity>) {
-    return this.serviceRepository.find({
+  async findAll(
+    where: FindOptionsWhere<ServiceEntity>,
+    page: number = 1,
+    take: number = Number.MAX_SAFE_INTEGER,
+  ) {
+    const [items, total] = await this.serviceRepository.findAndCount({
       where,
       relations: {
         profiles: true,
@@ -22,7 +26,14 @@ export class ServiceService {
           material: true,
         },
       },
+      skip: (page - 1) * take,
+      take,
     });
+
+    return {
+      items,
+      pages: Math.ceil(total / take),
+    };
   }
 
   async findOne(where: FindOptionsWhere<ServiceEntity>) {

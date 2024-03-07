@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   SetMetadata,
 } from '@nestjs/common';
 import { ServiceService } from './service.service';
@@ -25,11 +26,17 @@ export class ServiceController {
   findAll(
     @Param('type') type: ServiceType,
     @Param('businessObjectId') businessObjectId: number,
+    @Query('page') page: number,
+    @Query('take') take: number,
   ) {
-    return this.servicesService.findAll({
-      type,
-      relatedBusinessObjects: [{ id: businessObjectId }],
-    });
+    return this.servicesService.findAll(
+      {
+        type,
+        relatedBusinessObjects: [{ id: businessObjectId }],
+      },
+      page,
+      take,
+    );
   }
 
   @Post(':type/:businessObjectId')

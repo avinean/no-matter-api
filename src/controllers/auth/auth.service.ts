@@ -26,7 +26,6 @@ export class AuthService {
       relations: {
         user: true,
         roles: true,
-        primaryFor: true,
       },
     });
 
