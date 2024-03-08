@@ -15,6 +15,7 @@ import { ServiceType } from 'src/types/enums';
 import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
 import { ServiceEntity } from 'src/entities/service.entity';
+import { FindOptionsWhere, Like } from 'typeorm';
 
 @ApiTags('Serive')
 @SetMetadata('resource', Resource.service)
@@ -28,15 +29,18 @@ export class ServiceController {
     @Param('businessObjectId') businessObjectId: number,
     @Query('page') page: number,
     @Query('take') take: number,
+    @Query('search') search: string,
   ) {
-    return this.servicesService.findAll(
-      {
-        type,
-        relatedBusinessObjects: [{ id: businessObjectId }],
-      },
-      page,
-      take,
-    );
+    const where: FindOptionsWhere<ServiceEntity> = {
+      type,
+      relatedBusinessObjects: [{ id: businessObjectId }],
+    };
+
+    if (search) {
+      where.name = Like(`%${search}%`);
+    }
+    console.log(where);
+    return this.servicesService.findAll(where, page, take);
   }
 
   @Post(':type/:businessObjectId')

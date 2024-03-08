@@ -16,7 +16,7 @@ export class ServiceService {
   async findAll(
     where: FindOptionsWhere<ServiceEntity>,
     page: number = 1,
-    take: number = Number.MAX_SAFE_INTEGER,
+    take: number = 10,
   ) {
     const [items, total] = await this.serviceRepository.findAndCount({
       where,

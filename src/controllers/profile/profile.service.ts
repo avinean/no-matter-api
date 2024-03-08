@@ -73,11 +73,11 @@ export class ProfileService {
     params: DeepPartial<ProfileEntity>,
   ) {
     try {
-      console.log(where, params);
       const profile = await this.profileRepository.findOne({
         where,
       });
-      return this.profileRepository.update(profile.id, params);
+      Object.assign(profile, params);
+      return this.profileRepository.save(profile);
     } catch (e) {
       if (e.errno === DBErrors.ER_DUP_ENTRY) {
         throw new ConflictException({
