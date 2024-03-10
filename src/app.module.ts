@@ -81,6 +81,7 @@ import { CalendarModule } from './controllers/calendar/calendar.module';
       synchronize: true,
     }),
     ServeStaticModule.forRoot({
+      serveRoot: '/uploads',
       rootPath: join(__dirname, '..', 'uploads'),
       exclude: ['/api/(.*)'],
     }),
