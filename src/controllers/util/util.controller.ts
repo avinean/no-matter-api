@@ -18,13 +18,13 @@ export class UtilController {
   @UseInterceptors(
     FileInterceptor('photo', {
       storage: diskStorage({
-        destination: './uploads',
+        destination: '.',
         filename: (req, file, cb) => {
           const randomName = Array(32)
             .fill(null)
             .map(() => Math.round(Math.random() * 16).toString(16))
             .join('');
-          cb(null, `${randomName}${extname(file.originalname)}`);
+          cb(null, `/uploads/${randomName}${extname(file.originalname)}`);
         },
       }),
     }),
@@ -38,9 +38,9 @@ export class UtilController {
   @UseInterceptors(
     FileInterceptor('photo', {
       storage: diskStorage({
-        destination: './uploads',
+        destination: '.',
         filename: async (req, file, cb) => {
-          const oldFilePath = `./uploads/${req.params.name}`;
+          const oldFilePath = `.${req.params.name}`;
 
           try {
             await unlinkAsync(oldFilePath);
@@ -55,8 +55,8 @@ export class UtilController {
             .map(() => Math.round(Math.random() * 16).toString(16))
             .join('');
 
-          const newFileName = `${randomName}${extname(file.originalname)}`;
-          const newFilePath = `./uploads/${newFileName}`;
+          const newFileName = `/uploads/${randomName}${extname(file.originalname)}`;
+          const newFilePath = `.${newFileName}`;
 
           cb(null, newFileName);
 
