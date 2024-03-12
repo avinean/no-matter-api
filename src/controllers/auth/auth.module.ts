@@ -7,9 +7,11 @@ import { BusinessObjectsModule } from '../business-object/business-object.module
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RoleEntity } from 'src/entities/role.entity';
 import { ProfileModule } from '../profile/profile.module';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   imports: [
+    MailModule,
     ProfileModule,
     BusinessModule,
     BusinessObjectsModule,

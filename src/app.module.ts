@@ -45,6 +45,7 @@ import { ScheduleEntity } from './entities/schedule.entity';
 import { ScheduleModule } from './controllers/schedule/schedule.module';
 import { CalendarEntity } from './entities/calendar.entity';
 import { CalendarModule } from './controllers/calendar/calendar.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -105,6 +106,7 @@ import { CalendarModule } from './controllers/calendar/calendar.module';
     OrderModule,
     ScheduleModule,
     CalendarModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [

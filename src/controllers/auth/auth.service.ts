@@ -8,10 +8,12 @@ import { Repository } from 'typeorm';
 import { RoleEntity } from 'src/entities/role.entity';
 import { ProfileService } from '../profile/profile.service';
 import { InjectRepository } from '@nestjs/typeorm';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private mailService: MailService,
     private profileService: ProfileService,
     private businessService: BusinessService,
     private objectService: BusinessObjectService,
@@ -52,6 +54,8 @@ export class AuthService {
     } as any);
     const business = await this.businessService.createTmp(profile);
     await this.objectService.createTmp(business, profile);
+
+    await this.mailService.sendUserConfirmation(profile);
     return profile;
   }
 }
