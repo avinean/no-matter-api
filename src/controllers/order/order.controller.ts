@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Post, Req, SetMetadata } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Req,
+  SetMetadata,
+} from '@nestjs/common';
 import { OrderService } from './order.service';
 import { DeepPartial } from 'typeorm';
 import { OrderEntity } from 'src/entities/order.entity';
@@ -12,10 +20,18 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Get(':businessObjectId')
-  findAll(@Param('businessObjectId') businessObjectId: number) {
-    return this.orderService.findAll({
-      businessObject: { id: businessObjectId },
-    });
+  findAll(
+    @Param('businessObjectId') businessObjectId: number,
+    @Query('page') page: number,
+    @Query('take') take: number,
+  ) {
+    return this.orderService.findAll(
+      {
+        businessObject: [{ id: businessObjectId }],
+      },
+      page,
+      take,
+    );
   }
 
   @Post(':businessObjectId')

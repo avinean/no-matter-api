@@ -13,20 +13,26 @@ export class OrderService {
     private orderStatusRepository: Repository<OrderStatusEntity>,
   ) {}
 
-  findAll(where: FindOptionsWhere<OrderEntity>) {
-    return this.orderRepository.find({
+  async findAll(
+    where: FindOptionsWhere<OrderEntity>,
+    page: number = 1,
+    take: number = 10,
+  ) {
+    const [items, total] = await this.orderRepository.findAndCount({
       where,
       relations: {
-        booking: true,
-        statuses: {
-          createdBy: true,
-        },
-        services: {
-          service: true,
-        },
         createdBy: true,
+        services: true,
+        booking: true,
       },
+      skip: (page - 1) * take,
+      take,
     });
+
+    return {
+      items,
+      pages: Math.ceil(total / take),
+    };
   }
 
   findOne(where: FindOptionsWhere<OrderEntity>) {
