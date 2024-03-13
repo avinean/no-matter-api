@@ -24,6 +24,9 @@ export class OrderService {
         createdBy: true,
         services: true,
         booking: true,
+        statuses: {
+          createdBy: true,
+        },
       },
       skip: (page - 1) * take,
       take,
