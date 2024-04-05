@@ -8,9 +8,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { PermissionEntity } from './permission.entity';
-import { ProfileEntity } from './profile.entity';
-import { BusinessEntity } from './business.entity';
+import { PermissionEntity } from '../permission/permission.entity';
+import { ProfileEntity } from '../profile/profile.entity';
+import { BusinessEntity } from '../business/business.entity';
 
 @Entity({ name: 'roles' })
 export class RoleEntity {

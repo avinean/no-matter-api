@@ -1,5 +1,5 @@
 import { IsNumber, IsString } from 'class-validator';
-import { MaterialEntity } from 'src/entities/material.entity';
+import { MaterialEntity } from 'src/controllers/material/material.entity';
 
 export class CreateMaterialTransactionDto {
   @IsString()

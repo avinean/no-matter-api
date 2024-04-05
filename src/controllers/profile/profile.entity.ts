@@ -12,16 +12,16 @@ import {
   OneToOne,
 } from 'typeorm';
 import { Sex } from 'src/types/enums';
-import { ServiceEntity } from './service.entity';
-import { BookingEntity } from './booking.entity';
-import { BusinessEntity } from './business.entity';
-import { BusinessObjectEntity } from './business-object.entity';
-import { UserEntity } from './user.entity';
-import { RoleEntity } from './role.entity';
-import { MaterialTransactionEntity } from './material-transaction.entity';
-import { OrderEntity } from './order.entity';
-import { ScheduleEntity } from './schedule.entity';
-import { CalendarEntity } from './calendar.entity';
+import { ServiceEntity } from '../service/service.entity';
+import { BookingEntity } from '../booking/booking.entity';
+import { BusinessEntity } from '../business/business.entity';
+import { BusinessObjectEntity } from '../business-object/business-object.entity';
+import { UserEntity } from '../user/user.entity';
+import { RoleEntity } from '../role/role.entity';
+import { MaterialTransactionEntity } from '../material-transaction/material-transaction.entity';
+import { OrderEntity } from '../order/order.entity';
+import { ScheduleEntity } from '../schedule/schedule.entity';
+import { CalendarEntity } from '../calendar/calendar.entity';
 
 @Entity({ name: 'user_profiles' })
 export class ProfileEntity {

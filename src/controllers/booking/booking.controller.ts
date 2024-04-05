@@ -16,7 +16,7 @@ import {
 } from './booking.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
-import { BookingEntity } from 'src/entities/booking.entity';
+import { BookingEntity } from 'src/controllers/booking/booking.entity';
 import { ProfileService } from '../profile/profile.service';
 
 @ApiTags('Booking')

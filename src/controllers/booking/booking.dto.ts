@@ -1,7 +1,7 @@
 import { IsArray, IsObject, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ServiceEntity } from 'src/entities/service.entity';
-import { ProfileEntity } from 'src/entities/profile.entity';
+import { ServiceEntity } from 'src/controllers/service/service.entity';
+import { ProfileEntity } from 'src/controllers/profile/profile.entity';
 
 export class SearchProfilesDto {
   @ApiProperty({ example: [] })

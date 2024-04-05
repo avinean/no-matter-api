@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CalendarService } from './calendar.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CalendarEntity } from 'src/entities/calendar.entity';
+import { CalendarEntity } from 'src/controllers/calendar/calendar.entity';
 
 @Module({
   providers: [CalendarService],

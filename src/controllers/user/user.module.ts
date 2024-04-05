@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from 'src/entities/user.entity';
-import { ProfileEntity } from 'src/entities/profile.entity';
-import { ServiceEntity } from 'src/entities/service.entity';
+import { UserEntity } from 'src/controllers/user/user.entity';
+import { ProfileEntity } from 'src/controllers/profile/profile.entity';
+import { ServiceEntity } from 'src/controllers/service/service.entity';
 import { BusinessModule } from '../business/business.module';
 
 @Module({

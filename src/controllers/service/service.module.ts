@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ServiceController } from './service.controller';
 import { ServiceService } from './service.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ServiceEntity } from 'src/entities/service.entity';
+import { ServiceEntity } from 'src/controllers/service/service.entity';
 import { ServiceMaterialModule } from '../service-material/service-material.module';
 
 @Module({

@@ -5,7 +5,7 @@ import { BusinessService } from '../business/business.service';
 import { BusinessObjectService } from '../business-object/business-object.service';
 import { Role } from 'src/types/roles';
 import { Repository } from 'typeorm';
-import { RoleEntity } from 'src/entities/role.entity';
+import { RoleEntity } from 'src/controllers/role/role.entity';
 import { ProfileService } from '../profile/profile.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MailService } from 'src/mail/mail.service';

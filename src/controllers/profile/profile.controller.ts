@@ -14,11 +14,11 @@ import { ProfileService } from './profile.service';
 import { SkipPermission } from 'src/decorators/permission.decorator';
 import { CreateProfileDto } from './profile.dto';
 import { ScheduleService } from '../schedule/schedule.service';
-import { ScheduleEntity } from 'src/entities/schedule.entity';
-import { CalendarEntity } from 'src/entities/calendar.entity';
+import { ScheduleEntity } from 'src/controllers/schedule/schedule.entity';
+import { CalendarEntity } from 'src/controllers/calendar/calendar.entity';
 import { CalendarService } from '../calendar/calendar.service';
 import { DeepPartial } from 'typeorm';
-import { ProfileEntity } from 'src/entities/profile.entity';
+import { ProfileEntity } from 'src/controllers/profile/profile.entity';
 
 @ApiTags('Profile')
 @SetMetadata('resource', Resource.profile)

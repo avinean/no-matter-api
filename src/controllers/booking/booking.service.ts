@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ServiceEntity } from 'src/entities/service.entity';
-import { ProfileEntity } from 'src/entities/profile.entity';
+import { ServiceEntity } from 'src/controllers/service/service.entity';
+import { ProfileEntity } from 'src/controllers/profile/profile.entity';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 import { SearchTimeslotsDto } from './booking.dto';
-import { BookingEntity } from 'src/entities/booking.entity';
+import { BookingEntity } from 'src/controllers/booking/booking.entity';
 import { OrderProductsService } from '../order-products/order-products.service';
-import { BookingStatusEntity } from 'src/entities/booking-status.entity';
+import { BookingStatusEntity } from 'src/controllers/booking/booking-status.entity';
 import { ConfirmationStatus } from 'src/types/enums';
 import { OrderService } from '../order/order.service';
 

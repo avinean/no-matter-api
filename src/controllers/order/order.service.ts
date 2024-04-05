@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OrderStatusEntity } from 'src/entities/order-status.entity';
-import { OrderEntity } from 'src/entities/order.entity';
+import { OrderStatusEntity } from 'src/controllers/order/order-status.entity';
+import { OrderEntity } from 'src/controllers/order/order.entity';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()

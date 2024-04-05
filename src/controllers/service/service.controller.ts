@@ -14,7 +14,7 @@ import { CreateServiceDto } from './service.dto';
 import { ServiceType } from 'src/types/enums';
 import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
-import { ServiceEntity } from 'src/entities/service.entity';
+import { ServiceEntity } from 'src/controllers/service/service.entity';
 import { FindOptionsWhere, Like } from 'typeorm';
 
 @ApiTags('Serive')

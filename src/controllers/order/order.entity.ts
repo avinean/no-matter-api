@@ -9,10 +9,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { BookingEntity } from './booking.entity';
-import { ProfileEntity } from './profile.entity';
-import { OrderProductsEntity } from './order-products.entity';
-import { BusinessObjectEntity } from './business-object.entity';
+import { BookingEntity } from '../booking/booking.entity';
+import { ProfileEntity } from '../profile/profile.entity';
+import { OrderProductsEntity } from '../order-products/order-products.entity';
+import { BusinessObjectEntity } from '../business-object/business-object.entity';
 import { OrderStatusEntity } from './order-status.entity';
 
 @Entity({ name: 'orders' })

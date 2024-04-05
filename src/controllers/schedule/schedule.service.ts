@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ScheduleEntity } from 'src/entities/schedule.entity';
+import { ScheduleEntity } from 'src/controllers/schedule/schedule.entity';
 import { DeepPartial, Repository } from 'typeorm';
 
 @Injectable()

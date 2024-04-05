@@ -9,12 +9,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ProfileEntity } from './profile.entity';
-import { ClientEntity } from './client.entity';
-import { OrderEntity } from './order.entity';
-import { OrderProductsEntity } from './order-products.entity';
-import { MaterialTransactionEntity } from './material-transaction.entity';
-import { BusinessObjectEntity } from './business-object.entity';
+import { ProfileEntity } from '../profile/profile.entity';
+import { ClientEntity } from '../client/client.entity';
+import { OrderEntity } from '../order/order.entity';
+import { OrderProductsEntity } from '../order-products/order-products.entity';
+import { MaterialTransactionEntity } from '../material-transaction/material-transaction.entity';
+import { BusinessObjectEntity } from '../business-object/business-object.entity';
 import { BookingStatusEntity } from './booking-status.entity';
 
 @Entity({ name: 'booking' })

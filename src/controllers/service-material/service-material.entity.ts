@@ -6,8 +6,8 @@ import {
   Unique,
   JoinColumn,
 } from 'typeorm';
-import { ServiceEntity } from './service.entity';
-import { MaterialEntity } from './material.entity';
+import { ServiceEntity } from '../service/service.entity';
+import { MaterialEntity } from '../material/material.entity';
 
 @Entity({ name: 'service_materials' })
 @Unique(['service', 'material'])

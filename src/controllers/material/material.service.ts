@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MaterialEntity } from 'src/entities/material.entity';
+import { MaterialEntity } from 'src/controllers/material/material.entity';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()

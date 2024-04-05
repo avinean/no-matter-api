@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { PermissionEntity } from 'src/entities/permission.entity';
+import { PermissionEntity } from 'src/controllers/permission/permission.entity';
 
 export class CreateRoleDto {
   @ApiProperty({ example: 'admin', description: 'The name of the role' })

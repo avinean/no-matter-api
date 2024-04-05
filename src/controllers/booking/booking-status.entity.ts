@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ProfileEntity } from './profile.entity';
+import { ProfileEntity } from '../profile/profile.entity';
 import { ConfirmationStatus } from 'src/types/enums';
 import { BookingEntity } from './booking.entity';
 

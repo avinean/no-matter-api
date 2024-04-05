@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { DeepPartial } from 'typeorm';
-import { OrderEntity } from 'src/entities/order.entity';
+import { OrderEntity } from 'src/controllers/order/order.entity';
 import { Resource } from 'src/types/permissions';
 import { ApiTags } from '@nestjs/swagger';
 

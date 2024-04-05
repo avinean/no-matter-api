@@ -6,8 +6,8 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
-import { ProfileEntity } from 'src/entities/profile.entity';
-import { ServiceMaterialEntity } from 'src/entities/service-material.entity';
+import { ProfileEntity } from 'src/controllers/profile/profile.entity';
+import { ServiceMaterialEntity } from 'src/controllers/service-material/service-material.entity';
 import { ServiceType } from 'src/types/enums';
 
 export class CreateServiceDto {

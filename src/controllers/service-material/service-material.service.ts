@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ServiceMaterialEntity } from 'src/entities/service-material.entity';
+import { ServiceMaterialEntity } from 'src/controllers/service-material/service-material.entity';
 import { Repository, In, DeepPartial } from 'typeorm';
 
 @Injectable()

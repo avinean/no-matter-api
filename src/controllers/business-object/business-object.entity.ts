@@ -7,15 +7,15 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ProfileEntity } from './profile.entity';
-import { BusinessEntity } from './business.entity';
-import { ClientEntity } from './client.entity';
-import { MaterialTransactionEntity } from './material-transaction.entity';
-import { MaterialEntity } from './material.entity';
-import { BookingEntity } from './booking.entity';
-import { OrderEntity } from './order.entity';
-import { ScheduleEntity } from './schedule.entity';
-import { CalendarEntity } from './calendar.entity';
+import { ProfileEntity } from '../profile/profile.entity';
+import { BusinessEntity } from '../business/business.entity';
+import { ClientEntity } from '../client/client.entity';
+import { MaterialTransactionEntity } from '../material-transaction/material-transaction.entity';
+import { MaterialEntity } from '../material/material.entity';
+import { BookingEntity } from '../booking/booking.entity';
+import { OrderEntity } from '../order/order.entity';
+import { ScheduleEntity } from '../schedule/schedule.entity';
+import { CalendarEntity } from '../calendar/calendar.entity';
 
 @Entity({ name: 'business_objects' })
 export class BusinessObjectEntity {

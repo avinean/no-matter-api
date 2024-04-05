@@ -10,8 +10,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { BookingEntity } from './booking.entity';
-import { BusinessObjectEntity } from './business-object.entity';
+import { BookingEntity } from '../booking/booking.entity';
+import { BusinessObjectEntity } from '../business-object/business-object.entity';
 import { ContactType, Sex } from 'src/types/enums';
 
 @Entity({ name: 'clients' })

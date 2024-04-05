@@ -7,9 +7,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { MaterialTransactionEntity } from './material-transaction.entity';
-import { BusinessObjectEntity } from './business-object.entity';
-import { ServiceMaterialEntity } from './service-material.entity';
+import { MaterialTransactionEntity } from '../material-transaction/material-transaction.entity';
+import { BusinessObjectEntity } from '../business-object/business-object.entity';
+import { ServiceMaterialEntity } from '../service-material/service-material.entity';
 
 @Entity({ name: 'materials' })
 export class MaterialEntity {

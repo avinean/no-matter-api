@@ -11,9 +11,9 @@ import { BusinessObjectService } from './business-object.service';
 import { CreateBusinessObjectDto } from './business-object.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
-import { ScheduleEntity } from 'src/entities/schedule.entity';
+import { ScheduleEntity } from 'src/controllers/schedule/schedule.entity';
 import { ScheduleService } from '../schedule/schedule.service';
-import { CalendarEntity } from 'src/entities/calendar.entity';
+import { CalendarEntity } from 'src/controllers/calendar/calendar.entity';
 import { CalendarService } from '../calendar/calendar.service';
 
 @ApiTags('Business Object')

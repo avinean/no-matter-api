@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { BusinessObjectService } from './business-object.service';
 import { BusinessObjectController } from './business-object.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BusinessObjectEntity } from 'src/entities/business-object.entity';
+import { BusinessObjectEntity } from 'src/controllers/business-object/business-object.entity';
 import { ScheduleModule } from '../schedule/schedule.module';
 import { CalendarModule } from '../calendar/calendar.module';
 

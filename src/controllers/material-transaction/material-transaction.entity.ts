@@ -8,10 +8,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { MaterialTransactionType } from 'src/types/enums';
-import { MaterialEntity } from './material.entity';
-import { ProfileEntity } from './profile.entity';
-import { BusinessObjectEntity } from './business-object.entity';
-import { BookingEntity } from './booking.entity';
+import { MaterialEntity } from '../material/material.entity';
+import { ProfileEntity } from '../profile/profile.entity';
+import { BusinessObjectEntity } from '../business-object/business-object.entity';
+import { BookingEntity } from '../booking/booking.entity';
 
 @Entity({ name: 'material_transactions' })
 export class MaterialTransactionEntity {

@@ -1,7 +1,7 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PermissionEntity } from 'src/entities/permission.entity';
-import { RoleEntity } from 'src/entities/role.entity';
+import { PermissionEntity } from 'src/controllers/permission/permission.entity';
+import { RoleEntity } from 'src/controllers/role/role.entity';
 import { Action, Resource } from 'src/types/permissions';
 import { Role } from 'src/types/roles';
 import { Repository } from 'typeorm';

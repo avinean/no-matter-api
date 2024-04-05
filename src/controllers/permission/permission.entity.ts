@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
-import { RoleEntity } from './role.entity';
+import { RoleEntity } from '../role/role.entity';
 import { Action, Resource } from 'src/types/permissions';
 
 @Entity({ name: 'permissions' })

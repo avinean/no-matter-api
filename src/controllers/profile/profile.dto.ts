@@ -8,8 +8,8 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Sex } from 'src/types/enums';
-import { ServiceEntity } from 'src/entities/service.entity';
-import { RoleEntity } from 'src/entities/role.entity';
+import { ServiceEntity } from 'src/controllers/service/service.entity';
+import { RoleEntity } from 'src/controllers/role/role.entity';
 
 export class FindProfileDto {
   @ApiProperty({ example: '123' })

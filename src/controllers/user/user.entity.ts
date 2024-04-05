@@ -9,7 +9,7 @@ import {
   ManyToOne,
   OneToOne,
 } from 'typeorm';
-import { ProfileEntity } from './profile.entity';
+import { ProfileEntity } from '../profile/profile.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity {

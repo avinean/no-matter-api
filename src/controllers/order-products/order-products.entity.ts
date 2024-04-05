@@ -5,9 +5,9 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
 } from 'typeorm';
-import { ServiceEntity } from './service.entity';
-import { BookingEntity } from './booking.entity';
-import { OrderEntity } from './order.entity';
+import { ServiceEntity } from '../service/service.entity';
+import { BookingEntity } from '../booking/booking.entity';
+import { OrderEntity } from '../order/order.entity';
 
 @Entity({ name: 'order-products' })
 export class OrderProductsEntity {

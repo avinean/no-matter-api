@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/entities/user.entity';
-import { ProfileEntity } from 'src/entities/profile.entity';
+import { UserEntity } from 'src/controllers/user/user.entity';
+import { ProfileEntity } from 'src/controllers/profile/profile.entity';
 import { ResetPasswordDto } from './user.dto';
 import { FindOneOptions, Repository } from 'typeorm';
 

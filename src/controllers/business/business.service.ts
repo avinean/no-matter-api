@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BusinessEntity } from 'src/entities/business.entity';
-import { ProfileEntity } from 'src/entities/profile.entity';
+import { BusinessEntity } from 'src/controllers/business/business.entity';
+import { ProfileEntity } from 'src/controllers/profile/profile.entity';
 import { FindOneOptions, Repository } from 'typeorm';
 import { CreateBusinessDto } from './business.dto';
 

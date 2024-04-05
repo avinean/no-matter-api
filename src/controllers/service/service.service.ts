@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ServiceEntity } from 'src/entities/service.entity';
+import { ServiceEntity } from 'src/controllers/service/service.entity';
 import { DBErrors } from 'src/types/db-errors';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 import { ServiceMaterialService } from '../service-material/service-material.service';

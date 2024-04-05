@@ -6,8 +6,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ProfileEntity } from './profile.entity';
-import { BusinessObjectEntity } from './business-object.entity';
+import { ProfileEntity } from '../profile/profile.entity';
+import { BusinessObjectEntity } from '../business-object/business-object.entity';
 import { DayType } from 'src/types/enums';
 
 @Entity({ name: 'calendar' })

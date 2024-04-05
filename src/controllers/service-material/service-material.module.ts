@@ -1,7 +1,7 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { ServiceMaterialService } from './service-material.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ServiceMaterialEntity } from 'src/entities/service-material.entity';
+import { ServiceMaterialEntity } from 'src/controllers/service-material/service-material.entity';
 import { ServicesModule } from '../service/service.module';
 import { MaterialModule } from '../material/material.module';
 

@@ -7,8 +7,8 @@ import {
   UpdateDateColumn,
   Unique,
 } from 'typeorm';
-import { ProfileEntity } from './profile.entity';
-import { BusinessObjectEntity } from './business-object.entity';
+import { ProfileEntity } from '../profile/profile.entity';
+import { BusinessObjectEntity } from '../business-object/business-object.entity';
 
 @Entity({ name: 'schedule' })
 @Unique(['dayOfWeek', 'profile', 'businessObject'])

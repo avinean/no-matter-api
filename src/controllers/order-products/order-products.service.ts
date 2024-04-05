@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OrderProductsEntity } from 'src/entities/order-products.entity';
+import { OrderProductsEntity } from 'src/controllers/order-products/order-products.entity';
 import { DeepPartial, In, Repository } from 'typeorm';
 import { ServiceService } from '../service/service.service';
 import { MaterialTransactionService } from '../material-transaction/material-transaction.service';
-import { OrderEntity } from 'src/entities/order.entity';
+import { OrderEntity } from 'src/controllers/order/order.entity';
 
 @Injectable()
 export class OrderProductsService {

@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ProfileEntity } from './profile.entity';
+import { ProfileEntity } from '../profile/profile.entity';
 import { OrderStatus } from 'src/types/enums';
 import { OrderEntity } from './order.entity';
 

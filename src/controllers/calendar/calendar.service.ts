@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CalendarEntity } from 'src/entities/calendar.entity';
+import { CalendarEntity } from 'src/controllers/calendar/calendar.entity';
 import { DeepPartial, Repository } from 'typeorm';
 
 @Injectable()

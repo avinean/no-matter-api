@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BusinessEntity } from 'src/entities/business.entity';
-import { BusinessObjectEntity } from 'src/entities/business-object.entity';
-import { ProfileEntity } from 'src/entities/profile.entity';
+import { BusinessEntity } from 'src/controllers/business/business.entity';
+import { BusinessObjectEntity } from 'src/controllers/business-object/business-object.entity';
+import { ProfileEntity } from 'src/controllers/profile/profile.entity';
 import { DeepPartial, FindOneOptions, Repository } from 'typeorm';
 import { CreateBusinessObjectDto } from './business-object.dto';
 

@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { ClientController } from './client.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ContactEntity, ClientEntity } from 'src/entities/client.entity';
-import { UserEntity } from 'src/entities/user.entity';
+import { ContactEntity, ClientEntity } from 'src/controllers/client/client.entity';
+import { UserEntity } from 'src/controllers/user/user.entity';
 
 @Module({
   imports: [
