@@ -36,10 +36,7 @@ export class MaterialTransactionEntity {
   @ManyToOne(() => MaterialEntity, (material) => material.transactions)
   material: MaterialEntity;
 
-  @ManyToOne(
-    () => ProfileEntity,
-    (profile) => profile.initiatedMaterialTransactions,
-  )
+  @ManyToOne(() => ProfileEntity)
   initiator: ProfileEntity;
 
   @ManyToOne(

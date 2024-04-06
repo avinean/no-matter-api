@@ -40,15 +40,11 @@ export class UserService {
     return this.userRepository.delete({ id });
   }
 
-  async updatePassword(profileId: number, body: ResetPasswordDto) {
-    const profile = await this.profileRepository.findOne({
-      where: { id: profileId },
-    });
+  async updatePassword(id: number, { password }: ResetPasswordDto) {
     const user = await this.userRepository.findOne({
-      where: { id: profile.userId, password: body.password },
+      where: { id, password },
     });
-
-    user.password = body.newPassword;
+    user.password = password;
     return this.userRepository.save(user);
   }
 }

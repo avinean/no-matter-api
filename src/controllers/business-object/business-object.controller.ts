@@ -26,47 +26,25 @@ export class BusinessObjectController {
     private readonly calendarService: CalendarService,
   ) {}
 
-  @Get(':profileId/:businessId')
-  async findAll(
-    @Param('profileId') profileId: number,
-    @Param('businessId') businessId: number,
-  ) {
-    return await this.objectService.findAll(profileId, businessId);
+  @Post(':id')
+  create(@Body() body: CreateBusinessObjectDto, @Param('id') id: number) {
+    return this.objectService.create(body, id);
   }
 
-  @Post(':profileId/:businessId')
-  create(
-    @Body() body: CreateBusinessObjectDto,
-    @Param('profileId') profileId: number,
-    @Param('businessId') businessId: number,
-  ) {
-    return this.objectService.create(body, profileId, businessId);
+  @Put(':id')
+  update(@Body() body: CreateBusinessObjectDto, @Param('id') id: number) {
+    return this.objectService.update(id, body);
   }
 
-  @Put(':profileId/:businessId/:businessObjectId')
-  update(
-    @Body() body: CreateBusinessObjectDto,
-    @Param('businessObjectId') businessObjectId: number,
-  ) {
-    return this.objectService.update(body, businessObjectId);
-  }
-
-  @Put(':businessObjectId/schedule')
-  setSchedule(
-    @Param('businessObjectId') id: number,
-    @Body() schedule: ScheduleEntity[],
-  ) {
+  @Put(':id/schedule')
+  setSchedule(@Param('id') id: number, @Body() schedule: ScheduleEntity[]) {
     return this.scheduleService.set(
       schedule.map((s) => ({ ...s, businessObject: { id } })),
     );
   }
 
-  @Put(':businessObjectId/:id/calendar')
-  setCalendar(
-    @Param('id') id: number,
-    @Param('businessObjectId') businessObjectId: number,
-    @Body() calendar: CalendarEntity,
-  ) {
+  @Put(':id/calendar')
+  setCalendar(@Param('id') id: number, @Body() calendar: CalendarEntity) {
     return this.calendarService.set(calendar);
   }
 }

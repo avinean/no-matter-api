@@ -12,6 +12,8 @@ import { DeepPartial } from 'typeorm';
 import { OrderEntity } from 'src/controllers/order/order.entity';
 import { Resource } from 'src/types/permissions';
 import { ApiTags } from '@nestjs/swagger';
+import { User } from 'src/decorators/user.decorator';
+import { UserMeta } from 'src/types/common';
 
 @ApiTags('MaterialTransaction')
 @SetMetadata('resource', Resource.order)
@@ -19,31 +21,27 @@ import { ApiTags } from '@nestjs/swagger';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Get(':businessObjectId')
+  @Get()
   findAll(
-    @Param('businessObjectId') businessObjectId: number,
+    @User() user: UserMeta,
     @Query('page') page: number,
     @Query('take') take: number,
   ) {
     return this.orderService.findAll(
       {
-        businessObject: [{ id: businessObjectId }],
+        businessObject: [{ id: user.objid }],
       },
       page,
       take,
     );
   }
 
-  @Post(':businessObjectId')
-  async create(
-    @Param('businessObjectId') businessObjectId: number,
-    @Req() req,
-    dto: DeepPartial<OrderEntity>,
-  ) {
+  @Post()
+  async create(@User() user: UserMeta, dto: DeepPartial<OrderEntity>) {
     return this.orderService.create({
       ...dto,
-      businessObject: { id: businessObjectId },
-      createdBy: { id: req.user.id },
+      businessObject: { id: user.objid },
+      createdBy: { id: user.sub },
     });
   }
 }

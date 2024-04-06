@@ -18,24 +18,13 @@ import { Resource } from 'src/types/permissions';
 export class BusinessController {
   constructor(private readonly businessService: BusinessService) {}
 
-  @Get(':profileId')
-  async findAll(@Param('profileId') profileId: number) {
-    return await this.businessService.findAll(profileId);
+  @Post()
+  create(@Body() body: CreateBusinessDto) {
+    return this.businessService.create(body);
   }
 
-  @Post(':profileId')
-  create(
-    @Body() body: CreateBusinessDto,
-    @Param('profileId') profileId: number,
-  ) {
-    return this.businessService.create(body, profileId);
-  }
-
-  @Put(':profileId/:businessId')
-  update(
-    @Body() body: CreateBusinessDto,
-    @Param('businessId') businessId: number,
-  ) {
-    return this.businessService.update(body, businessId);
+  @Put(':id')
+  update(@Body() body: CreateBusinessDto, @Param('id') id: number) {
+    return this.businessService.update(id, body);
   }
 }

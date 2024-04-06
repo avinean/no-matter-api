@@ -4,7 +4,6 @@ import {
   Get,
   Param,
   Post,
-  Req,
   SetMetadata,
 } from '@nestjs/common';
 import { MaterialTransactionService } from './material-transaction.service';
@@ -15,6 +14,8 @@ import {
   RevertMaterialTransactionDto,
 } from './material-transaction.dto';
 import { ProfileService } from '../profile/profile.service';
+import { User } from 'src/decorators/user.decorator';
+import { UserMeta } from 'src/types/common';
 
 @ApiTags('MaterialTransaction')
 @SetMetadata('resource', Resource.materialTransaction)
@@ -25,55 +26,53 @@ export class MaterialTransactionController {
     private readonly profileService: ProfileService,
   ) {}
 
-  @Get(':businessObjectId')
-  findAll(@Param('businessObjectId') businessObjectId: number) {
+  @Get()
+  findAll(@User() user: UserMeta) {
     return this.materialTransactionService.findAll({
-      businessObject: { id: businessObjectId },
+      businessObject: { id: user.objid },
     });
   }
 
-  @Post(':businessObjectId')
+  @Post()
   async create(
     @Body() dto: CreateMaterialTransactionDto,
-    @Param('businessObjectId') businessObjectId: number,
-    @Req() req,
+    @User() user: UserMeta,
   ) {
     const initiator = await this.profileService.findOne({
       where: {
-        user: { id: req.user.sub },
+        user: { id: user.sub },
       },
     });
     return this.materialTransactionService.add({
       ...dto,
       initiator,
       businessObject: {
-        id: +businessObjectId,
+        id: user.objid,
       },
     });
   }
 
-  @Post(':businessObjectId/:id')
+  @Post(':id')
   async remove(
     @Body() dto: RevertMaterialTransactionDto,
     @Param('id') id: number,
-    @Param('businessObjectId') businessObjectId: number,
-    @Req() req,
+    @User() user: UserMeta,
   ) {
     const initiator = await this.profileService.findOne({
       where: {
-        user: { id: req.user.sub },
+        user: { id: user.sub },
       },
     });
 
     return this.materialTransactionService.revert(
       {
         id,
-        businessObject: { id: businessObjectId },
+        businessObject: { id: user.objid },
       },
       {
         ...dto,
         initiator,
-        businessObject: { id: businessObjectId },
+        businessObject: { id: user.objid },
       },
     );
   }

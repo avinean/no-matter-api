@@ -37,8 +37,8 @@ export class OrderEntity {
   @JoinTable({ name: 'order_product' })
   services: OrderProductsEntity[];
 
-  @ManyToOne(() => ProfileEntity, (profile) => profile.orders)
-  @JoinTable({ name: 'profile_order' })
+  @ManyToOne(() => ProfileEntity)
+  @JoinTable()
   createdBy: ProfileEntity;
 
   @ManyToOne(() => BusinessObjectEntity, (business) => business.orders)

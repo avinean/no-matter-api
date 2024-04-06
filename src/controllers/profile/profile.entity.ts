@@ -13,13 +13,10 @@ import {
 } from 'typeorm';
 import { Sex } from 'src/types/enums';
 import { ServiceEntity } from '../service/service.entity';
-import { BookingEntity } from '../booking/booking.entity';
 import { BusinessEntity } from '../business/business.entity';
 import { BusinessObjectEntity } from '../business-object/business-object.entity';
 import { UserEntity } from '../user/user.entity';
 import { RoleEntity } from '../role/role.entity';
-import { MaterialTransactionEntity } from '../material-transaction/material-transaction.entity';
-import { OrderEntity } from '../order/order.entity';
 import { ScheduleEntity } from '../schedule/schedule.entity';
 import { CalendarEntity } from '../calendar/calendar.entity';
 
@@ -76,10 +73,6 @@ export class ProfileEntity {
   @JoinColumn()
   user: UserEntity;
 
-  @OneToMany(() => UserEntity, (user) => user.createdBy)
-  @JoinColumn({ name: 'profile_users' })
-  users: UserEntity[];
-
   @ManyToMany(() => RoleEntity)
   @JoinTable({ name: 'profile_roles' })
   roles: RoleEntity[];
@@ -88,33 +81,17 @@ export class ProfileEntity {
   @JoinTable({ name: 'profile_service' })
   services: ServiceEntity[];
 
-  @OneToMany(() => BookingEntity, (booking) => booking.profile)
-  @JoinColumn({ name: 'profile_booking' })
-  bookings: BookingEntity[];
+  @ManyToMany(() => BusinessEntity)
+  @JoinTable()
+  businesses: BusinessEntity[];
 
-  @OneToMany(() => BusinessEntity, (business) => business.owner)
-  @JoinTable({ name: 'profile_business' })
-  ownedBusinesses: BusinessEntity[];
+  @ManyToOne(() => BusinessEntity)
+  @JoinColumn()
+  primaryBusiness: BusinessEntity;
 
-  @OneToMany(
-    () => BusinessObjectEntity,
-    (businessObject) => businessObject.createdBy,
-  )
-  @JoinTable({ name: 'profile_to_objects' })
-  ownedObjects: BusinessObjectEntity[];
-
-  @ManyToMany(() => BusinessObjectEntity)
-  @JoinTable({ name: 'profile_to_employer' })
-  employers: BusinessObjectEntity[];
-
-  @OneToMany(
-    () => MaterialTransactionEntity,
-    (transaction) => transaction.initiator,
-  )
-  initiatedMaterialTransactions: MaterialTransactionEntity[];
-
-  @OneToMany(() => OrderEntity, (order) => order.createdBy)
-  orders: OrderEntity[];
+  @ManyToOne(() => BusinessObjectEntity)
+  @JoinColumn()
+  primaryBusinessObject: BusinessObjectEntity;
 
   @OneToMany(() => ScheduleEntity, (schedule) => schedule.profile)
   schedule: ScheduleEntity[];

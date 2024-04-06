@@ -113,16 +113,17 @@ export class ProfileService {
     return await this.profileRepository.findOne({
       where: { user: { id }, primaryFor: { id } },
       relations: {
-        ownedBusinesses: {
+        businesses: {
           businessObjects: {
             schedule: true,
           },
         },
+        primaryBusiness: true,
+        primaryBusinessObject: true,
         roles: {
           assignedPermissions: true,
         },
         primaryFor: true,
-        employers: true,
         schedule: true,
         calendar: true,
       },

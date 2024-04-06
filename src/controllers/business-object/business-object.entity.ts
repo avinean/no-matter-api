@@ -37,17 +37,9 @@ export class BusinessObjectEntity {
   @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
-  @ManyToOne(() => ProfileEntity)
-  @JoinTable({ name: 'profile_to_objects' })
-  createdBy: ProfileEntity;
-
   @ManyToOne(() => BusinessEntity, (business) => business.businessObjects)
   @JoinTable({ name: 'business_to_objects' })
   business: BusinessEntity;
-
-  @ManyToMany(() => ProfileEntity)
-  @JoinTable({ name: 'profile_to_employer' })
-  employees: ProfileEntity[];
 
   @ManyToMany(() => ClientEntity)
   @JoinTable({ name: 'client_business_object' })

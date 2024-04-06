@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessEntity } from 'src/controllers/business/business.entity';
-import { ProfileEntity } from 'src/controllers/profile/profile.entity';
 import { FindOneOptions, Repository } from 'typeorm';
 import { CreateBusinessDto } from './business.dto';
 
@@ -12,38 +11,25 @@ export class BusinessService {
     private readonly businessRepository: Repository<BusinessEntity>,
   ) {}
 
-  async findAll(profileId: number) {
-    return await this.businessRepository.find({
-      where: { owner: { id: profileId } },
-      relations: {
-        businessObjects: true,
-      },
-    });
-  }
-
   async findOne(dto: FindOneOptions<BusinessEntity>) {
     return await this.businessRepository.findOne(dto);
   }
 
-  async create(dto: CreateBusinessDto, profileId: number) {
-    const profile = new ProfileEntity();
-    profile.id = profileId;
+  async create(dto: CreateBusinessDto) {
     const business = new BusinessEntity();
     business.name = dto.name;
     business.description = dto.description;
     business.image = dto.image;
-    business.owner = profile;
     return await this.businessRepository.save(business);
   }
 
-  update(dto: CreateBusinessDto, id: number) {
+  update(id: number, dto: CreateBusinessDto) {
     return this.businessRepository.update({ id }, dto);
   }
 
-  async createTmp(profile: ProfileEntity) {
+  createTmp() {
     const business = new BusinessEntity();
     business.name = 'Temporary business name';
-    business.owner = profile;
-    return await this.businessRepository.save(business);
+    return this.businessRepository.save(business);
   }
 }

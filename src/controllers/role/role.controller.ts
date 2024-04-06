@@ -8,30 +8,42 @@ import {
   SetMetadata,
 } from '@nestjs/common';
 import { RoleService } from './role.service';
-import { CreateRoleDto, UpdateRoleDto } from './role.dto';
 import { Resource } from 'src/types/permissions';
+import { User } from 'src/decorators/user.decorator';
+import { UserMeta } from 'src/types/common';
+import { DeepPartial } from 'typeorm';
+import { RoleEntity } from './role.entity';
 
 @SetMetadata('resource', Resource.role)
 @Controller('role')
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
-  @Get(':businessId')
-  findAll(@Param('businessId') businessId: number) {
-    return this.roleService.findAll(businessId);
+  @Get()
+  findAll(@User() user: UserMeta) {
+    return this.roleService.findAll({ business: { id: user.bisid } });
   }
 
-  @Post(':businessId')
-  create(@Param('businessId') businessId: number, @Body() dto: CreateRoleDto) {
-    return this.roleService.create(businessId, dto);
+  @Post()
+  create(@User() user: UserMeta, @Body() dto: DeepPartial<RoleEntity>) {
+    return this.roleService.create({
+      ...dto,
+      business: { id: user.bisid },
+    });
   }
 
-  @Put(':businessId/:id')
+  @Put(':id')
   update(
-    @Param('businessId') businessId: number,
+    @User() user: UserMeta,
     @Param('id') id: number,
-    @Body() dto: UpdateRoleDto,
+    @Body() dto: DeepPartial<RoleEntity>,
   ) {
-    return this.roleService.update(id, dto);
+    return this.roleService.update(
+      {
+        id,
+        business: { id: user.bisid },
+      },
+      dto,
+    );
   }
 }

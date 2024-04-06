@@ -10,7 +10,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { PermissionGuard } from './guards/permission.guard';
 import { MaterialModule } from './controllers/material/material.module';
 import { MaterialEntity } from './controllers/material/material.entity';
-import { ContactEntity, ClientEntity } from './controllers/client/client.entity';
 import { ClientModule } from './controllers/client/client.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
@@ -25,7 +24,7 @@ import { BusinessObjectEntity } from './controllers/business-object/business-obj
 import { BusinessModule } from './controllers/business/business.module';
 import { BusinessObjectsModule } from './controllers/business-object/business-object.module';
 import { UtilModule } from './controllers/util/util.module';
-import { PropertyGuard } from './guards/property.guard';
+// import { PropertyGuard } from './guards/property.guard';
 import { InitializerModule } from './initializer/initializer.module';
 import { RoleEntity } from './controllers/role/role.entity';
 import { PermissionEntity } from './controllers/permission/permission.entity';
@@ -46,6 +45,7 @@ import { ScheduleModule } from './controllers/schedule/schedule.module';
 import { CalendarEntity } from './controllers/calendar/calendar.entity';
 import { CalendarModule } from './controllers/calendar/calendar.module';
 import { MailModule } from './mail/mail.module';
+import { ClientEntity, ContactEntity } from './controllers/client/client.entity';
 
 @Module({
   imports: [
@@ -118,10 +118,10 @@ import { MailModule } from './mail/mail.module';
       provide: 'APP_GUARD',
       useClass: PermissionGuard,
     },
-    {
-      provide: 'APP_GUARD',
-      useClass: PropertyGuard,
-    },
+    // {
+    //   provide: 'APP_GUARD',
+    //   useClass: PropertyGuard,
+    // },
     AppService,
   ],
 })

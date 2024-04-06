@@ -2,13 +2,11 @@ import {
   Column,
   Entity,
   JoinTable,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ProfileEntity } from '../profile/profile.entity';
 import { BusinessObjectEntity } from '../business-object/business-object.entity';
 import { RoleEntity } from '../role/role.entity';
 
@@ -31,10 +29,6 @@ export class BusinessEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
-
-  @ManyToOne(() => ProfileEntity)
-  @JoinTable({ name: 'profile_business' })
-  owner: ProfileEntity;
 
   @OneToMany(
     () => BusinessObjectEntity,

@@ -41,6 +41,6 @@ export class UserEntity {
   @JoinColumn()
   associatedProfiles: ProfileEntity[];
 
-  @ManyToOne(() => ProfileEntity, (profile) => profile.users)
+  @ManyToOne(() => ProfileEntity)
   createdBy: ProfileEntity;
 }

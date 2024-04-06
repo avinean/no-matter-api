@@ -11,6 +11,8 @@ import { ClientService } from './client.service';
 import { CreateClientDto } from './client.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
+import { User } from 'src/decorators/user.decorator';
+import { UserMeta } from 'src/types/common';
 
 @ApiTags('Client')
 @SetMetadata('resource', Resource.client)
@@ -18,34 +20,31 @@ import { Resource } from 'src/types/permissions';
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
-  @Get(':businessObjectId')
-  async findAll(@Param('businessObjectId') businessObjectId: number) {
+  @Get()
+  async findAll(@User() user: UserMeta) {
     return await this.clientService.findAll({
-      businessObjects: [{ id: businessObjectId }],
+      businessObjects: [{ id: user.objid }],
     });
   }
 
-  @Post(':businessObjectId')
-  async create(
-    @Param('businessObjectId') businessObjectId: number,
-    @Body() dto: CreateClientDto,
-  ) {
+  @Post()
+  async create(@User() user: UserMeta, @Body() dto: CreateClientDto) {
     return this.clientService.create({
       ...dto,
-      businessObjects: [{ id: businessObjectId }],
+      businessObjects: [{ id: user.objid }],
     });
   }
 
-  @Put(':businessObjectId/:id')
+  @Put(':id')
   update(
     @Param('id') id: number,
-    @Param('businessObjectId') businessObjectId: number,
+    @User() user: UserMeta,
     @Body() dto: CreateClientDto,
   ) {
     return this.clientService.update(
       {
         id,
-        businessObjects: [{ id: businessObjectId }],
+        businessObjects: [{ id: user.objid }],
       },
       dto,
     );

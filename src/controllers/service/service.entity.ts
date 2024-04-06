@@ -58,17 +58,9 @@ export class ServiceEntity {
   @JoinTable({ name: 'profile_service' })
   profiles: ProfileEntity[];
 
-  @ManyToMany(() => BookingEntity)
-  @JoinTable({ name: 'service_booking' })
-  bookings: BookingEntity[];
-
   @ManyToMany(() => BusinessObjectEntity)
   @JoinTable({ name: 'business_object_service' })
   relatedBusinessObjects: BusinessObjectEntity[];
-
-  @ManyToMany(() => OrderEntity, (order) => order.services)
-  @JoinTable({ name: 'order_product' })
-  orders: OrderEntity[];
 
   @OneToMany(
     () => ServiceMaterialEntity,

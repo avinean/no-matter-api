@@ -5,7 +5,6 @@ import {
   Param,
   Post,
   Put,
-  Req,
   SetMetadata,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -19,6 +18,8 @@ import { CalendarEntity } from 'src/controllers/calendar/calendar.entity';
 import { CalendarService } from '../calendar/calendar.service';
 import { DeepPartial } from 'typeorm';
 import { ProfileEntity } from 'src/controllers/profile/profile.entity';
+import { User } from 'src/decorators/user.decorator';
+import { UserMeta } from 'src/types/common';
 
 @ApiTags('Profile')
 @SetMetadata('resource', Resource.profile)
@@ -32,92 +33,80 @@ export class ProfileController {
 
   @SkipPermission()
   @Get('me')
-  findMe(@Req() req) {
-    return this.profileService.findMe(req.user.sub);
+  findMe(@User() user: UserMeta) {
+    return this.profileService.findMe(user.sub);
   }
 
-  @Get(':businessObjectId')
-  findAll(@Param('businessObjectId') businessObjectId: number) {
+  @Get()
+  findAll(@User() user: UserMeta) {
     return this.profileService.findAll({
-      where: { employers: { id: businessObjectId } },
+      where: { businesses: [{ id: user.bisid }] },
       relations: {
         services: true,
         roles: true,
+        primaryBusiness: true,
+        primaryBusinessObject: true,
       },
     });
   }
 
-  @Post(':businessObjectId')
-  create(
-    @Body() dto: CreateProfileDto,
-    @Param('businessObjectId') businessObjectId: number,
-  ) {
+  @Post()
+  create(@Body() dto: CreateProfileDto, @User() user: UserMeta) {
     return this.profileService.create({
       ...dto,
-      employers: [{ id: businessObjectId }],
+      businesses: [{ id: user.bisid }],
+      primaryBusiness: { id: user.bisid },
+      primaryBusinessObject: { id: user.objid },
     });
   }
 
-  @Put(':businessObjectId/:id')
+  @Put('/:id')
   update(
     @Param('id') id: number,
-    @Param('businessObjectId') businessObjectId: number,
     @Body() dto: DeepPartial<ProfileEntity>,
-    @Req() req,
+    @User() user: UserMeta,
   ) {
     return this.profileService.update(
-      [
-        { id, employers: [{ id: businessObjectId }] },
-        { id, user: { id: req.user.sub } },
-      ],
+      {
+        id,
+        user: { id: user.sub },
+        businesses: [{ id: user.bisid }],
+      },
       dto,
     );
   }
 
   @SkipPermission()
-  @Put(':businessObjectId/:id/primary')
-  async primary(
-    @Param('id') id: number,
-    @Param('businessObjectId') businessObjectId: number,
-    @Req() req,
-  ) {
+  @Put(':id/primary')
+  async primary(@Param('id') id: number, @User() user: UserMeta) {
     return this.profileService.primary([
-      { id, employers: [{ id: businessObjectId }] },
-      { id, user: { id: req.user.sub } },
+      { id, businesses: [{ id: user.bisid }] },
+      { id, user: { id: user.sub } },
     ]);
   }
 
-  @Put(':businessObjectId/:id/schedule')
-  setSchedule(
-    @Param('id') id: number,
-    @Param('businessObjectId') businessObjectId: number,
-    @Body() schedule: ScheduleEntity[],
-  ) {
+  @Put(':id/schedule')
+  setSchedule(@Param('id') id: number, @Body() schedule: ScheduleEntity[]) {
     return this.scheduleService.set(
       schedule.map((s) => ({ ...s, profile: { id } })),
     );
   }
 
-  @Put(':businessObjectId/:id/calendar')
-  setCalendar(
-    @Param('id') id: number,
-    @Param('businessObjectId') businessObjectId: number,
-    @Body() calendar: CalendarEntity,
-  ) {
+  @Put(':id/calendar')
+  setCalendar(@Param('id') id: number, @Body() calendar: CalendarEntity) {
     return this.calendarService.set(calendar);
   }
 
-  @Put(':businessObjectId/:id/lang/:lang')
+  @Put(':id/lang/:lang')
   setLang(
     @Param('id') id: number,
-    @Param('businessObjectId') businessObjectId: number,
     @Param('lang') language: string,
-    @Req() req,
+    @User() user: UserMeta,
   ) {
     return this.profileService.update(
       [
-        { id, employers: [{ id: businessObjectId }] },
-        { id, user: { id: req.user.sub } },
+        { id, businesses: [{ id: user.bisid }] },
+        { id, user: { id: user.sub } },
       ],
       { language },
     );

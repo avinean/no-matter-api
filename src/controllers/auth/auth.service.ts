@@ -26,6 +26,8 @@ export class AuthService {
     const profile = await this.profileService.findOne({
       where: { user: dto, primaryFor: dto },
       relations: {
+        primaryBusiness: true,
+        primaryBusinessObject: true,
         user: true,
         roles: true,
       },
@@ -34,6 +36,8 @@ export class AuthService {
     if (!profile) throw new UnauthorizedException();
 
     const payload = {
+      bisid: profile.primaryBusiness.id,
+      objid: profile.primaryBusinessObject.id,
       sub: profile.user.id,
       sud: profile.roles,
       email: profile.user.email,
@@ -52,8 +56,18 @@ export class AuthService {
       ...dto,
       roles: roles,
     } as any);
-    const business = await this.businessService.createTmp(profile);
-    await this.objectService.createTmp(business, profile);
+    const business = await this.businessService.createTmp();
+    const object = await this.objectService.createTmp(business);
+    await this.profileService.update(
+      { id: profile.id },
+      {
+        businesses: [business],
+        primaryBusiness: business,
+        primaryBusinessObject: object,
+      },
+    );
+
+    await this.objectService.createTmp(business);
 
     await this.mailService.sendUserConfirmation(profile);
     return profile;

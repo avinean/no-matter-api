@@ -18,6 +18,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
 import { BookingEntity } from 'src/controllers/booking/booking.entity';
 import { ProfileService } from '../profile/profile.service';
+import { User } from 'src/decorators/user.decorator';
+import { UserMeta } from 'src/types/common';
 
 @ApiTags('Booking')
 @SetMetadata('resource', Resource.booking)
@@ -28,43 +30,38 @@ export class BookingController {
     private readonly profileService: ProfileService,
   ) {}
 
-  @Get(':businessObjectId')
-  findAll(@Param('businessObjectId') businessObjectId: number) {
+  @Get()
+  findAll(@User() user: UserMeta) {
     return this.bookingService.findAll({
-      businessObject: { id: businessObjectId },
+      businessObject: { id: user.objid },
     });
   }
 
-  @Post(':businessObjectId')
-  async create(
-    @Body() dto: BookingEntity,
-    @Param('businessObjectId') businessObjectId: number,
-    @Req() req,
-  ) {
+  @Post()
+  async create(@Body() dto: BookingEntity, @User() user: UserMeta) {
     const profile = await this.profileService.findOne({
-      where: { user: { id: req.user.sub } },
+      where: { user: { id: user.sub } },
     });
 
     return this.bookingService.create(
       {
         ...dto,
         businessObject: {
-          id: businessObjectId,
+          id: user.objid,
         },
       },
       profile,
     );
   }
 
-  @Put(':businessObjectId/:id')
+  @Put(':id')
   async update(
     @Body() dto: BookingEntity,
-    @Param('businessObjectId') businessObjectId: number,
     @Param('id') id: number,
-    @Req() req,
+    @User() user: UserMeta,
   ) {
     const profile = await this.profileService.findOne({
-      where: { user: { id: req.user.sub } },
+      where: { user: { id: user.sub } },
     });
 
     return this.bookingService.update(
@@ -74,52 +71,42 @@ export class BookingController {
       {
         ...dto,
         businessObject: {
-          id: businessObjectId,
+          id: user.objid,
         },
       },
       profile,
     );
   }
 
-  @Put(':businessObjectId/:id/confirm')
-  async confirm(
-    @Param('businessObjectId') businessObjectId: number,
-    @Param('id') id: number,
-    @Req() req,
-  ) {
+  @Put(':id/confirm')
+  async confirm(@Param('id') id: number, @User() user: UserMeta) {
     const profile = await this.profileService.findOne({
-      where: { user: { id: req.user.sub } },
+      where: { user: { id: user.sub } },
     });
 
-    const a = await this.bookingService.confirm(id, profile);
-    console.log('!!!!!!', a);
-    return a;
+    return this.bookingService.confirm(id, profile);
   }
 
-  @Put(':businessObjectId/:id/cancel')
-  async cancel(
-    @Param('businessObjectId') businessObjectId: number,
-    @Param('id') id: number,
-    @Req() req,
-  ) {
+  @Put(':id/cancel')
+  async cancel(@Param('id') id: number, @User() user: UserMeta) {
     const profile = await this.profileService.findOne({
-      where: { user: { id: req.user.sub } },
+      where: { user: { id: user.sub } },
     });
 
     return this.bookingService.cancel(id, profile);
   }
 
-  @Post(':businessObjectId/profiles')
+  @Post('profiles')
   findProfiles(@Body() { services }: SearchProfilesDto) {
     return this.bookingService.findProfiles(services);
   }
 
-  @Post(':businessObjectId/services')
+  @Post('services')
   findServices(@Body() dto: SearchServicesDto) {
     return this.bookingService.findServices(dto);
   }
 
-  @Post(':businessObjectId/timeslots')
+  @Post('timeslots')
   findTimeSlots(@Body() dto: SearchTimeslotsDto) {
     return this.bookingService.findTimeSlots(dto);
   }
