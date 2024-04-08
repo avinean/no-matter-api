@@ -45,7 +45,10 @@ import { ScheduleModule } from './controllers/schedule/schedule.module';
 import { CalendarEntity } from './controllers/calendar/calendar.entity';
 import { CalendarModule } from './controllers/calendar/calendar.module';
 import { MailModule } from './mail/mail.module';
-import { ClientEntity, ContactEntity } from './controllers/client/client.entity';
+import {
+  ClientEntity,
+  ContactEntity,
+} from './controllers/client/client.entity';
 
 @Module({
   imports: [

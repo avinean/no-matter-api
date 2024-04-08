@@ -11,9 +11,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { ProfileEntity } from '../profile/profile.entity';
-import { BookingEntity } from '../booking/booking.entity';
 import { BusinessObjectEntity } from '../business-object/business-object.entity';
-import { OrderEntity } from '../order/order.entity';
 import { ServiceMaterialEntity } from '../service-material/service-material.entity';
 import { OrderProductsEntity } from '../order-products/order-products.entity';
 

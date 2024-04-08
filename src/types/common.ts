@@ -4,6 +4,7 @@ export interface UserMeta {
   bisid: number;
   objid: number;
   sub: number;
+  pub: number;
   sud: RoleEntity[];
   email: string;
 }

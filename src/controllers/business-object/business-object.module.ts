@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BusinessObjectEntity } from 'src/controllers/business-object/business-object.entity';
 import { ScheduleModule } from '../schedule/schedule.module';
 import { CalendarModule } from '../calendar/calendar.module';
+import { ProfileModule } from '../profile/profile.module';
 
 @Module({
   providers: [BusinessObjectService],
@@ -14,6 +15,7 @@ import { CalendarModule } from '../calendar/calendar.module';
     TypeOrmModule.forFeature([BusinessObjectEntity]),
     ScheduleModule,
     CalendarModule,
+    ProfileModule,
   ],
 })
 export class BusinessObjectsModule {}

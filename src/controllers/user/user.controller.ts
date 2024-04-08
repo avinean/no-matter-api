@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Put, Req, SetMetadata } from '@nestjs/common';
+import { Body, Controller, Get, Put, SetMetadata } from '@nestjs/common';
 import { UserService } from 'src/controllers/user/user.service';
 import { ResetPasswordDto } from './user.dto';
 import { ApiTags } from '@nestjs/swagger';

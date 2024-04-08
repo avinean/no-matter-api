@@ -9,6 +9,7 @@ import { RoleEntity } from 'src/controllers/role/role.entity';
 import { ProfileService } from '../profile/profile.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MailService } from 'src/mail/mail.service';
+import { UserMeta } from 'src/types/common';
 
 @Injectable()
 export class AuthService {
@@ -35,10 +36,11 @@ export class AuthService {
 
     if (!profile) throw new UnauthorizedException();
 
-    const payload = {
+    const payload: UserMeta = {
       bisid: profile.primaryBusiness.id,
       objid: profile.primaryBusinessObject.id,
       sub: profile.user.id,
+      pub: profile.id,
       sud: profile.roles,
       email: profile.user.email,
     };
@@ -66,8 +68,6 @@ export class AuthService {
         primaryBusinessObject: object,
       },
     );
-
-    await this.objectService.createTmp(business);
 
     await this.mailService.sendUserConfirmation(profile);
     return profile;

@@ -114,11 +114,13 @@ export class ProfileService {
       where: { user: { id }, primaryFor: { id } },
       relations: {
         businesses: {
+          businessObjects: true,
+        },
+        primaryBusiness: {
           businessObjects: {
             schedule: true,
           },
         },
-        primaryBusiness: true,
         primaryBusinessObject: true,
         roles: {
           assignedPermissions: true,
@@ -149,5 +151,65 @@ export class ProfileService {
           ),
         ),
       );
+  }
+
+  async assignBusiness(id: number, businessId: number) {
+    const profile = await this.profileRepository.findOne({
+      where: { id },
+      relations: {
+        businesses: true,
+      },
+    });
+
+    return this.profileRepository.save({
+      ...profile,
+      businesses: [...profile.businesses, { id: businessId }],
+    });
+  }
+
+  async removeBusiness(id: number, businessId: number) {
+    const profile = await this.profileRepository.findOne({
+      where: { id },
+      relations: {
+        businesses: true,
+      },
+    });
+
+    return this.profileRepository.save({
+      ...profile,
+      businesses: profile.businesses.filter(
+        (business) => business.id !== businessId,
+      ),
+    });
+  }
+
+  async assignObject(id: number, objectId: number) {
+    const profile = await this.profileRepository.findOne({
+      where: { id },
+      relations: {
+        businessObjects: true,
+      },
+    });
+
+    return this.profileRepository.save({
+      ...profile,
+      businessObjects: [...profile.businessObjects, { id: objectId }],
+    });
+  }
+
+  async removeObject(id: number, objectId: number) {
+    const profile = await this.profileRepository.findOne({
+      where: { id },
+      relations: {
+        businessObjects: true,
+      },
+    });
+
+    return this.profileRepository.save({
+      ...profile,
+      businessObjects: profile.businessObjects.filter(
+        (object) => object.id !== objectId,
+      ),
+    });
   }
 }

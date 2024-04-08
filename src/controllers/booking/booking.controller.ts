@@ -5,7 +5,6 @@ import {
   Param,
   Post,
   Put,
-  Req,
   SetMetadata,
 } from '@nestjs/common';
 import { BookingService } from './booking.service';

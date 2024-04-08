@@ -85,6 +85,10 @@ export class ProfileEntity {
   @JoinTable()
   businesses: BusinessEntity[];
 
+  @ManyToMany(() => BusinessObjectEntity)
+  @JoinTable()
+  businessObjects: BusinessObjectEntity[];
+
   @ManyToOne(() => BusinessEntity)
   @JoinColumn()
   primaryBusiness: BusinessEntity;
