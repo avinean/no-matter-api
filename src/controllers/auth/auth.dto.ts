@@ -8,7 +8,9 @@ export class SignInDto {
 
   @ApiProperty({ example: 'password' })
   @IsString()
-  password: string;
+  password?: string;
+
+  id: number
 }
 
 export class SignUpDto {

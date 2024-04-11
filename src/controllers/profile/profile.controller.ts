@@ -6,6 +6,7 @@ import {
   Post,
   Put,
   SetMetadata,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Resource } from 'src/types/permissions';
@@ -39,8 +40,9 @@ export class ProfileController {
 
   @Get()
   findAll(@User() user: UserMeta) {
+    if (!user.objid) throw new UnauthorizedException();
     return this.profileService.findAll({
-      where: { businesses: [{ id: user.bisid }] },
+      where: { primaryBusinessObject: [{ id: user.objid }] },
       relations: {
         services: true,
         roles: true,
@@ -52,6 +54,7 @@ export class ProfileController {
 
   @Post()
   create(@Body() dto: CreateProfileDto, @User() user: UserMeta) {
+    console.log('user', user);
     return this.profileService.create({
       ...dto,
       businesses: [{ id: user.bisid }],

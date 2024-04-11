@@ -38,7 +38,7 @@ export class AuthService {
 
     const payload: UserMeta = {
       bisid: profile.primaryBusiness.id,
-      objid: profile.primaryBusinessObject.id,
+      objid: profile.primaryBusinessObject?.id,
       sub: profile.user.id,
       pub: profile.id,
       sud: profile.roles,
